@@ -47,7 +47,6 @@ jobs:
         with:
           path: alerting
           repository: opensearch-project/alerting
-          ref: '1.0'
       - name: Run Opensearch with plugin
         run: |
           cd alerting
