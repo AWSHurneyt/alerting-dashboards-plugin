@@ -32,7 +32,7 @@ import { FORMIK_INITIAL_VALUES } from '../../../containers/CreateMonitor/utils/c
 import ForExpression from './ForExpression';
 import { DEFAULT_CLOSED_STATES } from '../MonitorExpressions';
 
-describe('ForExpression', () => {
+describe.skip('ForExpression', () => {
   test('renders', () => {
     const component = (
       <Formik initialValues={FORMIK_INITIAL_VALUES}>

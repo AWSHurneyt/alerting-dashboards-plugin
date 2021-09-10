@@ -30,7 +30,7 @@ import { render } from 'enzyme';
 import VisualGraph from './VisualGraph';
 import { FORMIK_INITIAL_VALUES } from '../../containers/CreateMonitor/utils/constants';
 
-describe('VisualGraph', () => {
+describe.skip('VisualGraph', () => {
   test('renders', () => {
     const component = <VisualGraph values={FORMIK_INITIAL_VALUES} />;
     expect(render(component)).toMatchSnapshot();

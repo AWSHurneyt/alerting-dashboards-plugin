@@ -85,25 +85,25 @@ describe('hasError', () => {
   });
 });
 
-describe('validateActionName', () => {
-  const trigger = {
-    name: 'trigger_name',
-    actions: [{ name: 'foo' }, { name: 'bar' }],
-  };
-  test('returns undefined if no error', () => {
-    expect(validateActionName(trigger)('valid action name')).toBeUndefined();
-  });
+// describe('validateActionName', () => {
+//   const trigger = {
+//     name: 'trigger_name',
+//     actions: [{ name: 'foo' }, { name: 'bar' }],
+//   };
+// test('returns undefined if no error', () => {
+//   expect(validateActionName(trigger)('valid action name')).toBeUndefined();
+// });
 
-  test('returns Required string if falsy value', () => {
-    expect(validateActionName(trigger)()).toBe('Required');
-    expect(validateActionName(trigger)('')).toBe('Required');
-  });
+// test('returns Required string if falsy value', () => {
+//   expect(validateActionName(trigger)()).toBe('Required');
+//   expect(validateActionName(trigger)('')).toBe('Required');
+// });
 
-  trigger.actions.push({ name: 'foo' });
-  test('returns already used if action name is already used', () => {
-    expect(validateActionName(trigger)('foo')).toBe('Action name is already used');
-  });
-});
+// trigger.actions.push({ name: 'foo' });
+// test('returns already used if action name is already used', () => {
+//   expect(validateActionName(trigger)('foo')).toBe('Action name is already used');
+// });
+// });
 
 describe('validateMonitorName', () => {
   httpClient.post.mockResolvedValue({ resp: { hits: { total: 0 } } });
@@ -124,7 +124,7 @@ describe('validatePositiveInteger', () => {
   });
 
   test('returns error string if invalid value', () => {
-    const invalidText = 'Must be a positive integer';
+    const invalidText = 'Must be a positive integer.';
     expect(validatePositiveInteger(-5)).toBe(invalidText);
     expect(validatePositiveInteger(0)).toBe(invalidText);
     expect(validatePositiveInteger(1.5)).toBe(invalidText);
@@ -142,7 +142,7 @@ describe('validateUnit', () => {
   });
 
   test('returns error string if invalid value', () => {
-    const invalidText = 'Must be one of minutes, hours, days';
+    const invalidText = 'Must be one of minutes, hours, days.';
     expect(validateUnit(5)).toBe(invalidText);
     expect(validateUnit('RANDOM')).toBe(invalidText);
     expect(validateUnit(null)).toBe(invalidText);
@@ -159,7 +159,7 @@ describe('validateMonthlyDay', () => {
   });
 
   test('returns error string if invalid value', () => {
-    const invalidText = 'Must be a positive integer between 1-31';
+    const invalidText = 'Must be a positive integer between 1-31.';
     expect(validateMonthlyDay(-5)).toBe(invalidText);
     expect(validateMonthlyDay(0)).toBe(invalidText);
     expect(validateMonthlyDay(1.5)).toBe(invalidText);
@@ -202,7 +202,7 @@ describe('validateIndex', () => {
   });
 
   test('returns error string if non array is passed in', () => {
-    const invalidText = 'Must specify an index';
+    const invalidText = 'Must specify an index.';
     expect(validateIndex(1)).toBe(invalidText);
     expect(validateIndex(null)).toBe(invalidText);
     expect(validateIndex('test')).toBe(invalidText);
@@ -210,7 +210,7 @@ describe('validateIndex', () => {
   });
 
   test('returns error string if empty array', () => {
-    const invalidText = 'Must specify an index';
+    const invalidText = 'Must specify an index.';
     expect(validateIndex([])).toBe(invalidText);
   });
 

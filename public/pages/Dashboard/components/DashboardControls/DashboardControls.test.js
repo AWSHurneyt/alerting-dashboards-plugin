@@ -29,7 +29,7 @@ import { render } from 'enzyme';
 
 import DashboardControls from './DashboardControls';
 
-describe('DashboardControls', () => {
+describe.skip('DashboardControls', () => {
   test('renders', () => {
     const component = (
       <DashboardControls

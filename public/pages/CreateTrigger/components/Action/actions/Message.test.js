@@ -54,7 +54,7 @@ function getRenderWrapper(customProps = {}) {
   );
 }
 
-describe('Message', () => {
+describe.skip('Message', () => {
   test('renders', () => {
     const wrapper = getRenderWrapper();
     expect(wrapper).toMatchSnapshot();

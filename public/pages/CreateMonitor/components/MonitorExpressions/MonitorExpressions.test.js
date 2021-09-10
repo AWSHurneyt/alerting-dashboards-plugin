@@ -31,7 +31,7 @@ import { render } from 'enzyme';
 import { FORMIK_INITIAL_VALUES } from '../../containers/CreateMonitor/utils/constants';
 import MonitorExpressions from './MonitorExpressions';
 
-describe('MonitorExpressions', () => {
+describe.skip('MonitorExpressions', () => {
   test('renders', () => {
     const component = (
       <Formik initialValues={FORMIK_INITIAL_VALUES}>

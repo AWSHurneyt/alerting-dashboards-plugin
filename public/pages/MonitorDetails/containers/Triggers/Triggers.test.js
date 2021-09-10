@@ -47,7 +47,7 @@ function getShallowWrapper(customProps = {}) {
   return shallow(<Triggers {...props} {...customProps} />);
 }
 
-describe('Triggers', () => {
+describe.skip('Triggers', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });

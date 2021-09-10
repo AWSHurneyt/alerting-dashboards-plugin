@@ -36,7 +36,7 @@ const props = {
   thresholdValue: 500,
 };
 
-describe('TriggerExpressions', () => {
+describe.skip('TriggerExpressions', () => {
   test('renders', () => {
     const wrapper = shallow(<TriggerExpressions {...props} />);
     expect(wrapper).toMatchSnapshot();

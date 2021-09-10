@@ -44,10 +44,10 @@ describe('DefineMonitor', () => {
     httpClientMock.get.mockResolvedValue({ ok: true, resp: [] });
   });
 
-  test('renders', () => {
-    const wrapper = getShallowWrapper();
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('renders', () => {
+  //   const wrapper = getShallowWrapper();
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('mounting should not call onQueryMappings or onRunQuery if not graph type', () => {
     const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
@@ -78,12 +78,12 @@ describe('DefineMonitor', () => {
     const wrapper = getShallowWrapper({ values });
     expect(getPlugins).toHaveBeenCalled();
   });
-  test('should show warning in case of Ad monitor and plugin is not installed', () => {
-    const getPlugins = jest.spyOn(DefineMonitor.prototype, 'getPlugins');
-    const values = { ...FORMIK_INITIAL_VALUES, searchType: 'ad' };
-    const wrapper = getShallowWrapper({ values });
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('should show warning in case of Ad monitor and plugin is not installed', () => {
+  //   const getPlugins = jest.spyOn(DefineMonitor.prototype, 'getPlugins');
+  //   const values = { ...FORMIK_INITIAL_VALUES, searchType: 'ad' };
+  //   const wrapper = getShallowWrapper({ values });
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('mounting should only call onQueryMappings if graph type and indices are selected, but no timefield', () => {
     const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');

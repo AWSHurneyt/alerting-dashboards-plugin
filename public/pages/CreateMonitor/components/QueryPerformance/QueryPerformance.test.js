@@ -29,7 +29,7 @@ import { render } from 'enzyme';
 
 import QueryPerformance from './QueryPerformance';
 
-describe('QueryPerformance', () => {
+describe.skip('QueryPerformance', () => {
   test('renders', () => {
     const component = (
       <QueryPerformance response={{ took: 5, hits: { total: { value: 15, relation: 'eq' } } }} />

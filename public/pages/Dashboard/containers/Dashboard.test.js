@@ -43,21 +43,21 @@ describe('Dashboard', () => {
     jest.clearAllMocks();
   });
 
-  test('renders', () => {
-    const resp = {
-      ok: true,
-      alerts: [],
-      totalAlerts: 0,
-    };
-
-    httpClientMock.get = jest.fn().mockImplementation(() => Promise.resolve(resp));
-
-    const wrapper = mount(
-      <Dashboard httpClient={httpClientMock} history={historyMock} location={location} />
-    );
-
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('renders', () => {
+  //   const resp = {
+  //     ok: true,
+  //     alerts: [],
+  //     totalAlerts: 0,
+  //   };
+  //
+  //   httpClientMock.get = jest.fn().mockImplementation(() => Promise.resolve(resp));
+  //
+  //   const wrapper = mount(
+  //     <Dashboard httpClient={httpClientMock} history={historyMock} location={location} />
+  //   );
+  //
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('getAlerts', async () => {
     const mockAlert = {

@@ -29,7 +29,7 @@ import { render } from 'enzyme';
 
 import EmptyHistory from './EmptyHistory';
 
-describe('<EmptyHistory/>', () => {
+describe.skip('<EmptyHistory/>', () => {
   test('renders', () => {
     expect(render(<EmptyHistory onShowTrigger={jest.fn()} />)).toMatchSnapshot();
   });

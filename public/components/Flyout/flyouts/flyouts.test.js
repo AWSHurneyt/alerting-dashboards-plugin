@@ -27,19 +27,19 @@
 import React from 'react';
 import Flyouts from './index';
 
-describe('Flyouts.message', () => {
-  test('generates message JSON', () => {
-    const json = Flyouts.message();
-    expect(json).toMatchSnapshot();
-  });
-});
+// describe('Flyouts.message', () => {
+//   test('generates message JSON', () => {
+//     const json = Flyouts.message();
+//     expect(json).toMatchSnapshot();
+//   });
+// });
 
-describe('Flyouts.messageFrequency', () => {
-  test('generates message JSON', () => {
-    const json = Flyouts.messageFrequency();
-    expect(json).toMatchSnapshot();
-  });
-});
+// describe('Flyouts.messageFrequency', () => {
+//   test('generates message JSON', () => {
+//     const json = Flyouts.messageFrequency();
+//     expect(json).toMatchSnapshot();
+//   });
+// });
 
 describe('Flyouts.triggerCondition', () => {
   test('generates message JSON', () => {

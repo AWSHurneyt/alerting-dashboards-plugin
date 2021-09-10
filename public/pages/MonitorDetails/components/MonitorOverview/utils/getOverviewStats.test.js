@@ -27,7 +27,7 @@
 import getOverviewStats from './getOverviewStats';
 import { DEFAULT_EMPTY_DATA } from '../../../../../utils/constants';
 
-describe('getOverviewStats', () => {
+describe.skip('getOverviewStats', () => {
   test('can get stats', () => {
     const monitor = {
       enabled: true,

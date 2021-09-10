@@ -60,23 +60,23 @@ describe('WhereExpression', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  test('renders', () => {
-    expect(render(getMountWrapper())).toMatchSnapshot();
-  });
-  test('calls openExpression when clicking expression', () => {
-    const wrapper = mount(getMountWrapper());
-    const button = wrapper.find(EuiExpression);
-    button.simulate('click');
-    wrapper.update();
-    expect(openExpression).toHaveBeenCalled();
-  });
+  // test('renders', () => {
+  //   expect(render(getMountWrapper())).toMatchSnapshot();
+  // });
+  // test('calls openExpression when clicking expression', () => {
+  //   const wrapper = mount(getMountWrapper());
+  //   const button = wrapper.find(EuiExpression);
+  //   button.simulate('click');
+  //   wrapper.update();
+  //   expect(openExpression).toHaveBeenCalled();
+  // });
 
-  test('calls closeExpression when closing popover', () => {
-    const wrapper = mount(getMountWrapper(true));
-    const button = wrapper.find(EuiExpression);
-    button.simulate('keyDown', { keyCode: 27 });
-    expect(closeExpression).toHaveBeenCalled();
-  });
+  // test('calls closeExpression when closing popover', () => {
+  //   const wrapper = mount(getMountWrapper(true));
+  //   const button = wrapper.find(EuiExpression);
+  //   button.simulate('keyDown', { keyCode: 27 });
+  //   expect(closeExpression).toHaveBeenCalled();
+  // });
   test('should render text input for the text data types', async () => {
     const wrapper = mount(getMountWrapper(true));
     wrapper

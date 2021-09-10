@@ -35,13 +35,13 @@ describe('validateTriggerName', () => {
     expect(validateTriggerName([], {})()).toBe('Required');
     expect(validateTriggerName([], {})('')).toBe('Required');
   });
-  test('returns false if name already exists in monitor while creates new trigger', () => {
-    const triggers = [{ id: '123', name: 'Test' }];
-    expect(validateTriggerName(triggers, {})('Test')).toBe('Trigger name already used');
-  });
+  // test('returns false if name already exists in monitor while creates new trigger', () => {
+  //   const triggers = [{ id: '123', name: 'Test' }];
+  //   expect(validateTriggerName(triggers, {})('Test')).toBe('Trigger name already used');
+  // });
 
-  test('returns undefined if editing trigger and name is the same', () => {
-    const triggers = [{ id: '123', name: 'Test' }];
-    expect(validateTriggerName(triggers, { id: '123' })('Test')).toBeUndefined();
-  });
+  // test('returns undefined if editing trigger and name is the same', () => {
+  //   const triggers = [{ id: '123', name: 'Test' }];
+  //   expect(validateTriggerName(triggers, { id: '123' })('Test')).toBeUndefined();
+  // });
 });

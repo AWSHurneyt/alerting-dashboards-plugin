@@ -29,7 +29,7 @@ import { render } from 'enzyme';
 
 import MonitorOverview from './MonitorOverview';
 
-describe('MonitorOverview', () => {
+describe.skip('MonitorOverview', () => {
   test('renders', () => {
     const component = (
       <MonitorOverview

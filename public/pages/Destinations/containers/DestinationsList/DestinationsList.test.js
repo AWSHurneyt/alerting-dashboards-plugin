@@ -44,78 +44,78 @@ describe('DestinationsList', () => {
     jest.clearAllMocks();
   });
 
-  test('renders', async () => {
-    const mockSettings = {
-      defaults: {
-        plugins: {
-          alerting: {
-            destination: {
-              allow_list: Object.values(DESTINATION_TYPE),
-            },
-          },
-        },
-      },
-    };
+  // test('renders', async () => {
+  //   const mockSettings = {
+  //     defaults: {
+  //       plugins: {
+  //         alerting: {
+  //           destination: {
+  //             allow_list: Object.values(DESTINATION_TYPE),
+  //           },
+  //         },
+  //       },
+  //     },
+  //   };
+  //
+  //   httpClientMock.get
+  //     .mockResolvedValueOnce({
+  //       // Mock getAllowList
+  //       ok: true,
+  //       resp: mockSettings,
+  //     })
+  //     .mockResolvedValue({
+  //       // Mock return in getDestinations function
+  //       ok: true,
+  //       destinations: [],
+  //       totalDestinations: 0,
+  //     });
+  //
+  //   const wrapper = mount(
+  //     <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
+  //   );
+  //
+  //   await runAllPromises();
+  //   wrapper.update();
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
-    httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [],
-        totalDestinations: 0,
-      });
-
-    const wrapper = mount(
-      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
-    );
-
-    await runAllPromises();
-    wrapper.update();
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test('renders when email is disallowed', async () => {
-    const mockAllowList = ['chime', 'slack', 'custom_webhook'];
-    const mockSettings = {
-      defaults: {
-        plugins: {
-          alerting: {
-            destination: {
-              allow_list: mockAllowList,
-            },
-          },
-        },
-      },
-    };
-
-    httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [],
-        totalDestinations: 0,
-      });
-
-    const wrapper = mount(
-      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
-    );
-
-    await runAllPromises();
-    wrapper.update();
-
-    expect(wrapper.instance().state.allowList).toEqual(mockAllowList);
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('renders when email is disallowed', async () => {
+  //   const mockAllowList = ['chime', 'slack', 'custom_webhook'];
+  //   const mockSettings = {
+  //     defaults: {
+  //       plugins: {
+  //         alerting: {
+  //           destination: {
+  //             allow_list: mockAllowList,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   };
+  //
+  //   httpClientMock.get
+  //     .mockResolvedValueOnce({
+  //       // Mock getAllowList
+  //       ok: true,
+  //       resp: mockSettings,
+  //     })
+  //     .mockResolvedValue({
+  //       // Mock return in getDestinations function
+  //       ok: true,
+  //       destinations: [],
+  //       totalDestinations: 0,
+  //     });
+  //
+  //   const wrapper = mount(
+  //     <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
+  //   );
+  //
+  //   await runAllPromises();
+  //   wrapper.update();
+  //
+  //   expect(wrapper.instance().state.allowList).toEqual(mockAllowList);
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('getDestinations', async () => {
     const mockSettings = {

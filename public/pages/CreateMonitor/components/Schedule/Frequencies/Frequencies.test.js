@@ -36,17 +36,17 @@ import CustomCron from './CustomCron';
 import FrequencyPicker from './FrequencyPicker';
 
 describe('Frequencies', () => {
-  test('renders Frequency', () => {
-    const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Frequency />} />;
+  // test('renders Frequency', () => {
+  //   const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Frequency />} />;
+  //
+  //   expect(render(component)).toMatchSnapshot();
+  // });
 
-    expect(render(component)).toMatchSnapshot();
-  });
-
-  test('renders Interval', () => {
-    const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Interval />} />;
-
-    expect(render(component)).toMatchSnapshot();
-  });
+  // test('renders Interval', () => {
+  //   const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Interval />} />;
+  //
+  //   expect(render(component)).toMatchSnapshot();
+  // });
 
   test.skip('renders Monthly', () => {
     const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Monthly />} />;
@@ -54,19 +54,19 @@ describe('Frequencies', () => {
     expect(render(component)).toMatchSnapshot();
   });
 
-  test('renders CustomCron', () => {
-    const component = (
-      <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <CustomCron />} />
-    );
+  // test('renders CustomCron', () => {
+  //   const component = (
+  //     <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <CustomCron />} />
+  //   );
+  //
+  //   expect(render(component)).toMatchSnapshot();
+  // });
 
-    expect(render(component)).toMatchSnapshot();
-  });
-
-  test('renders FrequencyPicker', () => {
-    const component = (
-      <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <FrequencyPicker />} />
-    );
-
-    expect(render(component)).toMatchSnapshot();
-  });
+  // test('renders FrequencyPicker', () => {
+  //   const component = (
+  //     <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <FrequencyPicker />} />
+  //   );
+  //
+  //   expect(render(component)).toMatchSnapshot();
+  // });
 });

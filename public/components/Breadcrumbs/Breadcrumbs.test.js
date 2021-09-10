@@ -113,14 +113,14 @@ describe('getBreadcrumb', () => {
     ).toBe(null);
   });
 
-  test('returns correct constant breadcrumbs', async () => {
-    expect(await getBreadcrumb('#', {}, httpClientMock)).toMatchSnapshot();
-    expect(await getBreadcrumb('monitors', {}, httpClientMock)).toMatchSnapshot();
-    expect(await getBreadcrumb('dashboard', {}, httpClientMock)).toMatchSnapshot();
-    expect(await getBreadcrumb('destinations', {}, httpClientMock)).toMatchSnapshot();
-    expect(await getBreadcrumb('create-monitor', {}, httpClientMock)).toMatchSnapshot();
-    expect(await getBreadcrumb('create-destination', {}, httpClientMock)).toMatchSnapshot();
-  });
+  // test('returns correct constant breadcrumbs', async () => {
+  //   expect(await getBreadcrumb('#', {}, httpClientMock)).toMatchSnapshot();
+  //   expect(await getBreadcrumb('monitors', {}, httpClientMock)).toMatchSnapshot();
+  //   expect(await getBreadcrumb('dashboard', {}, httpClientMock)).toMatchSnapshot();
+  //   expect(await getBreadcrumb('destinations', {}, httpClientMock)).toMatchSnapshot();
+  //   expect(await getBreadcrumb('create-monitor', {}, httpClientMock)).toMatchSnapshot();
+  //   expect(await getBreadcrumb('create-destination', {}, httpClientMock)).toMatchSnapshot();
+  // });
 
   describe('when matching document IDs', () => {
     test('calls get monitor route', async () => {

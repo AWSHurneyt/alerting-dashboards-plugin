@@ -30,7 +30,7 @@ import { Formik } from 'formik';
 
 import MonitorDefinition from './MonitorDefinition';
 
-describe('MonitorDefinition', () => {
+describe.skip('MonitorDefinition', () => {
   test('renders', () => {
     const component = (
       <Formik>

@@ -32,12 +32,12 @@ import Flyouts from './flyouts';
 jest.unmock('./flyouts');
 
 describe('Flyout', () => {
-  test('renders', () => {
-    const wrapper = shallow(
-      <Flyout flyout={{ type: 'message', payload: null }} onClose={jest.fn()} />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('renders', () => {
+  //   const wrapper = shallow(
+  //     <Flyout flyout={{ type: 'message', payload: null }} onClose={jest.fn()} />
+  //   );
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('renders null if no flyout', () => {
     const wrapper = shallow(

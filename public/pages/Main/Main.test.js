@@ -30,7 +30,7 @@ import { render } from 'enzyme';
 
 import Main from './Main';
 
-describe('Main', () => {
+describe.skip('Main', () => {
   test('renders', () => {
     const component = (
       <Router>

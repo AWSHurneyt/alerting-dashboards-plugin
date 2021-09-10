@@ -52,10 +52,10 @@ describe('MonitorIndex', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  test('renders', () => {
-    const wrapper = getMountWrapper();
-    expect(wrapper).toMatchSnapshot();
-  });
+  // test('renders', () => {
+  //   const wrapper = getMountWrapper();
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   test('calls onSearchChange when changing input value', () => {
     const onSearchChange = jest.spyOn(MonitorIndex.prototype, 'onSearchChange');
