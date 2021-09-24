@@ -35,6 +35,7 @@ import MonitorDetails from '../MonitorDetails/containers/MonitorDetails';
 import CreateDestination from '../Destinations/containers/CreateDestination';
 import Flyout from '../../components/Flyout';
 import { APP_PATH } from '../../utils/constants';
+import _ from 'lodash';
 
 class Main extends Component {
   state = { flyout: null };
@@ -120,6 +121,10 @@ class Main extends Component {
                       {...props}
                       setFlyout={this.setFlyout}
                       notifications={core.notifications}
+                      dashboardContainerByValueRenderer={
+                        this.props.dashboardContainerByValueRenderer
+                      }
+                      embeddableFactory={this.props.embeddableFactory}
                     />
                   )}
                 />

@@ -44,8 +44,9 @@ export class AlertingPlugin {
       order: 4000,
       mount: async (params) => {
         const { renderApp } = await import('./app');
-        const [coreStart] = await core.getStartServices();
-        return renderApp(coreStart, params);
+        const temp = await core.getStartServices();
+        const [coreStart, depsStart] = temp;
+        return renderApp(coreStart, depsStart, params);
       },
     });
     return {};

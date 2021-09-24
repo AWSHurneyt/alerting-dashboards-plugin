@@ -29,6 +29,7 @@ import DestinationsService from './DestinationsService';
 import OpensearchService from './OpensearchService';
 import MonitorService from './MonitorService';
 import AnomalyDetectorService from './AnomalyDetectorService';
+import VisualizationsService from './VisualizationsService';
 
 export {
   AlertService,
@@ -36,4 +37,5 @@ export {
   OpensearchService,
   MonitorService,
   AnomalyDetectorService,
+  VisualizationsService,
 };

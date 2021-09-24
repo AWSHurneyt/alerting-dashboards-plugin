@@ -31,6 +31,8 @@ import { EuiTab, EuiTabs } from '@elastic/eui';
 import Dashboard from '../Dashboard/containers/Dashboard';
 import Monitors from '../Monitors/containers/Monitors';
 import DestinationsList from '../Destinations/containers/DestinationsList';
+import _ from 'lodash';
+import { i18n } from '@osd/i18n';
 
 const getSelectedTabId = (pathname) => {
   if (pathname.includes('monitors')) return 'monitors';
@@ -101,6 +103,47 @@ export default class Home extends Component {
 
   render() {
     const { httpClient, notifications } = this.props;
+    // httpClient.post('/api/alerting/saved_objects/visualization/8f4d0c004c8611e8b3d701146121b7d3',
+    //   { body: {
+    //       attributes: {
+    //         title: i18n.translate('home.sampleData.flightsSpec.airlineCarrierTitle', {
+    //           defaultMessage: '[Flights] Airline Carrier 2',
+    //         }),
+    //         visState:
+    //           '{"title":"[Flights] Airline Carrier 2","type":"pie","params":{"type":"pie","addTooltip":true,"addLegend":true,"legendPosition":"right","isDonut":true,"labels":{"show":true,"values":true,"last_level":true,"truncate":100}},"aggs":[{"id":"1","enabled":true,"type":"count","schema":"metric","params":{}},{"id":"2","enabled":true,"type":"terms","schema":"segment","params":{"field":"Carrier","size":5,"order":"desc","orderBy":"1","otherBucket":false,"otherBucketLabel":"Other","missingBucket":false,"missingBucketLabel":"Missing"}}]}',
+    //         uiStateJSON: '{"vis":{"legendOpen":false}}',
+    //         description: '',
+    //         version: 1,
+    //         kibanaSavedObjectMeta: {
+    //           searchSourceJSON:
+    //             '{"index":"d3d7af60-4c81-11e8-b3d7-01146121b73d","filter":[],"query":{"query":"","language":"kuery"}}',
+    //         },
+    //       },
+    //     }
+    //   });
+
+    // const params = {
+    //   id: '8f4d0c004c8611e8b3d701146121b7d3',
+    //   type: 'visualization',
+    //   attributes: {
+    //     title: i18n.translate('home.sampleData.flightsSpec.airlineCarrierTitle', {
+    //       defaultMessage: '[Flights] Airline Carrier 2',
+    //     }),
+    //     visState:
+    //       '{"title":"[Flights] Airline Carrier 2","type":"pie","params":{"type":"pie","addTooltip":true,"addLegend":true,"legendPosition":"right","isDonut":true,"labels":{"show":true,"values":true,"last_level":true,"truncate":100}},"aggs":[{"id":"1","enabled":true,"type":"count","schema":"metric","params":{}},{"id":"2","enabled":true,"type":"terms","schema":"segment","params":{"field":"Carrier","size":5,"order":"desc","orderBy":"1","otherBucket":false,"otherBucketLabel":"Other","missingBucket":false,"missingBucketLabel":"Missing"}}]}',
+    //     uiStateJSON: '{"vis":{"legendOpen":false}}',
+    //     description: '',
+    //     version: 1,
+    //     kibanaSavedObjectMeta: {
+    //       searchSourceJSON:
+    //         '{"index":"d3d7af60-4c81-11e8-b3d7-01146121b73d","filter":[],"query":{"query":"","language":"kuery"}}',
+    //     },
+    //   },
+    // };
+    //
+    // const testResponse = await httpClient.post('/api/alerting/saved_objects/_bulk_create',
+    //   { body: JSON.stringify(params) });
+
     return (
       <div>
         <EuiTabs>{this.tabs.map(this.renderTab)}</EuiTabs>
@@ -110,7 +153,13 @@ export default class Home extends Component {
               exact
               path="/dashboard"
               render={(props) => (
-                <Dashboard {...props} httpClient={httpClient} notifications={notifications} />
+                <Dashboard
+                  {...props}
+                  httpClient={httpClient}
+                  notifications={notifications}
+                  dashboardContainerByValueRenderer={this.props.dashboardContainerByValueRenderer}
+                  embeddableFactory={this.props.embeddableFactory}
+                />
               )}
             />
             <Route

@@ -26,6 +26,7 @@
 
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { i18n } from '@osd/i18n';
 import queryString from 'query-string';
 import { EuiBasicTable, EuiButton, EuiHorizontalRule, EuiIcon } from '@elastic/eui';
 
@@ -35,6 +36,8 @@ import DashboardControls from '../components/DashboardControls';
 import { columns } from '../utils/tableUtils';
 import { OPENSEARCH_DASHBOARDS_AD_PLUGIN } from '../../../utils/constants';
 import { backendErrorNotification } from '../../../utils/helpers';
+import { Paragraphs } from '../../../components/ParagraphComponents/paragraphs';
+import { ExprVis, Vizualization } from '../../../../../../src/plugins/visualizations/public';
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
 const DEFAULT_QUERY_PARAMS = {
@@ -96,6 +99,9 @@ export default class Dashboard extends Component {
       sortField,
       monitorIds,
     } = this.state;
+
+    this.createSavedObjects();
+
     this.getAlerts(
       page * size,
       size,
@@ -179,6 +185,292 @@ export default class Dashboard extends Component {
     };
   };
 
+  createSavedObjects = async () => {
+    const { httpClient } = this.props;
+    const testParams = [
+      {
+        id: '8f4d0c00-4c86-11e8-b3d7-01146121b7d3',
+        type: 'visualization',
+        attributes: {
+          title: i18n.translate('home.sampleData.flightsSpec.airlineCarrierTitle', {
+            defaultMessage: 'HURNEYT new pie chart visualization',
+          }),
+          visState:
+            '{"title":"[Flights] Airline Carrier 20","type":"pie","params":{"type":"pie","addTooltip":true,"addLegend":true,"legendPosition":"right","isDonut":true,"labels":{"show":true,"values":true,"last_level":true,"truncate":100}},"aggs":[{"id":"1","enabled":true,"type":"count","schema":"metric","params":{}},{"id":"2","enabled":true,"type":"terms","schema":"segment","params":{"field":"Carrier","size":5,"order":"desc","orderBy":"1","otherBucket":false,"otherBucketLabel":"Other","missingBucket":false,"missingBucketLabel":"Missing"}}]}',
+          uiStateJSON: '{"vis":{"legendOpen":false}}',
+          description: '',
+          version: 1,
+          kibanaSavedObjectMeta: {
+            searchSourceJSON:
+              '{"index":"d3d7af60-4c81-11e8-b3d7-01146121b73d","filter":[],"query":{"query":"","language":"kuery"}}',
+          },
+        },
+        references: [],
+      },
+    ];
+
+    // TODO hurneyt: should we call PUT instead? Noticed POST doesn't seem to be updating the graph
+    const testResponse = await httpClient.post('/api/saved_objects/_bulk_create', {
+      body: JSON.stringify(testParams),
+    });
+    console.info(`hurneyt testResponse = ${JSON.stringify(testResponse)}`);
+  };
+
+  testVis = () => {
+    const visState =
+      '{"title":"[Flights] Airline Carrier TEST","type":"pie","params":{"type":"pie","addTooltip":true,"addLegend":true,"legendPosition":"right","isDonut":true,"labels":{"show":true,"values":true,"last_level":true,"truncate":100}},"aggs":[{"id":"1","enabled":true,"type":"count","schema":"metric","params":{}},{"id":"2","enabled":true,"type":"terms","schema":"segment","params":{"field":"Carrier","size":5,"order":"desc","orderBy":"1","otherBucket":false,"otherBucketLabel":"Other","missingBucket":false,"missingBucketLabel":"Missing"}}]}';
+
+    // const vis = new ExprVis(visState);
+    const visData = {
+      hits: 4,
+      raw: {
+        columns: [
+          {
+            id: 'col-0-2',
+            name: 'Carrier: Descending',
+            meta: {
+              type: 'terms',
+              indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+              aggConfigParams: {
+                field: 'Carrier',
+                orderBy: '1',
+                order: 'desc',
+                size: 5,
+                otherBucket: false,
+                otherBucketLabel: 'Other',
+                missingBucket: false,
+                missingBucketLabel: 'Missing',
+              },
+            },
+          },
+          {
+            id: 'col-1-1',
+            name: 'Count',
+            meta: {
+              type: 'count',
+              indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+              aggConfigParams: {},
+            },
+          },
+        ],
+        rows: [
+          { 'col-0-2': 'Logstash Airways', 'col-1-1': 95 },
+          { 'col-0-2': 'OpenSearch Dashboards Airlines', 'col-1-1': 83 },
+          { 'col-0-2': 'BeatsWest', 'col-1-1': 82 },
+          { 'col-0-2': 'OpenSearch-Air', 'col-1-1': 77 },
+        ],
+      },
+      names: ['Logstash Airways', 'OpenSearch Dashboards Airlines', 'BeatsWest', 'OpenSearch-Air'],
+      tooltipFormatter: { id: 'number' },
+      slices: {
+        children: [
+          {
+            name: 'Logstash Airways',
+            size: 95,
+            children: [],
+            rawData: {
+              table: {
+                columns: [
+                  {
+                    id: 'col-0-2',
+                    name: 'Carrier: Descending',
+                    meta: {
+                      type: 'terms',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {
+                        field: 'Carrier',
+                        orderBy: '1',
+                        order: 'desc',
+                        size: 5,
+                        otherBucket: false,
+                        otherBucketLabel: 'Other',
+                        missingBucket: false,
+                        missingBucketLabel: 'Missing',
+                      },
+                    },
+                  },
+                  {
+                    id: 'col-1-1',
+                    name: 'Count',
+                    meta: {
+                      type: 'count',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {},
+                    },
+                  },
+                ],
+                rows: [
+                  { 'col-0-2': 'Logstash Airways', 'col-1-1': 95 },
+                  { 'col-0-2': 'OpenSearch Dashboards Airlines', 'col-1-1': 83 },
+                  { 'col-0-2': 'BeatsWest', 'col-1-1': 82 },
+                  { 'col-0-2': 'OpenSearch-Air', 'col-1-1': 77 },
+                ],
+              },
+              row: 0,
+              column: 0,
+              value: 'Logstash Airways',
+            },
+          },
+          {
+            name: 'OpenSearch Dashboards Airlines',
+            size: 83,
+            children: [],
+            rawData: {
+              table: {
+                columns: [
+                  {
+                    id: 'col-0-2',
+                    name: 'Carrier: Descending',
+                    meta: {
+                      type: 'terms',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {
+                        field: 'Carrier',
+                        orderBy: '1',
+                        order: 'desc',
+                        size: 5,
+                        otherBucket: false,
+                        otherBucketLabel: 'Other',
+                        missingBucket: false,
+                        missingBucketLabel: 'Missing',
+                      },
+                    },
+                  },
+                  {
+                    id: 'col-1-1',
+                    name: 'Count',
+                    meta: {
+                      type: 'count',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {},
+                    },
+                  },
+                ],
+                rows: [
+                  { 'col-0-2': 'Logstash Airways', 'col-1-1': 95 },
+                  { 'col-0-2': 'OpenSearch Dashboards Airlines', 'col-1-1': 83 },
+                  { 'col-0-2': 'BeatsWest', 'col-1-1': 82 },
+                  { 'col-0-2': 'OpenSearch-Air', 'col-1-1': 77 },
+                ],
+              },
+              row: 1,
+              column: 0,
+              value: 'OpenSearch Dashboards Airlines',
+            },
+          },
+          {
+            name: 'BeatsWest',
+            size: 82,
+            children: [],
+            rawData: {
+              table: {
+                columns: [
+                  {
+                    id: 'col-0-2',
+                    name: 'Carrier: Descending',
+                    meta: {
+                      type: 'terms',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {
+                        field: 'Carrier',
+                        orderBy: '1',
+                        order: 'desc',
+                        size: 5,
+                        otherBucket: false,
+                        otherBucketLabel: 'Other',
+                        missingBucket: false,
+                        missingBucketLabel: 'Missing',
+                      },
+                    },
+                  },
+                  {
+                    id: 'col-1-1',
+                    name: 'Count',
+                    meta: {
+                      type: 'count',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {},
+                    },
+                  },
+                ],
+                rows: [
+                  { 'col-0-2': 'Logstash Airways', 'col-1-1': 95 },
+                  { 'col-0-2': 'OpenSearch Dashboards Airlines', 'col-1-1': 83 },
+                  { 'col-0-2': 'BeatsWest', 'col-1-1': 82 },
+                  { 'col-0-2': 'OpenSearch-Air', 'col-1-1': 77 },
+                ],
+              },
+              row: 2,
+              column: 0,
+              value: 'BeatsWest',
+            },
+          },
+          {
+            name: 'OpenSearch-Air',
+            size: 77,
+            children: [],
+            rawData: {
+              table: {
+                columns: [
+                  {
+                    id: 'col-0-2',
+                    name: 'Carrier: Descending',
+                    meta: {
+                      type: 'terms',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {
+                        field: 'Carrier',
+                        orderBy: '1',
+                        order: 'desc',
+                        size: 5,
+                        otherBucket: false,
+                        otherBucketLabel: 'Other',
+                        missingBucket: false,
+                        missingBucketLabel: 'Missing',
+                      },
+                    },
+                  },
+                  {
+                    id: 'col-1-1',
+                    name: 'Count',
+                    meta: {
+                      type: 'count',
+                      indexPatternId: 'd3d7af60-4c81-11e8-b3d7-01146121b73d',
+                      aggConfigParams: {},
+                    },
+                  },
+                ],
+                rows: [
+                  { 'col-0-2': 'Logstash Airways', 'col-1-1': 95 },
+                  { 'col-0-2': 'OpenSearch Dashboards Airlines', 'col-1-1': 83 },
+                  { 'col-0-2': 'BeatsWest', 'col-1-1': 82 },
+                  { 'col-0-2': 'OpenSearch-Air', 'col-1-1': 77 },
+                ],
+              },
+              row: 3,
+              column: 0,
+              value: 'OpenSearch-Air',
+            },
+          },
+        ],
+      },
+    };
+    const visParams =
+      '{"title":"[Flights] Airline Carrier TEST","type":"pie","addTooltip":true,"addLegend":true,"legendPosition":"right","isDonut":true,"labels":{"show":true,"values":true,"last_level":true,"truncate":100},"dimensions":{"metric":{"accessor":1,"format":{"id":"number"},"params":{},"label":"Count","aggType":"count"},"buckets":[{"accessor":0,"format":{"id":"terms","params":{"id":"string","otherBucketLabel":"Other","missingBucketLabel":"Missing","parsedUrl":{"origin":"http://localhost:5601","pathname":"/brj/app/home","basePath":"/brj"}}},"params":{},"label":"Carrier: Descending","aggType":"terms"}]}}';
+    const uiState = '{"vis":{"legendOpen":false}}';
+    const listenOnChange = 'true';
+
+    return (
+      <Vizualization
+        vis={visState}
+        visData={visParams}
+        visParams={visParams}
+        uiState={uiState}
+        listenonChange={listenOnChange}
+      />
+    );
+  };
+
   getAlerts = _.debounce(
     (from, size, search, sortField, sortDirection, severityLevel, alertState, monitorIds) => {
       const params = {
@@ -194,9 +486,11 @@ export default class Dashboard extends Component {
       const queryParamsString = queryString.stringify(params);
       location.search;
       const { httpClient, history, notifications } = this.props;
+      httpClient.get('/api/alerting/visualizations');
       history.replace({ ...this.props.location, search: queryParamsString });
       httpClient.get('../api/alerting/alerts', { query: params }).then((resp) => {
         if (resp.ok) {
+          console.info(`hurneyt getAlerts::resp = ${JSON.stringify(resp)}`);
           const { alerts, totalAlerts } = resp;
           this.setState({
             alerts,
@@ -310,7 +604,12 @@ export default class Dashboard extends Component {
       sortField,
       totalAlerts,
     } = this.state;
-    const { monitorIds, detectorIds, onCreateTrigger } = this.props;
+    const {
+      dashboardContainerByValueRenderer,
+      monitorIds,
+      detectorIds,
+      onCreateTrigger,
+    } = this.props;
 
     const pagination = {
       pageIndex: page,
@@ -348,6 +647,7 @@ export default class Dashboard extends Component {
       return actions;
     };
 
+    console.info(`hurneyt alerts = ${JSON.stringify(alerts)}`);
     return (
       <ContentPanel
         title="Alerts"
@@ -385,6 +685,13 @@ export default class Dashboard extends Component {
           onChange={this.onTableChange}
           noItemsMessage={<DashboardEmptyPrompt onCreateTrigger={onCreateTrigger} />}
         />
+
+        <Paragraphs
+          dashboardContainerByValueRenderer={dashboardContainerByValueRenderer}
+          embeddableFactory={this.props.embeddableFactory}
+        />
+
+        {this.testVis()}
       </ContentPanel>
     );
   }

@@ -34,7 +34,7 @@ import 'react-vis/dist/style.css';
 import Main from './pages/Main';
 import { CoreContext } from './utils/CoreContext';
 
-export function renderApp(coreStart, params) {
+export function renderApp(coreStart, depsStart, params) {
   const isDarkMode = coreStart.uiSettings.get('theme:darkMode') || false;
   coreStart.chrome.setBreadcrumbs([{ text: 'Alerting' }]); // Set Breadcrumbs for the plugin
 
@@ -51,7 +51,18 @@ export function renderApp(coreStart, params) {
       <CoreContext.Provider
         value={{ http: coreStart.http, isDarkMode, notifications: coreStart.notifications }}
       >
-        <Route render={(props) => <Main title="Alerting" {...props} />} />
+        <Route
+          render={(props) => (
+            <Main
+              title="Alerting"
+              {...props}
+              dashboardContainerByValueRenderer={
+                depsStart.dashboard.DashboardContainerByValueRenderer
+              }
+              embeddableFactory={depsStart.embeddable.getEmbeddableFactory}
+            />
+          )}
+        />
       </CoreContext.Provider>
     </Router>,
     params.element

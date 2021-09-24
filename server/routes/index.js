@@ -29,5 +29,6 @@ import destinations from './destinations';
 import opensearch from './opensearch';
 import monitors from './monitors';
 import detectors from './anomalyDetector';
+import visualizationRouter from './visualizationRouter';
 
-export { alerts, destinations, opensearch, monitors, detectors };
+export { alerts, destinations, opensearch, monitors, detectors, visualizationRouter };
