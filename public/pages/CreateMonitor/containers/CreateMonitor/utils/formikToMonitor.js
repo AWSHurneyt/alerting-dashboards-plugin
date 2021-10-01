@@ -52,6 +52,8 @@ export function formikToMonitor(values) {
 
 export function formikToInputs(values) {
   switch (values.searchType) {
+    case SEARCH_TYPE.LOCAL_URI:
+      return formikToLocalUri(values);
     default:
       return formikToSearch(values);
   }
@@ -103,6 +105,17 @@ export function formikToAdQuery(values) {
           field: 'anomaly_grade',
         },
       },
+    },
+  };
+}
+
+export function formikToLocalUri(values) {
+  return {
+    uri: {
+      scheme: 'http',
+      host: 'localhost',
+      port: '9200',
+      path: values.uri.path,
     },
   };
 }

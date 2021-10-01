@@ -46,6 +46,14 @@ export const FORMIK_INITIAL_VALUES = {
   /* DEFINE MONITOR */
   monitor_type: MONITOR_TYPE.QUERY_LEVEL,
   searchType: 'graph',
+  uri: {
+    scheme: 'http',
+    host: 'localhost',
+    port: '9200',
+    path: '',
+    pathParameters: [],
+    url: '',
+  },
   index: [],
   timeField: '',
   query: MATCH_ALL_QUERY,

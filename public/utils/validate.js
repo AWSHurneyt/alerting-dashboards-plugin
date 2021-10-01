@@ -75,6 +75,12 @@ export const required = (value) => {
 
 export const validateRequiredNumber = (value) => {
   if (_.isEmpty(value)) return 'Provide a value.';
+  // if (value === undefined || typeof value == 'string') return 'Provide a value.'; //TODO hurneyt
+};
+
+export const isInvalidApiPath = (name, form) => {
+  const path = _.get(form, `values.${name}`);
+  return _.get(form.touched, name, false) && _.isEmpty(path);
 };
 
 export const validateMonitorName = (httpClient, monitorToEdit) => async (value) => {

@@ -39,6 +39,8 @@ import { buildSearchRequest } from './utils/searchRequests';
 import { SEARCH_TYPE, OS_AD_PLUGIN, MONITOR_TYPE } from '../../../../utils/constants';
 import { backendErrorNotification } from '../../../../utils/helpers';
 import DataSource from '../DataSource';
+import { buildLocalUriRequest } from './utils/localUriIRequests';
+import LocalUriInput from '../../components/LocalUriInput';
 
 function renderEmptyMessage(message) {
   return (
@@ -83,6 +85,7 @@ class DefineMonitor extends Component {
     this.queryMappings = this.queryMappings.bind(this);
     this.renderVisualMonitor = this.renderVisualMonitor.bind(this);
     this.renderExtractionQuery = this.renderExtractionQuery.bind(this);
+    this.renderLocalUriInput = this.renderLocalUriInput.bind(this);
     this.getMonitorContent = this.getMonitorContent.bind(this);
     this.getPlugins = this.getPlugins.bind(this);
     this.showPluginWarning = this.showPluginWarning.bind(this);
@@ -255,6 +258,9 @@ class DefineMonitor extends Component {
         requests = [buildSearchRequest(values)];
         requests.push(buildSearchRequest(values, false));
         break;
+      case SEARCH_TYPE.LOCAL_URI:
+        requests = [buildLocalUriRequest(values)];
+        break;
     }
 
     try {
@@ -270,6 +276,9 @@ class DefineMonitor extends Component {
           case SEARCH_TYPE.QUERY:
           case SEARCH_TYPE.GRAPH:
             _.set(monitor, 'inputs[0].search', request);
+            break;
+          case SEARCH_TYPE.LOCAL_URI:
+            _.set(monitor, 'inputs[0].uri', request);
             break;
           default:
             console.log(`Unsupported searchType found: ${JSON.stringify(searchType)}`, searchType);
@@ -389,11 +398,36 @@ class DefineMonitor extends Component {
     };
   }
 
+  renderLocalUriInput() {
+    const { values } = this.props;
+    const { response } = this.state;
+    // Definition of when the "run" button should be disabled for LocalUri type.
+    const runIsDisabled = !values.uri.path;
+    return {
+      actions: [
+        <EuiButton disabled={runIsDisabled} onClick={this.onRunQuery}>
+          Run
+        </EuiButton>,
+      ],
+      content: (
+        <React.Fragment>
+          <LocalUriInput
+            response={JSON.stringify(response || '', null, 4)}
+            isDarkMode={this.isDarkMode}
+            values={values}
+          />
+        </React.Fragment>
+      ),
+    };
+  }
+
   getMonitorContent() {
     const { values } = this.props;
     switch (values.searchType) {
       case SEARCH_TYPE.GRAPH:
         return this.renderVisualMonitor();
+      case SEARCH_TYPE.LOCAL_URI:
+        return this.renderLocalUriInput();
       default:
         return this.renderExtractionQuery();
     }
