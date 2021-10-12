@@ -51,7 +51,7 @@ export const FORMIK_INITIAL_VALUES = {
     host: 'localhost',
     port: '9200',
     path: '',
-    pathParameters: [],
+    pathParams: [],
     url: '',
   },
   index: [],

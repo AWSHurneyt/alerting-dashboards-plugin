@@ -29,6 +29,7 @@ import moment from 'moment-timezone';
 import { BUCKET_COUNT, DEFAULT_COMPOSITE_AGG_SIZE, FORMIK_INITIAL_VALUES } from './constants';
 import { MONITOR_TYPE, SEARCH_TYPE } from '../../../../../utils/constants';
 import { OPERATORS_QUERY_MAP } from './whereFilters';
+import { SUPPORTED_API_PATHS } from '../../../components/LocalUriInput/LocalUriInput';
 
 export function formikToMonitor(values) {
   const uiSchedule = formikToUiSchedule(values);
@@ -110,12 +111,20 @@ export function formikToAdQuery(values) {
 }
 
 export function formikToLocalUri(values) {
+  const pathInput = _.get(values, 'uri.path[0]');
+  let pathParams = _.get(values, 'uri.pathParams', []);
+  pathParams = pathParams.map((pathParameter) => {
+    return _.get(pathParameter, 'label', pathParameter);
+  });
+  const hasPathParams = pathParams.length > 0;
+  const path = _.get(SUPPORTED_API_PATHS(hasPathParams), _.get(pathInput, 'value'));
   return {
     uri: {
       scheme: 'http',
       host: 'localhost',
       port: '9200',
-      path: values.uri.path,
+      path: path,
+      pathParams: hasPathParams ? pathParams : undefined,
     },
   };
 }

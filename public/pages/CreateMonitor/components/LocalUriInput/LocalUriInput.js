@@ -26,14 +26,7 @@
 
 import React, { Fragment } from 'react';
 import _ from 'lodash';
-import {
-  EuiSpacer,
-  EuiFlexItem,
-  EuiFlexGroup,
-  EuiCodeEditor,
-  EuiFormRow,
-  EuiText,
-} from '@elastic/eui';
+import { EuiButton, EuiSpacer, EuiCodeEditor, EuiFormRow, EuiText } from '@elastic/eui';
 import {
   hasError,
   isInvalid,
@@ -45,26 +38,24 @@ import { FormikComboBox, FormikFieldText } from '../../../../components/FormCont
 import IconToolTip from '../../../../components/IconToolTip';
 import { METRIC_TOOLTIP_TEXT } from '../../containers/CreateMonitor/utils/constants';
 
-const SUPPORTED_API_ENUM = {
+export const SUPPORTED_API_ENUM = {
   CLUSTER_HEALTH: 'CLUSTER_HEALTH',
   CLUSTER_STATS: 'CLUSTER_STATS',
 };
 
-const SUPPORTED_API_PATHS = (hasPathParameters = false) => {
+export const SUPPORTED_API_PATHS = (hasPathParams = false) => {
   const paths = {};
-  paths[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = hasPathParameters
-    ? '_cluster/health/'
-    : '_cluster/health';
-  paths[SUPPORTED_API_ENUM.CLUSTER_STATS] = hasPathParameters
-    ? '_cluster/stats'
-    : '_cluster/stats/nodes/';
+  paths[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = '_cluster/health';
+  paths[SUPPORTED_API_ENUM.CLUSTER_STATS] = hasPathParams
+    ? '_cluster/stats/nodes/'
+    : '_cluster/stats';
   return paths;
 };
 
 // TODO hurneyt: create regex expressions for validating
-const SUPPORTED_API_REGEX = () => {
+export const SUPPORTED_API_REGEX = () => {
   const regexes = {};
-  regexes[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = 'fvfv';
+  regexes[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = 'HURNEYTregex';
   return regexes;
 };
 
@@ -76,9 +67,12 @@ const SUPPORTED_API_LABELS = [
   },
 ];
 
-const LocalUriInput = ({ isDarkMode, response, values }) => {
+const LocalUriInput = ({ isDarkMode, onRunQuery, response, values }) => {
+  const pathIsEmpty = _.isEmpty(_.get(values, 'uri.path'));
   return (
     <Fragment>
+      <EuiSpacer size={'m'} />
+
       <FormikComboBox
         // TODO hurneyt basing this implementation on line 334 of Message.js
         name={'uri.path'}
@@ -111,9 +105,12 @@ const LocalUriInput = ({ isDarkMode, response, values }) => {
           singleSelection: { asPlainText: true },
         }}
       />
+      {/*// TODO: Perhaps add help text with a hyperlink to the Elasticsearch documentation for the selected API*/}
+
+      <EuiSpacer size={'l'} />
 
       <FormikComboBox
-        name={'uri.pathParameters'}
+        name={'uri.pathParams'}
         formRow={true}
         // fieldProps={// TODO hurneyt: validate to include only letters and numbers?}
         rowProps={{
@@ -131,75 +128,43 @@ const LocalUriInput = ({ isDarkMode, response, values }) => {
         }}
         inputProps={{
           placeholder: 'Enter path parameters',
-          options: _.get(values, 'uri.pathParameters', []),
+          options: _.get(values, 'uri.pathParams', []),
           onChange: (options, field, form) => {
-            form.setFieldValue('uri.pathParameters', options);
+            form.setFieldValue('uri.pathParams', options);
           },
           onBlur: (e, field, form) => {
-            form.setFieldTouched('uri.pathParameters', true);
+            form.setFieldTouched('uri.pathParams', true);
           },
           onCreateOption: (value, field, form) => {
-            // try {
-            //   console.info(`hurneyt value JSON = ${JSON.stringify(value)}`)
-            // } catch (err) {
-            //   console.info(`hurneyt value KEYS = ${_.keys(value)}`)
-            // }
-            // try {
-            //   console.info(`hurneyt field JSON = ${JSON.stringify(field)}`)
-            // } catch (err) {
-            //   console.info(`hurneyt field KEYS = ${_.keys(field)}`)
-            // }
-            // try {
-            //   console.info(`hurneyt form JSON = ${JSON.stringify(form)}`)
-            // } catch (err) {
-            //   console.info(`hurneyt form KEYS = ${_.keys(form)}`)
-            // }
             const newPathParameter = { label: value.trim() };
             if (_.isEmpty(newPathParameter)) return false;
-            form.setFieldValue('uri.pathParameters', [...field.value, newPathParameter]);
+            form.setFieldValue('uri.pathParams', [...field.value, newPathParameter]);
           },
           isClearable: true,
-          selectedOptions: _.get(values, 'uri.pathParameters', []),
-          isDisabled: _.isEmpty(_.get(values, 'uri.path')),
+          selectedOptions: _.get(values, 'uri.pathParams', []),
+          isDisabled: pathIsEmpty,
           delimiter: ' ',
         }}
       />
 
-      {/*<EuiFlexGroup alignItems="flexStart">*/}
-      {/*  <EuiFlexItem>*/}
-      {/*    <EuiSpacer size="m" />*/}
-      {/*    <FormikFieldText*/}
-      {/*      name={`${values.searchType}.path`}*/}
-      {/*      formRow*/}
-      {/*      rowProps={{*/}
-      {/*        label: 'Path',*/}
-      {/*        helpText:*/}
-      {/*          'The path associated with the REST API the monitor should call (e.g., "/_cluster/health").',*/}
-      {/*        style: { paddingLeft: '10px' },*/}
-      {/*        isInvalid,*/}
-      {/*        error: 'Select an API.',*/}
-      {/*      }}*/}
-      {/*      inputProps={{*/}
-      {/*        isInvalid,*/}
-      {/*        onChange: (e, field, form) => {*/}
-      {/*          form.setFieldValue('uri.path', e.target.value);*/}
-      {/*        },*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*  </EuiFlexItem>*/}
-      {/*  <EuiFlexItem>*/}
-      {/*    <EuiFormRow label="Response" fullWidth>*/}
-      {/*      <EuiCodeEditor*/}
-      {/*        mode="json"*/}
-      {/*        theme={isDarkMode ? 'sense-dark' : 'github'}*/}
-      {/*        width="100%"*/}
-      {/*        height="500px"*/}
-      {/*        value={response}*/}
-      {/*        readOnly*/}
-      {/*      />*/}
-      {/*    </EuiFormRow>*/}
-      {/*  </EuiFlexItem>*/}
-      {/*</EuiFlexGroup>*/}
+      <EuiSpacer size={'l'} />
+
+      <EuiButton disabled={pathIsEmpty} fill={false} onClick={onRunQuery} size={'s'}>
+        Run for response
+      </EuiButton>
+
+      <EuiSpacer size={'l'} />
+
+      <EuiFormRow label={'Response'}>
+        <EuiCodeEditor
+          mode={'json'}
+          theme={isDarkMode ? 'sense-dark' : 'github'}
+          width={'400px'}
+          height={'500px'}
+          value={pathIsEmpty ? undefined : response}
+          readOnly
+        />
+      </EuiFormRow>
     </Fragment>
   );
 };

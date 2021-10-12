@@ -45,8 +45,18 @@ export default function monitorToFormik(monitor) {
   let { searchType = 'query', fieldName } = search;
   if (_.isEmpty(search) && 'uri' in inputs[0]) searchType = SEARCH_TYPE.LOCAL_URI;
   const isAD = searchType === SEARCH_TYPE.AD;
-  const isNotLocalUri = searchType !== SEARCH_TYPE.LOCAL_URI;
 
+  const isLocalUri = searchType === SEARCH_TYPE.LOCAL_URI;
+  console.info(`hurneyt isLocalUri = ${JSON.stringify(isLocalUri)}`);
+  let uri = isLocalUri ? inputs[0].uri : undefined;
+  if (isLocalUri) {
+    const pathParams = _.get(uri, 'pathParams', []);
+    console.info(`hurneyt pathParams = ${JSON.stringify(pathParams)}`);
+    uri = { ...uri, pathParams };
+  }
+
+  console.info(`hurneyt searchType = ${JSON.stringify(searchType)}`);
+  console.info(`hurneyt uri = ${JSON.stringify(uri)}`);
   return {
     /* INITIALIZE WITH DEFAULTS */
     ...formikValues,
@@ -67,8 +77,10 @@ export default function monitorToFormik(monitor) {
     timezone: timezone ? [{ label: timezone }] : [],
 
     detectorId: isAD ? _.get(inputs, INPUTS_DETECTOR_ID) : undefined,
-    index: isNotLocalUri ? inputs[0].search.indices.map((index) => ({ label: index })) : undefined,
-    query: isNotLocalUri ? JSON.stringify(inputs[0].search.query, null, 4) : undefined,
-    uri: isNotLocalUri ? undefined : inputs[0].uri,
+    index: !isLocalUri
+      ? inputs[0].search.indices.map((index) => ({ label: index }))
+      : FORMIK_INITIAL_VALUES.index,
+    query: !isLocalUri ? JSON.stringify(inputs[0].search.query, null, 4) : undefined,
+    uri: uri,
   };
 }

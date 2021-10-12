@@ -284,6 +284,7 @@ class DefineMonitor extends Component {
             console.log(`Unsupported searchType found: ${JSON.stringify(searchType)}`, searchType);
         }
 
+        console.info(`hurneyt DefineMonitor::request = ${JSON.stringify(monitor)}`);
         return httpClient.post('../api/alerting/monitors/_execute', {
           body: JSON.stringify(monitor),
         });
@@ -402,20 +403,17 @@ class DefineMonitor extends Component {
     const { values } = this.props;
     const { response } = this.state;
     // Definition of when the "run" button should be disabled for LocalUri type.
-    const runIsDisabled = !values.uri.path;
     return {
-      actions: [
-        <EuiButton disabled={runIsDisabled} onClick={this.onRunQuery}>
-          Run
-        </EuiButton>,
-      ],
       content: (
         <React.Fragment>
-          <LocalUriInput
-            response={JSON.stringify(response || '', null, 4)}
-            isDarkMode={this.isDarkMode}
-            values={values}
-          />
+          <div style={{ padding: '0px 10px' }}>
+            <LocalUriInput
+              isDarkMode={this.isDarkMode}
+              onRunQuery={this.onRunQuery}
+              response={JSON.stringify(response || '', null, 4)}
+              values={values}
+            />
+          </div>
         </React.Fragment>
       ),
     };

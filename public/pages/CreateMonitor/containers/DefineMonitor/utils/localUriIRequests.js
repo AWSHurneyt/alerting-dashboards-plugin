@@ -24,11 +24,9 @@
  *   permissions and limitations under the License.
  */
 
+import _ from 'lodash';
+import { formikToLocalUri } from '../../CreateMonitor/utils/formikToMonitor';
+
 export function buildLocalUriRequest(values) {
-  return {
-    scheme: 'http',
-    host: 'localhost',
-    port: '9200',
-    path: values.uri.path,
-  };
+  return _.get(formikToLocalUri(values), 'uri');
 }
