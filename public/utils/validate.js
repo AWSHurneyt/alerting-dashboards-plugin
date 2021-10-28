@@ -74,8 +74,7 @@ export const required = (value) => {
 };
 
 export const validateRequiredNumber = (value) => {
-  if (_.isEmpty(value)) return 'Provide a value.';
-  // if (value === undefined || typeof value == 'string') return 'Provide a value.'; //TODO hurneyt
+  if (value === undefined || typeof value === 'string') return 'Provide a value.';
 };
 
 export const isInvalidApiPath = (name, form) => {
