@@ -187,4 +187,6 @@ describe('monitorToFormik', () => {
     const formikValues = monitorToFormik(localUriMonitor);
     expect(formikValues.uri.path).toBe('/_cluster/health');
   });
+
+  // TODO LocalUri: Implement test that includes path params.
 });

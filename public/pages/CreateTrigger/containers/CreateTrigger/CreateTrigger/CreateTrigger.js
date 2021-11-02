@@ -45,7 +45,7 @@ import { backendErrorNotification } from '../../../../../utils/helpers';
 import DefineBucketLevelTrigger from '../../DefineBucketLevelTrigger';
 import { getPathsPerDataType } from '../../../../CreateMonitor/containers/DefineMonitor/utils/mappings';
 import { MONITOR_TYPE } from '../../../../../utils/constants';
-import { buildLocalUriRequest } from '../../../../CreateMonitor/containers/DefineMonitor/utils/localUriIRequests';
+import { buildLocalUriRequest } from '../../../../CreateMonitor/components/LocalUriInput/utils/localUriHelpers';
 
 export const DEFAULT_CLOSED_STATES = {
   WHEN: false,
@@ -182,6 +182,8 @@ export default class CreateTrigger extends Component {
       });
   };
 
+  // TODO localuri: This method isn't currently working as expected for LocalUriInput,
+  //  but it's not impacting functionality.
   overrideInitialValues = () => {
     const { monitor, edit, triggerToEdit } = this.props;
     const { initialValues, executeResponse } = this.state;

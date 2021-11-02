@@ -29,7 +29,8 @@ import moment from 'moment-timezone';
 import { BUCKET_COUNT, DEFAULT_COMPOSITE_AGG_SIZE, FORMIK_INITIAL_VALUES } from './constants';
 import { MONITOR_TYPE, SEARCH_TYPE } from '../../../../../utils/constants';
 import { OPERATORS_QUERY_MAP } from './whereFilters';
-import { SUPPORTED_API_PATHS } from '../../../components/LocalUriInput/LocalUriInput';
+import { SUPPORTED_API_APPEND_TEXT } from '../../../components/LocalUriInput/utils/localUriConstants';
+import { getApiPath } from '../../../components/LocalUriInput/utils/localUriHelpers';
 
 export function formikToMonitor(values) {
   const uiSchedule = formikToUiSchedule(values);
@@ -111,20 +112,25 @@ export function formikToAdQuery(values) {
 }
 
 export function formikToLocalUri(values) {
-  const pathInput = _.get(values, 'uri.path[0]');
-  let pathParams = _.get(values, 'uri.pathParams', []);
-  pathParams = pathParams.map((pathParameter) => {
-    return _.get(pathParameter, 'label', pathParameter);
-  });
-  const hasPathParams = pathParams.length > 0;
-  const path = _.get(SUPPORTED_API_PATHS(hasPathParams), _.get(pathInput, 'value'));
+  let pathEnum = _.get(values, 'uri.path[0]');
+  pathEnum = _.get(pathEnum, 'value');
+  let pathParams = _.get(values, 'uri.pathParams', '');
+  pathParams = _.trim(pathParams);
+  const hasPathParams = !_.isEmpty(pathParams);
+  if (hasPathParams) _.concat(pathParams, SUPPORTED_API_APPEND_TEXT[pathEnum]);
+  const path = getApiPath(hasPathParams, pathEnum);
+  const scheme = FORMIK_INITIAL_VALUES.uri.scheme;
+  const host = FORMIK_INITIAL_VALUES.uri.host;
+  const port = FORMIK_INITIAL_VALUES.uri.port;
+  const url = `${scheme}://${host}:${port}/${path}${pathParams}`;
   return {
     uri: {
-      scheme: 'http',
-      host: 'localhost',
-      port: '9200',
+      scheme: scheme,
+      host: host,
+      port: port,
       path: path,
-      pathParams: hasPathParams ? pathParams : undefined,
+      pathParams: hasPathParams ? pathParams : FORMIK_INITIAL_VALUES.uri.pathParams,
+      url: url,
     },
   };
 }

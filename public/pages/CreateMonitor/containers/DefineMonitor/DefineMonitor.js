@@ -39,8 +39,18 @@ import { buildSearchRequest } from './utils/searchRequests';
 import { SEARCH_TYPE, OS_AD_PLUGIN, MONITOR_TYPE } from '../../../../utils/constants';
 import { backendErrorNotification } from '../../../../utils/helpers';
 import DataSource from '../DataSource';
-import { buildLocalUriRequest } from './utils/localUriIRequests';
+import {
+  buildLocalUriRequest,
+  getSelectedApiEnum,
+} from '../../components/LocalUriInput/utils/localUriHelpers';
 import LocalUriInput from '../../components/LocalUriInput';
+import { FORMIK_INITIAL_VALUES } from '../CreateMonitor/utils/constants';
+import {
+  SUPPORTED_API_ENUM,
+  SUPPORTED_API_LABELS,
+  SUPPORTED_API_OPTIONS_REQUIRING_PATH_PARAMS,
+  SUPPORTED_API_PATHS,
+} from '../../components/LocalUriInput/utils/localUriConstants';
 
 function renderEmptyMessage(message) {
   return (
@@ -76,6 +86,7 @@ class DefineMonitor extends Component {
       response: null,
       formikSnapshot: this.props.values,
       plugins: [],
+      loadingResponse: false,
     };
 
     this.renderGraph = this.renderGraph.bind(this);
@@ -88,6 +99,7 @@ class DefineMonitor extends Component {
     this.renderLocalUriInput = this.renderLocalUriInput.bind(this);
     this.getMonitorContent = this.getMonitorContent.bind(this);
     this.getPlugins = this.getPlugins.bind(this);
+    this.getSupportedApiList = this.getSupportedApiList.bind(this);
     this.showPluginWarning = this.showPluginWarning.bind(this);
   }
 
@@ -101,6 +113,7 @@ class DefineMonitor extends Component {
       this.onQueryMappings();
       if (hasTimeField) this.onRunQuery();
     }
+    if (searchType === SEARCH_TYPE.LOCAL_URI) this.getSupportedApiList();
   }
 
   componentDidUpdate(prevProps) {
@@ -163,8 +176,10 @@ class DefineMonitor extends Component {
       this.onRunQuery();
 
     // Reset response when monitor type or definition method is changed
-    if (prevSearchType !== searchType || prevMonitorType !== monitor_type || groupByCleared)
+    if (prevSearchType !== searchType || prevMonitorType !== monitor_type || groupByCleared) {
       this.resetResponse();
+      if (searchType === SEARCH_TYPE.LOCAL_URI) this.getSupportedApiList();
+    }
   }
 
   async getPlugins() {
@@ -240,6 +255,7 @@ class DefineMonitor extends Component {
   }
 
   async onRunQuery() {
+    this.setState({ loadingResponse: true });
     const { httpClient, values, notifications } = this.props;
     const formikSnapshot = _.cloneDeep(values);
 
@@ -284,7 +300,6 @@ class DefineMonitor extends Component {
             console.log(`Unsupported searchType found: ${JSON.stringify(searchType)}`, searchType);
         }
 
-        console.info(`hurneyt DefineMonitor::request = ${JSON.stringify(monitor)}`);
         return httpClient.post('../api/alerting/monitors/_execute', {
           body: JSON.stringify(monitor),
         });
@@ -307,6 +322,7 @@ class DefineMonitor extends Component {
     } catch (err) {
       console.error('There was an error running the query', err);
     }
+    this.setState({ loadingResponse: false });
   }
 
   resetResponse() {
@@ -401,22 +417,82 @@ class DefineMonitor extends Component {
 
   renderLocalUriInput() {
     const { values } = this.props;
-    const { response } = this.state;
-    // Definition of when the "run" button should be disabled for LocalUri type.
+    const {
+      loadingResponse,
+      loadingSupportedApiList = false,
+      response,
+      supportedApiList,
+    } = this.state;
     return {
       content: (
         <React.Fragment>
           <div style={{ padding: '0px 10px' }}>
             <LocalUriInput
               isDarkMode={this.isDarkMode}
+              loadingResponse={loadingResponse}
+              loadingSupportedApiList={loadingSupportedApiList}
               onRunQuery={this.onRunQuery}
+              resetResponse={this.resetResponse}
               response={JSON.stringify(response || '', null, 4)}
+              supportedApiList={supportedApiList}
               values={values}
             />
           </div>
         </React.Fragment>
       ),
     };
+  }
+
+  async getSupportedApiList() {
+    this.setState({ loadingSupportedApiList: true });
+    const { httpClient, values } = this.props;
+    const requests = _.keys(SUPPORTED_API_ENUM).map((apiKey) => {
+      const requiresPathParams = _.get(SUPPORTED_API_PATHS, `${apiKey}.withoutPathParams`, true);
+      if (requiresPathParams) {
+        const path = [{ value: SUPPORTED_API_ENUM[apiKey] }];
+        const values = { uri: { ...FORMIK_INITIAL_VALUES.uri, path } };
+        return buildLocalUriRequest(values);
+      }
+    });
+
+    const promises = requests.map((request) => {
+      const monitor = formikToMonitor(values);
+      const tempMonitorName = getSelectedApiEnum(request);
+      _.set(monitor, 'name', tempMonitorName);
+      _.set(monitor, 'triggers', []);
+      _.set(monitor, 'inputs[0].uri', request);
+      return httpClient.post('../api/alerting/monitors/_execute', {
+        body: JSON.stringify(monitor),
+      });
+    });
+
+    let supportedApiList = [];
+    await Promise.all(promises).then((responses) => {
+      responses.forEach((response) => {
+        if (response.ok) {
+          const supportedApi = _.get(response, 'resp.monitor_name');
+          supportedApiList.push({ value: supportedApi, label: SUPPORTED_API_LABELS[supportedApi] });
+        }
+      });
+    });
+
+    // DefineMonitor::getSupportedApiList attempts to create a list of API for which the user can create monitors.
+    // It does this by calling all of the feature-supported API without parameters, and adding successful API to a list.
+    // However, some API require path parameters. The below logic will add those API to the list by default.
+    // Attempting to create a monitor using one of those API will still throw an exception from the backend if the user
+    // has configured the OpenSearch-Alerting Plugin supported_json_payloads.json to restrict access to those API.
+    let clonedSupportedApiList = _.cloneDeep(supportedApiList);
+    SUPPORTED_API_OPTIONS_REQUIRING_PATH_PARAMS().forEach((apiOption) => {
+      if (!supportedApiList.includes(apiOption)) {
+        clonedSupportedApiList.push(apiOption);
+      }
+    });
+    clonedSupportedApiList = _.orderBy(clonedSupportedApiList, (api) => api.label);
+
+    this.setState({
+      loadingSupportedApiList: false,
+      supportedApiList: clonedSupportedApiList,
+    });
   }
 
   getMonitorContent() {

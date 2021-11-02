@@ -26,55 +26,49 @@
 
 import React, { Fragment } from 'react';
 import _ from 'lodash';
-import { EuiButton, EuiSpacer, EuiCodeEditor, EuiFormRow, EuiText } from '@elastic/eui';
-import {
-  hasError,
-  isInvalid,
-  isInvalidApiPath,
-  required,
-  validateRequiredApiPath,
-} from '../../../../utils/validate';
+import { EuiButton, EuiCodeEditor, EuiFormRow, EuiLink, EuiSpacer, EuiText } from '@elastic/eui';
+import { isInvalidApiPath } from '../../../../utils/validate';
 import { FormikComboBox, FormikFieldText } from '../../../../components/FormControls';
-import IconToolTip from '../../../../components/IconToolTip';
-import { METRIC_TOOLTIP_TEXT } from '../../containers/CreateMonitor/utils/constants';
+import {
+  API_PATH_REQUIRED_PLACEHOLDER_TEXT,
+  DEFAULT_SUPPORTED_API_OPTIONS,
+  NO_PATH_PARAMS_PLACEHOLDER_TEXT,
+  SUPPORTED_API_APPEND_TEXT,
+  SUPPORTED_API_DOCUMENTATION,
+  SUPPORTED_API_ENUM,
+  SUPPORTED_API_EXAMPLE_TEXT,
+  SUPPORTED_API_LABELS,
+  SUPPORTED_API_PATHS,
+  SUPPORTED_API_PREPEND_TEXT,
+} from './utils/localUriConstants';
+import { isInvalidApiPathParameter, validateApiPathParameter } from './utils/localUriHelpers';
 
-export const SUPPORTED_API_ENUM = {
-  CLUSTER_HEALTH: 'CLUSTER_HEALTH',
-  CLUSTER_STATS: 'CLUSTER_STATS',
-};
-
-export const SUPPORTED_API_PATHS = (hasPathParams = false) => {
-  const paths = {};
-  paths[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = '_cluster/health';
-  paths[SUPPORTED_API_ENUM.CLUSTER_STATS] = hasPathParams
-    ? '_cluster/stats/nodes/'
-    : '_cluster/stats';
-  return paths;
-};
-
-// TODO hurneyt: create regex expressions for validating
-export const SUPPORTED_API_REGEX = () => {
-  const regexes = {};
-  regexes[SUPPORTED_API_ENUM.CLUSTER_HEALTH] = 'HURNEYTregex';
-  return regexes;
-};
-
-const SUPPORTED_API_LABELS = [
-  { value: SUPPORTED_API_ENUM.CLUSTER_HEALTH, label: ' Cluster health (GET _cluster/health)' },
-  {
-    value: SUPPORTED_API_ENUM.CLUSTER_STATS,
-    label: 'Cluster stats (GET _cluster/stats or _cluster/stats/nodes/<node_filter>)',
-  },
-];
-
-const LocalUriInput = ({ isDarkMode, onRunQuery, response, values }) => {
-  const pathIsEmpty = _.isEmpty(_.get(values, 'uri.path'));
+const LocalUriInput = ({
+  isDarkMode,
+  loadingResponse = false,
+  loadingSupportedApiList = false,
+  onRunQuery,
+  resetResponse,
+  response,
+  supportedApiList = [],
+  values,
+}) => {
+  let selectedApiPath = _.get(values, 'uri.path');
+  const pathIsEmpty = _.isEmpty(selectedApiPath);
+  if (!pathIsEmpty) selectedApiPath = selectedApiPath[0].value || selectedApiPath;
+  const pathParams = _.get(values, 'uri.pathParams', '');
+  const noPathParams = _.isEmpty(_.get(SUPPORTED_API_PATHS, `${selectedApiPath}.withPathParams`));
+  const disablePathParams = pathIsEmpty || loadingSupportedApiList || noPathParams;
+  const requirePathParams = _.isEmpty(
+    _.get(SUPPORTED_API_PATHS, `${selectedApiPath}.withoutPathParams`)
+  );
+  const disableRunButton = pathIsEmpty || (_.isEmpty(pathParams) && requirePathParams);
+  if (disablePathParams) _.set(values, 'uri.pathParams', '');
   return (
     <Fragment>
       <EuiSpacer size={'m'} />
 
       <FormikComboBox
-        // TODO hurneyt basing this implementation on line 334 of Message.js
         name={'uri.path'}
         formRow
         rowProps={{
@@ -90,66 +84,101 @@ const LocalUriInput = ({ isDarkMode, onRunQuery, response, values }) => {
             </div>
           ),
           isInvalid: isInvalidApiPath,
-          error: 'Select an API.',
+          error: API_PATH_REQUIRED_PLACEHOLDER_TEXT,
         }}
         inputProps={{
-          placeholder: 'Select an API',
-          options: SUPPORTED_API_LABELS,
+          placeholder: loadingSupportedApiList ? 'Loading API options' : 'Select an API',
+          options: supportedApiList,
           onBlur: (e, field, form) => {
             form.setFieldTouched('uri.path');
           },
           onChange: (options, field, form) => {
             form.setFieldValue('uri.path', options);
+            resetResponse();
           },
           isClearable: true,
           singleSelection: { asPlainText: true },
+          selectedOptions: [
+            {
+              value: SUPPORTED_API_ENUM[selectedApiPath] || '',
+              label: SUPPORTED_API_LABELS[selectedApiPath] || '',
+            },
+          ],
+          isDisabled: loadingSupportedApiList,
+          isLoading: loadingSupportedApiList,
         }}
       />
-      {/*// TODO: Perhaps add help text with a hyperlink to the Elasticsearch documentation for the selected API*/}
 
       <EuiSpacer size={'l'} />
 
-      <FormikComboBox
+      <FormikFieldText
         name={'uri.pathParams'}
-        formRow={true}
-        // fieldProps={// TODO hurneyt: validate to include only letters and numbers?}
+        formRow
+        fieldProps={{
+          validate: validateApiPathParameter(pathParams, requirePathParams, disablePathParams),
+        }}
         rowProps={{
           label: (
             <div>
-              <EuiText size="xs">
+              <EuiText size={'xs'}>
                 <strong>Path parameters</strong>
-                <i> - optional </i>
+                {!requirePathParams && <i> - optional </i>}
               </EuiText>
               <EuiText color={'subdued'} size={'xs'}>
-                Filter responses from specific resources such as data streams and indices.
+                Filter responses by providing path parameters for the{' '}
+                {SUPPORTED_API_LABELS[selectedApiPath] || 'selected'} API.{' '}
+                {!pathIsEmpty && !_.isEmpty(SUPPORTED_API_DOCUMENTATION[selectedApiPath]) && (
+                  <EuiLink
+                    external
+                    href={SUPPORTED_API_DOCUMENTATION[selectedApiPath]}
+                    target={'_blank'}
+                  >
+                    Learn more
+                  </EuiLink>
+                )}
               </EuiText>
             </div>
           ),
+          style: { maxWidth: '600px' },
+          isInvalid: isInvalidApiPathParameter(pathParams, requirePathParams, disablePathParams),
+          error: validateApiPathParameter(pathParams, requirePathParams, disablePathParams),
         }}
         inputProps={{
-          placeholder: 'Enter path parameters',
-          options: _.get(values, 'uri.pathParams', []),
-          onChange: (options, field, form) => {
-            form.setFieldValue('uri.pathParams', options);
-          },
-          onBlur: (e, field, form) => {
-            form.setFieldTouched('uri.pathParams', true);
-          },
-          onCreateOption: (value, field, form) => {
-            const newPathParameter = { label: value.trim() };
-            if (_.isEmpty(newPathParameter)) return false;
-            form.setFieldValue('uri.pathParams', [...field.value, newPathParameter]);
-          },
-          isClearable: true,
-          selectedOptions: _.get(values, 'uri.pathParams', []),
-          isDisabled: pathIsEmpty,
-          delimiter: ' ',
+          placeholder: pathIsEmpty
+            ? 'Enter remaining path components and path parameters'
+            : disablePathParams
+            ? NO_PATH_PARAMS_PLACEHOLDER_TEXT
+            : `e.g., ${SUPPORTED_API_EXAMPLE_TEXT[selectedApiPath]}`,
+          disabled: disablePathParams,
+          fullWidth: true,
+          prepend: (
+            <EuiText
+              size={'s'}
+              style={{ backgroundColor: 'transparent', paddingRight: !disablePathParams && '0px' }}
+            >
+              GET {SUPPORTED_API_PREPEND_TEXT[selectedApiPath]}
+            </EuiText>
+          ),
+          append: !_.isEmpty(SUPPORTED_API_APPEND_TEXT[selectedApiPath]) && (
+            <EuiText
+              size={'s'}
+              style={{ backgroundColor: 'transparent', paddingLeft: !disablePathParams && '0px' }}
+            >
+              {SUPPORTED_API_APPEND_TEXT[selectedApiPath]}
+            </EuiText>
+          ),
         }}
       />
 
       <EuiSpacer size={'l'} />
 
-      <EuiButton disabled={pathIsEmpty} fill={false} onClick={onRunQuery} size={'s'}>
+      <EuiButton
+        disabled={disableRunButton}
+        fill={false}
+        isLoading={loadingResponse}
+        onClick={onRunQuery}
+        size={'s'}
+      >
         Run for response
       </EuiButton>
 
@@ -161,7 +190,7 @@ const LocalUriInput = ({ isDarkMode, onRunQuery, response, values }) => {
           theme={isDarkMode ? 'sense-dark' : 'github'}
           width={'400px'}
           height={'500px'}
-          value={pathIsEmpty ? undefined : response}
+          value={pathIsEmpty || loadingResponse ? undefined : response}
           readOnly
         />
       </EuiFormRow>

@@ -83,8 +83,10 @@ describe('formikToDetector', () => {
 describe('formikToLocalUri', () => {
   test('can build a LocalUriInput request', () => {
     const formikValues = _.cloneDeep(FORMIK_INITIAL_VALUES);
+    formikValues.uri.path = '_cluster/health';
     expect(formikToLocalUri(formikValues)).toMatchSnapshot();
   });
+  // TODO LocalUri: Implement test that includes path params.
 });
 
 describe('formikToUiSearch', () => {
