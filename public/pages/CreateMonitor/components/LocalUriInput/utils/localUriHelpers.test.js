@@ -25,7 +25,7 @@
  */
 
 import _ from 'lodash';
-import { SUPPORTED_API_ENUM, SUPPORTED_API_PATHS } from './localUriConstants';
+import { API_TYPES, API_TYPES_PATHS } from './localUriConstants';
 import { getApiPath } from './localUriHelpers';
 
 describe('localUriHelpers', () => {
@@ -34,15 +34,19 @@ describe('localUriHelpers', () => {
   });
 
   describe('getApiPath', () => {
-    _.keys(SUPPORTED_API_ENUM).forEach((key) => {
-      test(`for ${key} when hasPathParams is false`, () => {
-        const withoutPathParams = _.get(SUPPORTED_API_PATHS, `${key}.withoutPathParams`);
-        const withoutPathParamsResult = getApiPath(false, key);
+    _.keys(API_TYPES).forEach((apiType) => {
+      test(`for ${apiType} when hasPathParams is false`, () => {
+        const withoutPathParams = _.get(API_TYPES_PATHS, `${apiType}.withoutPathParams`);
+        const withoutPathParamsResult = getApiPath(false, apiType);
         expect(withoutPathParamsResult).toEqual(withoutPathParams);
       });
-      test(`for ${key} when hasPathParams is true`, () => {
-        const withPathParams = _.get(SUPPORTED_API_PATHS, `${key}.withPathParams`);
-        const withPathParamsResult = getApiPath(true, key);
+      test(`for ${apiType} when hasPathParams is true`, () => {
+        const withPathParams = _.get(
+          API_TYPES_PATHS,
+          `${apiType}.withPathParams`,
+          _.get(API_TYPES_PATHS, `${apiType}.withoutPathParams`)
+        );
+        const withPathParamsResult = getApiPath(true, apiType);
         expect(withPathParamsResult).toEqual(withPathParams);
       });
     });

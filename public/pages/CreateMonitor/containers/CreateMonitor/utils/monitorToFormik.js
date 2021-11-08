@@ -27,7 +27,6 @@
 import _ from 'lodash';
 import { FORMIK_INITIAL_VALUES } from './constants';
 import { SEARCH_TYPE, INPUTS_DETECTOR_ID } from '../../../../../utils/constants';
-import { getSelectedApiEnum } from '../../../components/LocalUriInput/utils/localUriHelpers';
 
 // Convert Monitor JSON to Formik values used in UI forms
 export default function monitorToFormik(monitor) {
@@ -46,15 +45,7 @@ export default function monitorToFormik(monitor) {
   let { searchType = 'query', fieldName } = search;
   if (_.isEmpty(search) && 'uri' in inputs[0]) searchType = SEARCH_TYPE.LOCAL_URI;
   const isAD = searchType === SEARCH_TYPE.AD;
-
   const isLocalUri = searchType === SEARCH_TYPE.LOCAL_URI;
-  let uri = isLocalUri ? inputs[0].uri : undefined;
-  if (isLocalUri) {
-    const path = getSelectedApiEnum(uri);
-    const pathParams = _.get(uri, 'pathParams', FORMIK_INITIAL_VALUES.uri.pathParams);
-    uri = { ...uri, path, pathParams };
-  }
-
   return {
     /* INITIALIZE WITH DEFAULTS */
     ...formikValues,
@@ -79,6 +70,6 @@ export default function monitorToFormik(monitor) {
       ? inputs[0].search.indices.map((index) => ({ label: index }))
       : FORMIK_INITIAL_VALUES.index,
     query: !isLocalUri ? JSON.stringify(inputs[0].search.query, null, 4) : undefined,
-    uri: uri,
+    uri: isLocalUri ? inputs[0].uri : undefined,
   };
 }

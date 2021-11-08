@@ -1,4 +1,15 @@
 /*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+/*
  * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
@@ -180,22 +191,6 @@ export default class CreateTrigger extends Component {
       .catch((err) => {
         console.log('err:', err);
       });
-  };
-
-  // TODO localuri: This method isn't currently working as expected for LocalUriInput,
-  //  but it's not impacting functionality.
-  overrideInitialValues = () => {
-    const { monitor, edit, triggerToEdit } = this.props;
-    const { initialValues, executeResponse } = this.state;
-    const useTriggerToFormik = edit && triggerToEdit;
-
-    // When searchType of the monitor is 'localUri', override the default trigger
-    // condition with the first name of the name-value pairs in the response
-    if (!useTriggerToFormik && 'uri' in monitor.inputs[0]) {
-      const response = _.get(executeResponse, 'input_results.results[0]');
-      _.set(initialValues, 'script.source', 'ctx.results[0].' + _.keys(response)[0] + ' != null');
-      this.setState({ initialValues: initialValues });
-    }
   };
 
   renderSuccessCallOut = () => {

@@ -24,25 +24,24 @@
  * permissions and limitations under the License.
  */
 
-import { getApiPath } from './localUriHelpers';
 import _ from 'lodash';
 
 export const API_PATH_REQUIRED_PLACEHOLDER_TEXT = 'Select an API.';
-export const ILLEGAL_PATH_PARAMETER_CHARACTERS = ['?', '"', ' '];
+export const EMPTY_PATH_PARAMS_TEXT = 'Enter remaining path components and path parameters';
+export const ILLEGAL_PATH_PARAMETER_CHARACTERS = ['=', '?', '"', ' '];
 export const NO_PATH_PARAMS_PLACEHOLDER_TEXT = 'No path parameter options';
 export const PATH_PARAMETER_ILLEGAL_CHARACTER_TEXT = `The provided path parameters contain invalid characters or spaces. Please omit: ${ILLEGAL_PATH_PARAMETER_CHARACTERS.join(
   ' '
 )}`;
 export const PATH_PARAMETERS_REQUIRED_TEXT = 'Path parameters are required for this API.';
+export const REST_API_REFERENCE = 'https://opensearch.org/docs/latest/opensearch/rest-api/index/';
+export const DEFAULT_LOCAL_URI_SCRIPT = { lang: 'painless', source: 'ctx.results[0] != null' };
 
-export const SUPPORTED_API_ENUM = {
+export const API_TYPES = {
   CLUSTER_HEALTH: 'CLUSTER_HEALTH',
   CLUSTER_STATS: 'CLUSTER_STATS',
   CLUSTER_SETTINGS: 'CLUSTER_SETTINGS',
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // NODES_HOT_THREADS: 'NODES_HOT_THREADS',
   NODES_STATS: 'NODES_STATS',
-  CAT_ALIASES: 'CAT_ALIASES',
   CAT_PENDING_TASKS: 'CAT_PENDING_TASKS',
   CAT_RECOVERY: 'CAT_RECOVERY',
   CAT_REPOSITORIES: 'CAT_REPOSITORIES',
@@ -50,193 +49,157 @@ export const SUPPORTED_API_ENUM = {
   CAT_TASKS: 'CAT_TASKS',
 };
 
-export const SUPPORTED_API_LABELS = {
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]: 'Cluster Health',
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: 'Cluster Stats',
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]: 'Cluster Settings',
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: 'Nodes Hot Threads',
-  [SUPPORTED_API_ENUM.NODES_STATS]: 'Nodes Stats',
-  [SUPPORTED_API_ENUM.CAT_ALIASES]: 'CAT Aliases',
-  [SUPPORTED_API_ENUM.CAT_PENDING_TASKS]: 'CAT Pending Tasks',
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]: 'CAT Recovery',
-  [SUPPORTED_API_ENUM.CAT_REPOSITORIES]: 'CAT Repositories',
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]: 'CAT Snapshots',
-  [SUPPORTED_API_ENUM.CAT_TASKS]: 'CAT Tasks',
+export const API_TYPES_LABELS = {
+  [API_TYPES.CLUSTER_HEALTH]: 'Cluster Health',
+  [API_TYPES.CLUSTER_STATS]: 'Cluster Stats',
+  [API_TYPES.CLUSTER_SETTINGS]: 'Cluster Settings',
+  [API_TYPES.NODES_STATS]: 'Nodes Stats',
+  [API_TYPES.CAT_PENDING_TASKS]: 'CAT Pending Tasks',
+  [API_TYPES.CAT_RECOVERY]: 'CAT Recovery',
+  [API_TYPES.CAT_REPOSITORIES]: 'CAT Repositories',
+  [API_TYPES.CAT_SNAPSHOTS]: 'CAT Snapshots',
+  [API_TYPES.CAT_TASKS]: 'CAT Tasks',
 };
 
-export const SUPPORTED_API_PATHS = {
-  [SUPPORTED_API_ENUM.CAT_ALIASES]: {
-    withPathParams: '_cat/aliases/',
-    withoutPathParams: '_cat/aliases',
-  },
-  [SUPPORTED_API_ENUM.CAT_PENDING_TASKS]: {
+export const API_TYPES_PATHS = {
+  [API_TYPES.CAT_PENDING_TASKS]: {
     withoutPathParams: '_cat/pending_tasks',
   },
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]: {
+  [API_TYPES.CAT_RECOVERY]: {
     withPathParams: '_cat/recovery/',
     withoutPathParams: '_cat/recovery',
   },
-  [SUPPORTED_API_ENUM.CAT_REPOSITORIES]: {
+  [API_TYPES.CAT_REPOSITORIES]: {
     withoutPathParams: '_cat/repositories',
   },
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]: {
+  [API_TYPES.CAT_SNAPSHOTS]: {
     withPathParams: '_cat/snapshots/',
   },
-  [SUPPORTED_API_ENUM.CAT_TASKS]: {
+  [API_TYPES.CAT_TASKS]: {
     withoutPathParams: '_cat/tasks',
   },
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]: {
+  [API_TYPES.CLUSTER_HEALTH]: {
     withPathParams: '_cluster/health/',
     withoutPathParams: '_cluster/health',
   },
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: {
+  [API_TYPES.CLUSTER_STATS]: {
     withPathParams: '_cluster/stats/nodes/',
     withoutPathParams: '_cluster/stats',
   },
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]: {
+  [API_TYPES.CLUSTER_SETTINGS]: {
     withoutPathParams: '_cluster/settings',
   },
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: {
-  //   withPathParams: '_nodes/',
-  //   withoutPathParams: '_nodes/hot_threads'
-  // },
-  [SUPPORTED_API_ENUM.NODES_STATS]: {
-    // withPathParams: '_nodes/', // TODO: Only supporting default API call for now. Implement logic for parsing various path params formats.
+  [API_TYPES.NODES_STATS]: {
     withoutPathParams: '_nodes/stats',
   },
 };
 
-export const SUPPORTED_API_DOCUMENTATION = {
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]:
+export const API_TYPES_DOCUMENTATION = {
+  [API_TYPES.CLUSTER_HEALTH]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cluster-health/',
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: '',
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]:
+  [API_TYPES.CLUSTER_STATS]: '',
+  [API_TYPES.CLUSTER_SETTINGS]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cluster-settings/',
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: '',
-  [SUPPORTED_API_ENUM.NODES_STATS]:
+  [API_TYPES.NODES_STATS]:
     'https://opensearch.org/docs/latest/opensearch/popular-api/#get-node-statistics',
-  [SUPPORTED_API_ENUM.CAT_ALIASES]:
-    'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-aliases/',
-  [SUPPORTED_API_ENUM.CAT_PENDING_TASKS]:
+  [API_TYPES.CAT_PENDING_TASKS]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-pending-tasks/',
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]:
+  [API_TYPES.CAT_RECOVERY]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-recovery/',
-  [SUPPORTED_API_ENUM.CAT_REPOSITORIES]:
+  [API_TYPES.CAT_REPOSITORIES]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-repositories/',
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]:
+  [API_TYPES.CAT_SNAPSHOTS]:
     'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-snapshots/',
-  [SUPPORTED_API_ENUM.CAT_TASKS]:
-    'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-tasks/',
+  [API_TYPES.CAT_TASKS]: 'https://opensearch.org/docs/latest/opensearch/rest-api/cat/cat-tasks/',
 };
 
-export const SUPPORTED_API_EXAMPLE_TEXT = {
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]: 'indexAlias1,indexAlias2...',
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: 'nodeFilter1,nodeFilter2...',
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]: NO_PATH_PARAMS_PLACEHOLDER_TEXT,
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: 'nodeID1,nodeID2...',
-  [SUPPORTED_API_ENUM.NODES_STATS]: 'nodeID1,nodeID2.../stats/metric1,metric2.../indexMetric',
-  [SUPPORTED_API_ENUM.CAT_ALIASES]: 'alias1,alias2...',
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]: 'index1,index2...',
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]: 'repositoryName',
+export const API_TYPES_EXAMPLE_TEXT = {
+  [API_TYPES.CLUSTER_HEALTH]: 'indexAlias1,indexAlias2...',
+  [API_TYPES.CLUSTER_STATS]: 'nodeFilter1,nodeFilter2...',
+  [API_TYPES.CLUSTER_SETTINGS]: NO_PATH_PARAMS_PLACEHOLDER_TEXT,
+  [API_TYPES.NODES_STATS]: 'nodeID1,nodeID2.../stats/metric1,metric2.../indexMetric',
+  [API_TYPES.CAT_RECOVERY]: 'index1,index2...',
+  [API_TYPES.CAT_SNAPSHOTS]: 'repositoryName',
 };
 
-export const SUPPORTED_API_PREPEND_TEXT = {
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CLUSTER_HEALTH}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CLUSTER_HEALTH}.withoutPathParams`)
+export const API_TYPES_PREPEND_TEXT = {
+  [API_TYPES.CLUSTER_HEALTH]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CLUSTER_HEALTH}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CLUSTER_HEALTH}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CLUSTER_STATS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CLUSTER_STATS}.withoutPathParams`)
+  [API_TYPES.CLUSTER_STATS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CLUSTER_STATS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CLUSTER_STATS}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CLUSTER_SETTINGS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CLUSTER_SETTINGS}.withoutPathParams`)
+  [API_TYPES.CLUSTER_SETTINGS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CLUSTER_SETTINGS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CLUSTER_SETTINGS}.withoutPathParams`)
   ),
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: _.get(SUPPORTED_API_PATHS,
-  //     `${SUPPORTED_API_ENUM.NODES_HOT_THREADS}.withPathParams`,
-  //     _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.NODES_HOT_THREADS}.withoutPathParams`)),
-  [SUPPORTED_API_ENUM.NODES_STATS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.NODES_STATS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.NODES_STATS}.withoutPathParams`)
+  [API_TYPES.NODES_STATS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.NODES_STATS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.NODES_STATS}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CAT_ALIASES]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_ALIASES}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_ALIASES}.withoutPathParams`)
+  [API_TYPES.CAT_PENDING_TASKS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CAT_PENDING_TASKS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CAT_PENDING_TASKS}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CAT_PENDING_TASKS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_PENDING_TASKS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_PENDING_TASKS}.withoutPathParams`)
+  [API_TYPES.CAT_RECOVERY]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CAT_RECOVERY}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CAT_RECOVERY}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_RECOVERY}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_RECOVERY}.withoutPathParams`)
+  [API_TYPES.CAT_REPOSITORIES]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CAT_REPOSITORIES}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CAT_REPOSITORIES}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CAT_REPOSITORIES]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_REPOSITORIES}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_REPOSITORIES}.withoutPathParams`)
+  [API_TYPES.CAT_SNAPSHOTS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CAT_SNAPSHOTS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CAT_SNAPSHOTS}.withoutPathParams`)
   ),
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_SNAPSHOTS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_SNAPSHOTS}.withoutPathParams`)
-  ),
-  [SUPPORTED_API_ENUM.CAT_TASKS]: _.get(
-    SUPPORTED_API_PATHS,
-    `${SUPPORTED_API_ENUM.CAT_TASKS}.withPathParams`,
-    _.get(SUPPORTED_API_PATHS, `${SUPPORTED_API_ENUM.CAT_TASKS}.withoutPathParams`)
+  [API_TYPES.CAT_TASKS]: _.get(
+    API_TYPES_PATHS,
+    `${API_TYPES.CAT_TASKS}.withPathParams`,
+    _.get(API_TYPES_PATHS, `${API_TYPES.CAT_TASKS}.withoutPathParams`)
   ),
 };
 
-export const SUPPORTED_API_APPEND_TEXT = {
-  [SUPPORTED_API_ENUM.CAT_ALIASES]: '',
-  [SUPPORTED_API_ENUM.CAT_PENDING_TASKS]: '',
-  [SUPPORTED_API_ENUM.CAT_RECOVERY]: '',
-  [SUPPORTED_API_ENUM.CAT_REPOSITORIES]: '',
-  [SUPPORTED_API_ENUM.CAT_SNAPSHOTS]: '',
-  [SUPPORTED_API_ENUM.CAT_TASKS]: '',
-  [SUPPORTED_API_ENUM.CLUSTER_HEALTH]: '',
-  [SUPPORTED_API_ENUM.CLUSTER_STATS]: '',
-  [SUPPORTED_API_ENUM.CLUSTER_SETTINGS]: '',
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // [SUPPORTED_API_ENUM.NODES_HOT_THREADS]: '/hot_threads',
-  [SUPPORTED_API_ENUM.NODES_STATS]: '',
+export const API_TYPES_APPEND_TEXT = {
+  [API_TYPES.CAT_PENDING_TASKS]: '',
+  [API_TYPES.CAT_RECOVERY]: '',
+  [API_TYPES.CAT_REPOSITORIES]: '',
+  [API_TYPES.CAT_SNAPSHOTS]: '',
+  [API_TYPES.CAT_TASKS]: '',
+  [API_TYPES.CLUSTER_HEALTH]: '',
+  [API_TYPES.CLUSTER_STATS]: '',
+  [API_TYPES.CLUSTER_SETTINGS]: '',
+  [API_TYPES.NODES_STATS]: '',
 };
 
-export const DEFAULT_SUPPORTED_API_OPTIONS = [
-  { value: SUPPORTED_API_ENUM.CLUSTER_HEALTH, label: SUPPORTED_API_LABELS.CLUSTER_HEALTH },
-  { value: SUPPORTED_API_ENUM.CLUSTER_STATS, label: SUPPORTED_API_LABELS.CLUSTER_STATS },
-  { value: SUPPORTED_API_ENUM.CLUSTER_SETTINGS, label: SUPPORTED_API_LABELS.CLUSTER_SETTINGS },
-  // TODO: For NODES_HOT_THREADS, determine what the response payload should look like.
-  // { value: SUPPORTED_API_ENUM.NODES_HOT_THREADS, label: SUPPORTED_API_LABELS.NODE_HOT_THREADS },
-  { value: SUPPORTED_API_ENUM.NODES_STATS, label: SUPPORTED_API_LABELS.NODES_STATS },
-  { value: SUPPORTED_API_ENUM.CAT_ALIASES, label: SUPPORTED_API_LABELS.CAT_ALIASES },
-  { value: SUPPORTED_API_ENUM.CAT_PENDING_TASKS, label: SUPPORTED_API_LABELS.CAT_PENDING_TASKS },
-  { value: SUPPORTED_API_ENUM.CAT_RECOVERY, label: SUPPORTED_API_LABELS.CAT_RECOVERY },
-  { value: SUPPORTED_API_ENUM.CAT_REPOSITORIES, label: SUPPORTED_API_LABELS.CAT_REPOSITORIES },
-  { value: SUPPORTED_API_ENUM.CAT_SNAPSHOTS, label: SUPPORTED_API_LABELS.CAT_SNAPSHOTS },
-  { value: SUPPORTED_API_ENUM.CAT_TASKS, label: SUPPORTED_API_LABELS.CAT_TASKS },
+export const DEFAULT_API_TYPE_OPTIONS = [
+  { value: API_TYPES.CLUSTER_HEALTH, label: API_TYPES_LABELS.CLUSTER_HEALTH },
+  { value: API_TYPES.CLUSTER_STATS, label: API_TYPES_LABELS.CLUSTER_STATS },
+  { value: API_TYPES.CLUSTER_SETTINGS, label: API_TYPES_LABELS.CLUSTER_SETTINGS },
+  { value: API_TYPES.NODES_STATS, label: API_TYPES_LABELS.NODES_STATS },
+  { value: API_TYPES.CAT_PENDING_TASKS, label: API_TYPES_LABELS.CAT_PENDING_TASKS },
+  { value: API_TYPES.CAT_RECOVERY, label: API_TYPES_LABELS.CAT_RECOVERY },
+  { value: API_TYPES.CAT_REPOSITORIES, label: API_TYPES_LABELS.CAT_REPOSITORIES },
+  { value: API_TYPES.CAT_SNAPSHOTS, label: API_TYPES_LABELS.CAT_SNAPSHOTS },
+  { value: API_TYPES.CAT_TASKS, label: API_TYPES_LABELS.CAT_TASKS },
 ];
 
-export const SUPPORTED_API_OPTIONS_REQUIRING_PATH_PARAMS = () => {
+export const API_TYPES_REQUIRING_PATH_PARAMS = () => {
   const apiList = [];
-  _.keys(SUPPORTED_API_PATHS).forEach((api) => {
-    const withoutPathParams = _.get(SUPPORTED_API_PATHS, `${api}.withoutPathParams`, '');
+  _.keys(API_TYPES_PATHS).forEach((api) => {
+    const withoutPathParams = _.get(API_TYPES_PATHS, `${api}.withoutPathParams`, '');
     if (_.isEmpty(withoutPathParams))
-      apiList.push({ value: SUPPORTED_API_ENUM[api], label: SUPPORTED_API_LABELS[api] });
+      apiList.push({ value: API_TYPES[api], label: API_TYPES_LABELS[api] });
   });
   return apiList;
 };

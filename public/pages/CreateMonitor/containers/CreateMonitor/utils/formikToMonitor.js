@@ -29,8 +29,11 @@ import moment from 'moment-timezone';
 import { BUCKET_COUNT, DEFAULT_COMPOSITE_AGG_SIZE, FORMIK_INITIAL_VALUES } from './constants';
 import { MONITOR_TYPE, SEARCH_TYPE } from '../../../../../utils/constants';
 import { OPERATORS_QUERY_MAP } from './whereFilters';
-import { SUPPORTED_API_APPEND_TEXT } from '../../../components/LocalUriInput/utils/localUriConstants';
-import { getApiPath } from '../../../components/LocalUriInput/utils/localUriHelpers';
+import { API_TYPES_APPEND_TEXT } from '../../../components/LocalUriInput/utils/localUriConstants';
+import {
+  getApiPath,
+  getSelectedApiEnum,
+} from '../../../components/LocalUriInput/utils/localUriHelpers';
 
 export function formikToMonitor(values) {
   const uiSchedule = formikToUiSchedule(values);
@@ -112,24 +115,19 @@ export function formikToAdQuery(values) {
 }
 
 export function formikToLocalUri(values) {
-  let pathEnum = _.get(values, 'uri.path[0]');
-  pathEnum = _.get(pathEnum, 'value');
-  let pathParams = _.get(values, 'uri.pathParams', '');
+  let apiType = _.get(values, 'uri.api_type');
+  if (_.isEmpty(apiType)) apiType = getSelectedApiEnum(_.get(values, 'uri'));
+  let pathParams = _.get(values, 'uri.path_params', FORMIK_INITIAL_VALUES.uri.path_params);
   pathParams = _.trim(pathParams);
   const hasPathParams = !_.isEmpty(pathParams);
-  if (hasPathParams) _.concat(pathParams, SUPPORTED_API_APPEND_TEXT[pathEnum]);
-  const path = getApiPath(hasPathParams, pathEnum);
-  const scheme = FORMIK_INITIAL_VALUES.uri.scheme;
-  const host = FORMIK_INITIAL_VALUES.uri.host;
-  const port = FORMIK_INITIAL_VALUES.uri.port;
-  const url = `${scheme}://${host}:${port}/${path}${pathParams}`;
+  if (hasPathParams) _.concat(pathParams, API_TYPES_APPEND_TEXT[apiType]);
+  const path = _.get(values, 'uri.path', getApiPath(hasPathParams, apiType));
+  const url = `http://localhost:9200/${path}${pathParams}`;
   return {
     uri: {
-      scheme: scheme,
-      host: host,
-      port: port,
+      api_type: apiType,
       path: path,
-      pathParams: hasPathParams ? pathParams : FORMIK_INITIAL_VALUES.uri.pathParams,
+      path_params: pathParams,
       url: url,
     },
   };

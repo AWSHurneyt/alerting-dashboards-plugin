@@ -46,10 +46,10 @@ import {
 import LocalUriInput from '../../components/LocalUriInput';
 import { FORMIK_INITIAL_VALUES } from '../CreateMonitor/utils/constants';
 import {
-  SUPPORTED_API_ENUM,
-  SUPPORTED_API_LABELS,
-  SUPPORTED_API_OPTIONS_REQUIRING_PATH_PARAMS,
-  SUPPORTED_API_PATHS,
+  API_TYPES,
+  API_TYPES_LABELS,
+  API_TYPES_REQUIRING_PATH_PARAMS,
+  API_TYPES_PATHS,
 } from '../../components/LocalUriInput/utils/localUriConstants';
 
 function renderEmptyMessage(message) {
@@ -425,20 +425,18 @@ class DefineMonitor extends Component {
     } = this.state;
     return {
       content: (
-        <React.Fragment>
-          <div style={{ padding: '0px 10px' }}>
-            <LocalUriInput
-              isDarkMode={this.isDarkMode}
-              loadingResponse={loadingResponse}
-              loadingSupportedApiList={loadingSupportedApiList}
-              onRunQuery={this.onRunQuery}
-              resetResponse={this.resetResponse}
-              response={JSON.stringify(response || '', null, 4)}
-              supportedApiList={supportedApiList}
-              values={values}
-            />
-          </div>
-        </React.Fragment>
+        <div style={{ padding: '0px 10px' }}>
+          <LocalUriInput
+            isDarkMode={this.isDarkMode}
+            loadingResponse={loadingResponse}
+            loadingSupportedApiList={loadingSupportedApiList}
+            onRunQuery={this.onRunQuery}
+            resetResponse={this.resetResponse}
+            response={JSON.stringify(response || '', null, 4)}
+            supportedApiList={supportedApiList}
+            values={values}
+          />
+        </div>
       ),
     };
   }
@@ -446,10 +444,10 @@ class DefineMonitor extends Component {
   async getSupportedApiList() {
     this.setState({ loadingSupportedApiList: true });
     const { httpClient, values } = this.props;
-    const requests = _.keys(SUPPORTED_API_ENUM).map((apiKey) => {
-      const requiresPathParams = _.get(SUPPORTED_API_PATHS, `${apiKey}.withoutPathParams`, true);
+    const requests = _.keys(API_TYPES).map((apiKey) => {
+      const requiresPathParams = _.get(API_TYPES_PATHS, `${apiKey}.withoutPathParams`, true);
       if (requiresPathParams) {
-        const path = [{ value: SUPPORTED_API_ENUM[apiKey] }];
+        const path = API_TYPES_PATHS[apiKey].withoutPathParams;
         const values = { uri: { ...FORMIK_INITIAL_VALUES.uri, path } };
         return buildLocalUriRequest(values);
       }
@@ -471,7 +469,7 @@ class DefineMonitor extends Component {
       responses.forEach((response) => {
         if (response.ok) {
           const supportedApi = _.get(response, 'resp.monitor_name');
-          supportedApiList.push({ value: supportedApi, label: SUPPORTED_API_LABELS[supportedApi] });
+          supportedApiList.push({ value: supportedApi, label: API_TYPES_LABELS[supportedApi] });
         }
       });
     });
@@ -482,10 +480,8 @@ class DefineMonitor extends Component {
     // Attempting to create a monitor using one of those API will still throw an exception from the backend if the user
     // has configured the OpenSearch-Alerting Plugin supported_json_payloads.json to restrict access to those API.
     let clonedSupportedApiList = _.cloneDeep(supportedApiList);
-    SUPPORTED_API_OPTIONS_REQUIRING_PATH_PARAMS().forEach((apiOption) => {
-      if (!supportedApiList.includes(apiOption)) {
-        clonedSupportedApiList.push(apiOption);
-      }
+    API_TYPES_REQUIRING_PATH_PARAMS().forEach((apiType) => {
+      if (!supportedApiList.includes(apiType)) clonedSupportedApiList.push(apiType);
     });
     clonedSupportedApiList = _.orderBy(clonedSupportedApiList, (api) => api.label);
 

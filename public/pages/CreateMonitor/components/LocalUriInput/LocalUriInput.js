@@ -24,24 +24,29 @@
  *   permissions and limitations under the License.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import { EuiButton, EuiCodeEditor, EuiFormRow, EuiLink, EuiSpacer, EuiText } from '@elastic/eui';
 import { isInvalidApiPath } from '../../../../utils/validate';
 import { FormikComboBox, FormikFieldText } from '../../../../components/FormControls';
 import {
   API_PATH_REQUIRED_PLACEHOLDER_TEXT,
-  DEFAULT_SUPPORTED_API_OPTIONS,
-  NO_PATH_PARAMS_PLACEHOLDER_TEXT,
-  SUPPORTED_API_APPEND_TEXT,
-  SUPPORTED_API_DOCUMENTATION,
-  SUPPORTED_API_ENUM,
-  SUPPORTED_API_EXAMPLE_TEXT,
-  SUPPORTED_API_LABELS,
-  SUPPORTED_API_PATHS,
-  SUPPORTED_API_PREPEND_TEXT,
+  EMPTY_PATH_PARAMS_TEXT,
+  REST_API_REFERENCE,
+  API_TYPES_APPEND_TEXT,
+  API_TYPES_DOCUMENTATION,
+  API_TYPES,
+  API_TYPES_LABELS,
+  API_TYPES_PATHS,
+  API_TYPES_PREPEND_TEXT,
 } from './utils/localUriConstants';
-import { isInvalidApiPathParameter, validateApiPathParameter } from './utils/localUriHelpers';
+import {
+  getApiPath,
+  getExamplePathParams,
+  isInvalidApiPathParameter,
+  validateApiPathParameter,
+} from './utils/localUriHelpers';
+import { FORMIK_INITIAL_VALUES } from '../../containers/CreateMonitor/utils/constants';
 
 const LocalUriInput = ({
   isDarkMode,
@@ -53,23 +58,20 @@ const LocalUriInput = ({
   supportedApiList = [],
   values,
 }) => {
-  let selectedApiPath = _.get(values, 'uri.path');
-  const pathIsEmpty = _.isEmpty(selectedApiPath);
-  if (!pathIsEmpty) selectedApiPath = selectedApiPath[0].value || selectedApiPath;
-  const pathParams = _.get(values, 'uri.pathParams', '');
-  const noPathParams = _.isEmpty(_.get(SUPPORTED_API_PATHS, `${selectedApiPath}.withPathParams`));
-  const disablePathParams = pathIsEmpty || loadingSupportedApiList || noPathParams;
-  const requirePathParams = _.isEmpty(
-    _.get(SUPPORTED_API_PATHS, `${selectedApiPath}.withoutPathParams`)
-  );
+  const apiType = _.get(values, 'uri.api_type');
+  const path = _.get(values, 'uri.path');
+  const pathIsEmpty = _.isEmpty(path);
+  const pathParams = _.get(values, 'uri.path_params', FORMIK_INITIAL_VALUES.uri.path_params);
+  const supportsPathParams = !_.isEmpty(_.get(API_TYPES_PATHS, `${apiType}.withPathParams`));
+  const requirePathParams = _.isEmpty(_.get(API_TYPES_PATHS, `${apiType}.withoutPathParams`));
+  const hidePathParams = pathIsEmpty || loadingSupportedApiList || !supportsPathParams;
   const disableRunButton = pathIsEmpty || (_.isEmpty(pathParams) && requirePathParams);
-  if (disablePathParams) _.set(values, 'uri.pathParams', '');
   return (
-    <Fragment>
+    <div>
       <EuiSpacer size={'m'} />
 
       <FormikComboBox
-        name={'uri.path'}
+        name={'uri.api_type'}
         formRow
         rowProps={{
           label: (
@@ -79,7 +81,10 @@ const LocalUriInput = ({
               </EuiText>
               <EuiText color={'subdued'} size={'xs'}>
                 Specify a request type to monitor cluster metrics such as health, JVM, and CPU
-                usage.
+                usage.{' '}
+                <EuiLink external href={REST_API_REFERENCE}>
+                  Learn more
+                </EuiLink>
               </EuiText>
             </div>
           ),
@@ -90,20 +95,27 @@ const LocalUriInput = ({
           placeholder: loadingSupportedApiList ? 'Loading API options' : 'Select an API',
           options: supportedApiList,
           onBlur: (e, field, form) => {
-            form.setFieldTouched('uri.path');
+            form.setFieldTouched('uri.api_type');
           },
           onChange: (options, field, form) => {
-            form.setFieldValue('uri.path', options);
-            resetResponse();
+            const selectedApiType = _.get(options, '0.value');
+            if (selectedApiType !== apiType) {
+              const doesNotUsePathParams = _.isEmpty(
+                _.get(API_TYPES_PATHS, `${selectedApiType}.withPathParams`)
+              );
+              if (doesNotUsePathParams)
+                form.setFieldValue('uri.path_params', FORMIK_INITIAL_VALUES.uri.path_params);
+              resetResponse();
+              form.setFieldTouched('uri.path_params', false);
+            }
+            form.setFieldValue('uri.api_type', selectedApiType);
+            form.setFieldValue('uri.path', getApiPath(_.isEmpty(pathParams), selectedApiType));
           },
           isClearable: true,
           singleSelection: { asPlainText: true },
-          selectedOptions: [
-            {
-              value: SUPPORTED_API_ENUM[selectedApiPath] || '',
-              label: SUPPORTED_API_LABELS[selectedApiPath] || '',
-            },
-          ],
+          selectedOptions: !_.isEmpty(apiType)
+            ? [{ value: API_TYPES[apiType], label: API_TYPES_LABELS[apiType] }]
+            : undefined,
           isDisabled: loadingSupportedApiList,
           isLoading: loadingSupportedApiList,
         }}
@@ -111,66 +123,61 @@ const LocalUriInput = ({
 
       <EuiSpacer size={'l'} />
 
-      <FormikFieldText
-        name={'uri.pathParams'}
-        formRow
-        fieldProps={{
-          validate: validateApiPathParameter(pathParams, requirePathParams, disablePathParams),
-        }}
-        rowProps={{
-          label: (
-            <div>
-              <EuiText size={'xs'}>
-                <strong>Path parameters</strong>
-                {!requirePathParams && <i> - optional </i>}
-              </EuiText>
-              <EuiText color={'subdued'} size={'xs'}>
-                Filter responses by providing path parameters for the{' '}
-                {SUPPORTED_API_LABELS[selectedApiPath] || 'selected'} API.{' '}
-                {!pathIsEmpty && !_.isEmpty(SUPPORTED_API_DOCUMENTATION[selectedApiPath]) && (
-                  <EuiLink
-                    external
-                    href={SUPPORTED_API_DOCUMENTATION[selectedApiPath]}
-                    target={'_blank'}
-                  >
-                    Learn more
-                  </EuiLink>
-                )}
-              </EuiText>
-            </div>
-          ),
-          style: { maxWidth: '600px' },
-          isInvalid: isInvalidApiPathParameter(pathParams, requirePathParams, disablePathParams),
-          error: validateApiPathParameter(pathParams, requirePathParams, disablePathParams),
-        }}
-        inputProps={{
-          placeholder: pathIsEmpty
-            ? 'Enter remaining path components and path parameters'
-            : disablePathParams
-            ? NO_PATH_PARAMS_PLACEHOLDER_TEXT
-            : `e.g., ${SUPPORTED_API_EXAMPLE_TEXT[selectedApiPath]}`,
-          disabled: disablePathParams,
-          fullWidth: true,
-          prepend: (
-            <EuiText
-              size={'s'}
-              style={{ backgroundColor: 'transparent', paddingRight: !disablePathParams && '0px' }}
-            >
-              GET {SUPPORTED_API_PREPEND_TEXT[selectedApiPath]}
-            </EuiText>
-          ),
-          append: !_.isEmpty(SUPPORTED_API_APPEND_TEXT[selectedApiPath]) && (
-            <EuiText
-              size={'s'}
-              style={{ backgroundColor: 'transparent', paddingLeft: !disablePathParams && '0px' }}
-            >
-              {SUPPORTED_API_APPEND_TEXT[selectedApiPath]}
-            </EuiText>
-          ),
-        }}
-      />
+      {!hidePathParams ? (
+        <div>
+          <FormikFieldText
+            name={'uri.path_params'}
+            formRow
+            fieldProps={{
+              validate: validateApiPathParameter(pathParams, requirePathParams, hidePathParams),
+            }}
+            rowProps={{
+              label: (
+                <div>
+                  <EuiText size={'xs'}>
+                    <strong>Path parameters</strong>
+                    {!requirePathParams && <i> - optional </i>}
+                  </EuiText>
+                  <EuiText color={'subdued'} size={'xs'}>
+                    Filter responses by providing path parameters for the{' '}
+                    {API_TYPES_LABELS[apiType] || 'selected'} API.{' '}
+                    {!pathIsEmpty && !_.isEmpty(API_TYPES_DOCUMENTATION[apiType]) && (
+                      <EuiLink external href={API_TYPES_DOCUMENTATION[apiType]} target={'_blank'}>
+                        Learn more
+                      </EuiLink>
+                    )}
+                  </EuiText>
+                </div>
+              ),
+              style: { maxWidth: '600px' },
+              isInvalid: isInvalidApiPathParameter(pathParams, requirePathParams, hidePathParams),
+              error: validateApiPathParameter(pathParams, requirePathParams, hidePathParams),
+            }}
+            inputProps={{
+              placeholder: pathIsEmpty ? EMPTY_PATH_PARAMS_TEXT : getExamplePathParams(apiType),
+              fullWidth: true,
+              prepend: (
+                <EuiText
+                  size={'s'}
+                  style={{ backgroundColor: 'transparent', paddingRight: !hidePathParams && '0px' }}
+                >
+                  GET {API_TYPES_PREPEND_TEXT[apiType]}
+                </EuiText>
+              ),
+              append: !_.isEmpty(API_TYPES_APPEND_TEXT[apiType]) && (
+                <EuiText
+                  size={'s'}
+                  style={{ backgroundColor: 'transparent', paddingLeft: !hidePathParams && '0px' }}
+                >
+                  {API_TYPES_APPEND_TEXT[apiType]}
+                </EuiText>
+              ),
+            }}
+          />
 
-      <EuiSpacer size={'l'} />
+          <EuiSpacer size={'l'} />
+        </div>
+      ) : null}
 
       <EuiButton
         disabled={disableRunButton}
@@ -188,13 +195,12 @@ const LocalUriInput = ({
         <EuiCodeEditor
           mode={'json'}
           theme={isDarkMode ? 'sense-dark' : 'github'}
-          width={'400px'}
           height={'500px'}
           value={pathIsEmpty || loadingResponse ? undefined : response}
           readOnly
         />
       </EuiFormRow>
-    </Fragment>
+    </div>
   );
 };
 

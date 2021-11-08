@@ -42,6 +42,10 @@ import ConfigureActions from '../ConfigureActions';
 import monitorToFormik from '../../../CreateMonitor/containers/CreateMonitor/utils/monitorToFormik';
 import { buildSearchRequest } from '../../../CreateMonitor/containers/DefineMonitor/utils/searchRequests';
 import { backendErrorNotification } from '../../../../utils/helpers';
+import {
+  buildLocalUriRequest,
+  canExecuteLocalUriMonitor,
+} from '../../../CreateMonitor/components/LocalUriInput/utils/localUriHelpers';
 
 const defaultRowProps = {
   label: 'Trigger name',
@@ -97,14 +101,22 @@ const DEFAULT_TRIGGER_NAME = 'New trigger';
 class DefineTrigger extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const { triggerIndex } = this.props;
+    this.state = {
+      fieldPath: triggerIndex !== undefined ? `triggerDefinitions[${triggerIndex}].` : '',
+    };
   }
 
   // TODO query-level monitor trigger graph only get the input
   //  when this component mount (new trigger added)
   //  see how to subscribe the formik related value change
   componentDidMount() {
-    this.onRunExecute();
+    const {
+      monitorValues: { searchType, uri },
+    } = this.props;
+    if (searchType === SEARCH_TYPE.LOCAL_URI) {
+      if (canExecuteLocalUriMonitor(uri)) this.onRunExecute();
+    } else this.onRunExecute();
   }
 
   onRunExecute = (triggers = []) => {
@@ -121,6 +133,10 @@ class DefineTrigger extends Component {
         _.set(monitorToExecute, 'inputs[0].search', searchRequest);
         break;
       case SEARCH_TYPE.AD:
+        break;
+      case SEARCH_TYPE.LOCAL_URI:
+        const localUriRequest = buildLocalUriRequest(formikValues);
+        _.set(monitorToExecute, 'inputs[0].uri', localUriRequest);
         break;
       default:
         console.log(`Unsupported searchType found: ${JSON.stringify(searchType)}`, searchType);
@@ -157,8 +173,8 @@ class DefineTrigger extends Component {
       httpClient,
       notifications,
     } = this.props;
+    const { fieldPath } = this.state;
     const executeResponse = _.get(this.state, 'executeResponse', this.props.executeResponse);
-    const fieldPath = triggerIndex !== undefined ? `triggerDefinitions[${triggerIndex}].` : '';
     const isGraph = _.get(monitorValues, 'searchType') === SEARCH_TYPE.GRAPH;
     const isAd = _.get(monitorValues, 'searchType') === SEARCH_TYPE.AD;
     const detectorId = _.get(monitorValues, 'detectorId');
