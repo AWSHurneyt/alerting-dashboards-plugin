@@ -101,10 +101,7 @@ const DEFAULT_TRIGGER_NAME = 'New trigger';
 class DefineTrigger extends Component {
   constructor(props) {
     super(props);
-    const { triggerIndex } = this.props;
-    this.state = {
-      fieldPath: triggerIndex !== undefined ? `triggerDefinitions[${triggerIndex}].` : '',
-    };
+    this.state = {};
   }
 
   // TODO query-level monitor trigger graph only get the input
@@ -173,8 +170,8 @@ class DefineTrigger extends Component {
       httpClient,
       notifications,
     } = this.props;
-    const { fieldPath } = this.state;
     const executeResponse = _.get(this.state, 'executeResponse', this.props.executeResponse);
+    const fieldPath = triggerIndex !== undefined ? `triggerDefinitions[${triggerIndex}].` : '';
     const isGraph = _.get(monitorValues, 'searchType') === SEARCH_TYPE.GRAPH;
     const isAd = _.get(monitorValues, 'searchType') === SEARCH_TYPE.AD;
     const detectorId = _.get(monitorValues, 'detectorId');
