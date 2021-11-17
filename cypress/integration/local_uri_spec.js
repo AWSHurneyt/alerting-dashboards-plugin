@@ -128,8 +128,8 @@ describe('LocalUriInput Monitors', () => {
       cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
 
       // Confirm the path parameters field is present and described as "optional"
-      cy.contains('Path parameters - optional');
-      cy.contains('[data-test-subj="localUriPathParamsFieldText"]');
+      cy.get('Path parameters - optional');
+      cy.get('[data-test-subj="localUriPathParamsFieldText"]');
 
       // Press the 'Run for response' button
       cy.get('localUriRunButton').click();
@@ -185,8 +185,8 @@ describe('LocalUriInput Monitors', () => {
       cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
 
       // Confirm the path parameters field is not present
-      cy.contains('Path parameters').should('not.exist');
-      cy.contains('[data-test-subj="localUriPathParamsFieldText"]').should('not.exist');
+      cy.get('Path parameters').should('not.exist');
+      cy.get('[data-test-subj="localUriPathParamsFieldText"]').should('not.exist');
 
       // Press the 'Run for response' button
       cy.get('localUriRunButton').click();
@@ -249,9 +249,9 @@ describe('LocalUriInput Monitors', () => {
       cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
 
       // Confirm the path parameters field is present and is not described as "optional"
-      cy.contains('Path parameters - optional').should('not.exist');
-      cy.contains('Path parameters');
-      cy.contains('[data-test-subj="localUriPathParamsFieldText"]');
+      cy.get('Path parameters - optional').should('not.exist');
+      cy.get('Path parameters');
+      cy.get('[data-test-subj="localUriPathParamsFieldText"]');
     });
   });
 
