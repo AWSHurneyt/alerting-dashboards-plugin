@@ -97,7 +97,7 @@ Object {
     "api_type": "",
     "path": "",
     "path_params": "",
-    "url": "http://localhost:9200/",
+    "url": "",
   },
 }
 `;

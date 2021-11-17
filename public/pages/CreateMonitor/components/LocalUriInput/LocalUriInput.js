@@ -118,6 +118,7 @@ const LocalUriInput = ({
             : undefined,
           isDisabled: loadingSupportedApiList,
           isLoading: loadingSupportedApiList,
+          'data-test-subj': 'localUriApiTypeComboBox',
         }}
       />
 
@@ -129,7 +130,8 @@ const LocalUriInput = ({
             name={'uri.path_params'}
             formRow
             fieldProps={{
-              validate: validateApiPathParameter(pathParams, requirePathParams, hidePathParams),
+              validate: (value, field) =>
+                validateApiPathParameter(field, hidePathParams, pathParams, requirePathParams),
             }}
             rowProps={{
               label: (
@@ -150,8 +152,10 @@ const LocalUriInput = ({
                 </div>
               ),
               style: { maxWidth: '600px' },
-              isInvalid: isInvalidApiPathParameter(pathParams, requirePathParams, hidePathParams),
-              error: validateApiPathParameter(pathParams, requirePathParams, hidePathParams),
+              isInvalid: (value, field) =>
+                isInvalidApiPathParameter(field, hidePathParams, pathParams, requirePathParams),
+              error: (value, field) =>
+                validateApiPathParameter(field, hidePathParams, pathParams, requirePathParams),
             }}
             inputProps={{
               placeholder: pathIsEmpty ? EMPTY_PATH_PARAMS_TEXT : getExamplePathParams(apiType),
@@ -172,6 +176,7 @@ const LocalUriInput = ({
                   {API_TYPES_APPEND_TEXT[apiType]}
                 </EuiText>
               ),
+              'data-test-subj': 'localUriPathParamsFieldText',
             }}
           />
 
@@ -185,6 +190,7 @@ const LocalUriInput = ({
         isLoading={loadingResponse}
         onClick={onRunQuery}
         size={'s'}
+        data-test-subj={'localUriRunButton'}
       >
         Run for response
       </EuiButton>
@@ -198,6 +204,7 @@ const LocalUriInput = ({
           height={'500px'}
           value={pathIsEmpty || loadingResponse ? undefined : response}
           readOnly
+          data-test-subj={'localUriRunResponseBox'}
         />
       </EuiFormRow>
     </div>

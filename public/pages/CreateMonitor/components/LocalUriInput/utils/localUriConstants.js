@@ -28,6 +28,8 @@ import _ from 'lodash';
 
 export const API_PATH_REQUIRED_PLACEHOLDER_TEXT = 'Select an API.';
 export const EMPTY_PATH_PARAMS_TEXT = 'Enter remaining path components and path parameters';
+export const GET_API_TYPE_DEBUG_TEXT =
+  'Cannot determine ApiType in localUriHelpers::getSelectedApiType.';
 export const ILLEGAL_PATH_PARAMETER_CHARACTERS = ['=', '?', '"', ' '];
 export const NO_PATH_PARAMS_PLACEHOLDER_TEXT = 'No path parameter options';
 export const PATH_PARAMETER_ILLEGAL_CHARACTER_TEXT = `The provided path parameters contain invalid characters or spaces. Please omit: ${ILLEGAL_PATH_PARAMETER_CHARACTERS.join(
@@ -116,8 +118,6 @@ export const API_TYPES_DOCUMENTATION = {
 export const API_TYPES_EXAMPLE_TEXT = {
   [API_TYPES.CLUSTER_HEALTH]: 'indexAlias1,indexAlias2...',
   [API_TYPES.CLUSTER_STATS]: 'nodeFilter1,nodeFilter2...',
-  [API_TYPES.CLUSTER_SETTINGS]: NO_PATH_PARAMS_PLACEHOLDER_TEXT,
-  [API_TYPES.NODES_STATS]: 'nodeID1,nodeID2.../stats/metric1,metric2.../indexMetric',
   [API_TYPES.CAT_RECOVERY]: 'index1,index2...',
   [API_TYPES.CAT_SNAPSHOTS]: 'repositoryName',
 };
@@ -193,13 +193,3 @@ export const DEFAULT_API_TYPE_OPTIONS = [
   { value: API_TYPES.CAT_SNAPSHOTS, label: API_TYPES_LABELS.CAT_SNAPSHOTS },
   { value: API_TYPES.CAT_TASKS, label: API_TYPES_LABELS.CAT_TASKS },
 ];
-
-export const API_TYPES_REQUIRING_PATH_PARAMS = () => {
-  const apiList = [];
-  _.keys(API_TYPES_PATHS).forEach((api) => {
-    const withoutPathParams = _.get(API_TYPES_PATHS, `${api}.withoutPathParams`, '');
-    if (_.isEmpty(withoutPathParams))
-      apiList.push({ value: API_TYPES[api], label: API_TYPES_LABELS[api] });
-  });
-  return apiList;
-};

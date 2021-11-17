@@ -41,14 +41,14 @@ import { backendErrorNotification } from '../../../../utils/helpers';
 import DataSource from '../DataSource';
 import {
   buildLocalUriRequest,
-  getSelectedApiEnum,
+  getApiType,
+  getApiTypesRequiringPathParams,
 } from '../../components/LocalUriInput/utils/localUriHelpers';
 import LocalUriInput from '../../components/LocalUriInput';
 import { FORMIK_INITIAL_VALUES } from '../CreateMonitor/utils/constants';
 import {
   API_TYPES,
   API_TYPES_LABELS,
-  API_TYPES_REQUIRING_PATH_PARAMS,
   API_TYPES_PATHS,
 } from '../../components/LocalUriInput/utils/localUriConstants';
 
@@ -455,7 +455,7 @@ class DefineMonitor extends Component {
 
     const promises = requests.map((request) => {
       const monitor = formikToMonitor(values);
-      const tempMonitorName = getSelectedApiEnum(request);
+      const tempMonitorName = getApiType(request);
       _.set(monitor, 'name', tempMonitorName);
       _.set(monitor, 'triggers', []);
       _.set(monitor, 'inputs[0].uri', request);
@@ -480,7 +480,7 @@ class DefineMonitor extends Component {
     // Attempting to create a monitor using one of those API will still throw an exception from the backend if the user
     // has configured the OpenSearch-Alerting Plugin supported_json_payloads.json to restrict access to those API.
     let clonedSupportedApiList = _.cloneDeep(supportedApiList);
-    API_TYPES_REQUIRING_PATH_PARAMS().forEach((apiType) => {
+    getApiTypesRequiringPathParams().forEach((apiType) => {
       if (!supportedApiList.includes(apiType)) clonedSupportedApiList.push(apiType);
     });
     clonedSupportedApiList = _.orderBy(clonedSupportedApiList, (api) => api.label);

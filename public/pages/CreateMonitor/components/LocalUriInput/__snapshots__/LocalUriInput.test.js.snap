@@ -31,7 +31,7 @@ exports[`LocalUriInput renders 1`] = `
             <div
               class="euiTextColor euiTextColor--subdued"
             >
-              Specify a request type to monitor cluster metrics such as health, JVM, and CPU usage.  
+              Specify a request type to monitor cluster metrics such as health, JVM, and CPU usage. 
               <a
                 class="euiLink euiLink--primary"
                 href="https://opensearch.org/docs/latest/opensearch/rest-api/index/"
@@ -54,6 +54,7 @@ exports[`LocalUriInput renders 1`] = `
         aria-expanded="false"
         aria-haspopup="listbox"
         class="euiComboBox"
+        data-test-subj="localUriApiTypeComboBox"
         name="uri.api_type"
         role="combobox"
       >
@@ -114,6 +115,7 @@ exports[`LocalUriInput renders 1`] = `
   />
   <button
     class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+    data-test-subj="localUriRunButton"
     disabled=""
     type="button"
   >
@@ -149,7 +151,7 @@ exports[`LocalUriInput renders 1`] = `
     >
       <div
         class="euiCodeEditorWrapper"
-        data-test-subj="codeEditorContainer"
+        data-test-subj="localUriRunResponseBox"
         style="height:500px"
       >
         <div

@@ -33,6 +33,10 @@ import {
   PATH_PARAMETERS_REQUIRED_TEXT,
   API_TYPES_EXAMPLE_TEXT,
   API_TYPES_PATHS,
+  API_TYPES,
+  API_TYPES_LABELS,
+  NO_PATH_PARAMS_PLACEHOLDER_TEXT,
+  GET_API_TYPE_DEBUG_TEXT,
 } from './localUriConstants';
 import { SEARCH_TYPE } from '../../../../../utils/constants';
 import { FORMIK_INITIAL_TRIGGER_VALUES } from '../../../../CreateTrigger/containers/CreateTrigger/utils/constants';
@@ -49,59 +53,87 @@ export const canExecuteLocalUriMonitor = (uri = {}) => {
   } = uri;
   if (_.isEmpty(api_type)) return false;
   const requirePathParams = _.isEmpty(_.get(API_TYPES_PATHS, `${api_type}.withoutPathParams`));
-  return requirePathParams ? !_.isEmpty(path_params) : true;
+  const hasPathParams = !_.isEmpty(path_params);
+  if (pathParamsContainIllegalCharacters(path_params)) return false;
+  return requirePathParams ? hasPathParams : true;
+};
+
+export const pathParamsContainIllegalCharacters = (pathParams) => {
+  if (_.isEmpty(pathParams)) return false;
+  const foundIllegalCharacters = ILLEGAL_PATH_PARAMETER_CHARACTERS.find((illegalCharacter) =>
+    _.includes(pathParams, illegalCharacter)
+  );
+  return !_.isEmpty(foundIllegalCharacters);
 };
 
 export const getApiPath = (hasPathParams = false, apiType) => {
-  return hasPathParams
+  let path = hasPathParams
     ? _.get(
         API_TYPES_PATHS,
         `${apiType}.withPathParams`,
         _.get(API_TYPES_PATHS, `${apiType}.withoutPathParams`)
       )
     : _.get(API_TYPES_PATHS, `${apiType}.withoutPathParams`);
+  return path || FORMIK_INITIAL_VALUES.uri.path;
 };
 
-export const getExamplePathParams = (apiType) => `e.g., ${API_TYPES_EXAMPLE_TEXT[apiType]}`;
-
-export const getSelectedApiEnum = (uri) => {
-  let path = _.get(uri, 'path');
-  let apiEnum = '';
-  _.keys(API_TYPES_PATHS).forEach((apiKey) => {
-    const withPathParams = _.get(API_TYPES_PATHS, `${apiKey}.withPathParams`);
-    const withoutPathParams = _.get(API_TYPES_PATHS, `${apiKey}.withoutPathParams`);
-    if (path === withPathParams || path === withoutPathParams) apiEnum = apiKey;
+export const getApiTypesRequiringPathParams = () => {
+  const apiList = [];
+  _.keys(API_TYPES_PATHS).forEach((api) => {
+    const withoutPathParams = _.get(API_TYPES_PATHS, `${api}.withoutPathParams`, '');
+    if (_.isEmpty(withoutPathParams))
+      apiList.push({ value: API_TYPES[api], label: API_TYPES_LABELS[api] });
   });
-  return apiEnum;
+  return apiList;
 };
 
 export const getDefaultScript = (executeResponse, searchType) => {
   if (searchType === SEARCH_TYPE.LOCAL_URI) {
     if (_.isEmpty(executeResponse)) return DEFAULT_LOCAL_URI_SCRIPT;
     const response = _.get(executeResponse, 'input_results.results[0]');
-    return { ...DEFAULT_LOCAL_URI_SCRIPT, source: `ctx.results[0].${_.keys(response)[0]} != null` };
+    return _.isEmpty(response)
+      ? DEFAULT_LOCAL_URI_SCRIPT
+      : { ...DEFAULT_LOCAL_URI_SCRIPT, source: `ctx.results[0].${_.keys(response)[0]} != null` };
   }
   return FORMIK_INITIAL_TRIGGER_VALUES.script;
 };
 
-export const isInvalidApiPathParameter = (pathParams, requirePathParams, disablePathParams) => (
-  value,
-  field,
-  form
-) => {
+export const getExamplePathParams = (apiType) => {
+  if (_.isEmpty(apiType)) return NO_PATH_PARAMS_PLACEHOLDER_TEXT;
+  let exampleText = _.get(API_TYPES_EXAMPLE_TEXT, apiType, '');
+  _.isEmpty(exampleText)
+    ? (exampleText = NO_PATH_PARAMS_PLACEHOLDER_TEXT)
+    : (exampleText = `e.g., ${exampleText}`);
+  return exampleText;
+};
+
+export const getApiType = (uri) => {
+  let apiType = '';
+  const path = _.get(uri, 'path');
+  if (_.isEmpty(path)) return apiType;
+  _.keys(API_TYPES_PATHS).forEach((apiTypeKey) => {
+    const withPathParams = _.get(API_TYPES_PATHS, `${apiTypeKey}.withPathParams`);
+    const withoutPathParams = _.get(API_TYPES_PATHS, `${apiTypeKey}.withoutPathParams`);
+    if (path === withPathParams || path === withoutPathParams) apiType = apiTypeKey;
+  });
+  if (_.isEmpty(apiType)) console.debug(GET_API_TYPE_DEBUG_TEXT);
+  return apiType;
+};
+
+export const isInvalidApiPathParameter = (field, hidePathParams, pathParams, requirePathParams) => {
+  if (hidePathParams) return false;
   const pathParamsTouched = _.get(field, 'touched.uri.path_params', false);
   if (pathParamsTouched) {
-    if (disablePathParams) return false;
     if (requirePathParams && _.isEmpty(pathParams)) return true;
-    const foundIllegalCharacters = ILLEGAL_PATH_PARAMETER_CHARACTERS.find((illegalCharacter) =>
-      _.includes(pathParams, illegalCharacter)
-    );
-    return !_.isEmpty(foundIllegalCharacters);
+    return pathParamsContainIllegalCharacters(pathParams);
   } else return pathParamsTouched;
 };
 
-export const validateApiPathParameter = (pathParams, requirePathParams, disablePathParams) => {
-  if (requirePathParams && _.isEmpty(pathParams)) return PATH_PARAMETERS_REQUIRED_TEXT;
-  if (isInvalidApiPathParameter(pathParams, requirePathParams, disablePathParams))
+export const validateApiPathParameter = (field, hidePathParams, pathParams, requirePathParams) => {
+  if (hidePathParams) return NO_PATH_PARAMS_PLACEHOLDER_TEXT;
+  const pathParamsTouched = _.get(field, 'touched.uri.path_params', false);
+  if (requirePathParams && pathParamsTouched && _.isEmpty(pathParams))
+    return PATH_PARAMETERS_REQUIRED_TEXT;
+  if (isInvalidApiPathParameter(field, hidePathParams, pathParams, requirePathParams))
     return PATH_PARAMETER_ILLEGAL_CHARACTER_TEXT;
 };
