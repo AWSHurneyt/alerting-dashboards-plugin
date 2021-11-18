@@ -28,8 +28,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: alerting
-          repository: opensearch-project/alerting
-          ref: 'main'
+#          TODO LocalUri: refactor back to the opensearch-project/alerting package after testing
+#          repository: opensearch-project/alerting
+#          ref: 'main'
+          repository: AWSHurneyt/OpenSearch-Alerting
+          ref: 'localuri'
       - name: Run Opensearch with plugin
         run: |
           cd alerting
