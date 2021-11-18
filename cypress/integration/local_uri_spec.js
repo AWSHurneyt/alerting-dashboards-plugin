@@ -27,7 +27,6 @@
 import sampleDestination from '../fixtures/sample_destination_custom_webhook';
 import sampleLocalUriMonitor from '../fixtures/sample_local_uri_cluster_health_monitor';
 import { INDEX, PLUGIN_NAME } from '../../cypress/support/constants';
-import sampleAggregationQuery from '../../cypress/fixtures/sample_aggregation_query.json';
 
 const SAMPLE_LOCAL_URI_CLUSTER_HEALTH_MONITOR = 'sample_local_uri_cluster_health_monitor';
 const SAMPLE_LOCAL_URI_NODES_STATS_MONITOR = 'sample_local_uri_nodes_stats_monitor';
@@ -50,12 +49,12 @@ const addLocalUriTrigger = (triggerName, triggerIndex, actionName, isEdit, sourc
   cy.get(`input[name="triggerDefinitions[${triggerIndex}].name"]`).type(triggerName);
 
   // Clear the default trigger condition source, and type the sample source
-  cy.get(`div[name="triggerDefinitions[${triggerIndex}].actions.0.destination_id"]`).within(() => {
+  cy.get('[data-test-subj="triggerQueryCodeEditor"]').within(() => {
     // If possible, a data-test-subj attribute should be added to access the code editor input directly
     cy.get('.ace_text-input')
       .focus()
       .clear({ force: true })
-      .type(JSON.stringify(sampleAggregationQuery), {
+      .type(JSON.stringify(source), {
         force: true,
         parseSpecialCharSequences: false,
         delay: 5,
@@ -64,17 +63,10 @@ const addLocalUriTrigger = (triggerName, triggerIndex, actionName, isEdit, sourc
       .trigger('blur', { force: true });
   });
 
-  // TODO LocalUri: possible alternative trigger definition method
-  // cy.contains(`div[name="triggerDefinitions[${triggerIndex}].script.source"]`)
-  //   .focus()
-  //   .clear({ force: true })
-  //   .type(source, {
-  //     force: true,
-  //     parseSpecialCharSequences: false,
-  //     delay: 5,
-  //     timeout: 20000,
-  //   })
-  //   .trigger('blur', { force: true });
+  // Type in the action name
+  cy.get(`input[name="triggerDefinitions[${triggerIndex}].actions.0.name"]`).type(actionName, {
+    force: true,
+  });
 
   // Click the combo box to list all the destinations
   // Using key typing instead of clicking the menu option to avoid occasional failure
@@ -128,11 +120,11 @@ describe('LocalUriInput Monitors', () => {
       cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
 
       // Confirm the path parameters field is present and described as "optional"
-      cy.get('Path parameters - optional');
+      cy.contains('Path parameters - optional');
       cy.get('[data-test-subj="localUriPathParamsFieldText"]');
 
       // Press the 'Run for response' button
-      cy.get('localUriRunButton').click();
+      cy.get('[data-test-subj="localUriRunButton"]').click();
 
       // Add a trigger
       cy.contains('Add trigger').click({ force: true });
@@ -182,14 +174,14 @@ describe('LocalUriInput Monitors', () => {
       cy.get('input[name="name"]').type(SAMPLE_LOCAL_URI_NODES_STATS_MONITOR);
 
       // Wait for the API types to load and then type in the Cluster Health API
-      cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
+      cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('nodes stats{enter}');
 
       // Confirm the path parameters field is not present
-      cy.get('Path parameters').should('not.exist');
+      cy.contains('Path parameters').should('not.exist');
       cy.get('[data-test-subj="localUriPathParamsFieldText"]').should('not.exist');
 
       // Press the 'Run for response' button
-      cy.get('localUriRunButton').click();
+      cy.get('[data-test-subj="localUriRunButton"]').click();
 
       // Add a trigger
       cy.contains('Add trigger').click({ force: true });
@@ -246,11 +238,11 @@ describe('LocalUriInput Monitors', () => {
       cy.get('input[name="name"]').type(SAMPLE_LOCAL_URI_CAT_SNAPSHOTS_MONITOR);
 
       // Wait for the API types to load and then type in the Cluster Health API
-      cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cluster health{enter}');
+      cy.get('[data-test-subj="localUriApiTypeComboBox"]').type('cat snapshots{enter}');
 
       // Confirm the path parameters field is present and is not described as "optional"
-      cy.get('Path parameters - optional').should('not.exist');
-      cy.get('Path parameters');
+      cy.contains('Path parameters - optional').should('not.exist');
+      cy.contains('Path parameters');
       cy.get('[data-test-subj="localUriPathParamsFieldText"]');
     });
   });
@@ -264,6 +256,7 @@ describe('LocalUriInput Monitors', () => {
       it('with a new trigger', () => {
         // Create the sample monitor
         cy.createMonitor(sampleLocalUriMonitor);
+        cy.reload();
 
         // Confirm the created monitor can be seen
         cy.contains(SAMPLE_LOCAL_URI_CLUSTER_HEALTH_MONITOR);

@@ -444,12 +444,14 @@ class DefineMonitor extends Component {
   async getSupportedApiList() {
     this.setState({ loadingSupportedApiList: true });
     const { httpClient, values } = this.props;
-    const requests = _.keys(API_TYPES).map((apiKey) => {
-      const requiresPathParams = _.get(API_TYPES_PATHS, `${apiKey}.withoutPathParams`, true);
-      if (requiresPathParams) {
+    const requests = [];
+    _.keys(API_TYPES).forEach((apiKey) => {
+      let requiresPathParams = _.get(API_TYPES_PATHS, `${apiKey}.withoutPathParams`);
+      requiresPathParams = _.isEmpty(requiresPathParams);
+      if (!requiresPathParams) {
         const path = API_TYPES_PATHS[apiKey].withoutPathParams;
         const values = { uri: { ...FORMIK_INITIAL_VALUES.uri, path } };
-        return buildLocalUriRequest(values);
+        requests.push(buildLocalUriRequest(values));
       }
     });
 
