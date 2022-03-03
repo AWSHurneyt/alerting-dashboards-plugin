@@ -45,6 +45,8 @@ export default function monitorToFormik(monitor) {
   const { searchType = 'query', fieldName } = search;
   const isAD = searchType === SEARCH_TYPE.AD;
 
+  console.info(`hurneyt monitorToFormik::monitor = ${JSON.stringify(monitor, null, 4)}`);
+
   return {
     /* INITIALIZE WITH DEFAULTS */
     ...formikValues,

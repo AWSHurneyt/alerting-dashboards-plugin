@@ -70,6 +70,7 @@ const MonitorDetails = ({
   isAd,
   plugins,
   detectorId,
+  edit = false,
 }) => {
   const anomalyDetectorContent = isAd && renderAnomalyDetector(httpClient, values, detectorId);
   return (
@@ -118,7 +119,7 @@ const MonitorDetails = ({
       ) : null}
 
       <EuiSpacer size="l" />
-      <Schedule isAd={isAd} />
+      <Schedule isAd={isAd} monitor={monitorToEdit} />
     </ContentPanel>
   );
 };

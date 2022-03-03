@@ -42,6 +42,7 @@ const components = {
 };
 
 const FrequencyPicker = (props) => {
+  console.info(`hurneyt FrequencyPicker::props = ${JSON.stringify(props, null, 4)}`);
   const type = props.formik.values.frequency;
   const Component = components[type];
   return <Component />;

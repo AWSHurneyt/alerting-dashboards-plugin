@@ -257,6 +257,8 @@ export default class CreateMonitor extends Component {
     const { initialValues, plugins } = this.state;
     const { edit, httpClient, monitorToEdit, notifications, isDarkMode } = this.props;
 
+    console.info(`hurneyt monitorToEdit = ${JSON.stringify(monitorToEdit, null, 4)}`);
+
     return (
       <div style={{ padding: '25px 50px' }}>
         <Formik initialValues={initialValues} onSubmit={this.onSubmit} validateOnChange={false}>
@@ -275,6 +277,7 @@ export default class CreateMonitor extends Component {
                 plugins={plugins}
                 isAd={values.searchType === SEARCH_TYPE.AD}
                 detectorId={this.props.detectorId}
+                edit={edit}
               />
               <EuiSpacer />
 
