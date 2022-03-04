@@ -29,7 +29,7 @@ import { EuiSpacer, EuiText } from '@elastic/eui';
 import { Frequency, FrequencyPicker } from './Frequencies';
 import Interval from './Frequencies/Interval';
 
-const Schedule = ({ isAd, edit, monitor }) => (
+const Schedule = ({ isAd }) => (
   <Fragment>
     <EuiText style={{ marginBottom: '0px' }}>
       <h4>Schedule</h4>

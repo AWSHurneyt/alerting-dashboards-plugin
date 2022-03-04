@@ -10,7 +10,7 @@
  */
 
 /*
- *   Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *   Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  *   Licensed under the Apache License, Version 2.0 (the "License").
  *   You may not use this file except in compliance with the License.
@@ -23,28 +23,19 @@
  *   express or implied. See the License for the specific language governing
  *   permissions and limitations under the License.
  */
-
 import React from 'react';
-import { connect } from 'formik';
+import { render } from 'enzyme';
+import { Formik } from 'formik';
 
-import CustomCron from './CustomCron';
-import Daily from './Daily';
-import Interval from './Interval';
-import Monthly from './Monthly';
-import Weekly from './Weekly';
+import ClusterMetricsMonitor from './ClusterMetricsMonitor';
 
-const components = {
-  daily: Daily,
-  weekly: Weekly,
-  monthly: Monthly,
-  cronExpression: CustomCron,
-  interval: Interval,
-};
-
-const FrequencyPicker = (props) => {
-  const type = props.formik.values.frequency;
-  const Component = components[type];
-  return <Component />;
-};
-
-export default connect(FrequencyPicker);
+describe('ClusterMetricsMonitor', () => {
+  test('renders', () => {
+    const component = (
+      <Formik>
+        <ClusterMetricsMonitor values={{ searchType: 'clusterMetrics' }} />
+      </Formik>
+    );
+    expect(render(component)).toMatchSnapshot();
+  });
+});
