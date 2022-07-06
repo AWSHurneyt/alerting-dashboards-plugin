@@ -4,11 +4,13 @@
  */
 
 import _ from 'lodash';
-import { INDEX, PLUGIN_NAME } from '../support/constants';
+import { INDEX, PLUGIN_NAME, PLUGIN_NAMES } from '../support/constants';
 import sampleQueryLevelMonitor from '../fixtures/sample_query_level_monitor';
 import sampleQueryLevelMonitorWithAlwaysTrueTrigger from '../fixtures/sample_query_level_monitor_with_always_true_trigger';
 import sampleDaysIntervalQueryLevelMonitor from '../fixtures/sample_days_interval_query_level_monitor.json';
 import sampleCronExpressionQueryLevelMonitor from '../fixtures/sample_cron_expression_query_level_monitor.json';
+import sampleWebhookNotificationChannel from '../fixtures/sample_notification_channel_custom_webhook.json';
+import { addActionToTrigger, deleteNotificationChannelByName, hasPlugin } from '../support/helpers';
 
 const SAMPLE_MONITOR = 'sample_query_level_monitor';
 const UPDATED_MONITOR = 'updated_query_level_monitor';
@@ -17,7 +19,6 @@ const SAMPLE_DAYS_INTERVAL_MONITOR = 'sample_days_interval_query_level_monitor';
 const SAMPLE_CRON_EXPRESSION_MONITOR = 'sample_cron_expression_query_level_monitor';
 const SAMPLE_TRIGGER = 'sample_trigger';
 const SAMPLE_ACTION = 'sample_action';
-const SAMPLE_DESTINATION = 'sample_destination';
 
 const TESTING_INDEX_A = 'query-level-monitor-test-index-a';
 const TESTING_INDEX_B = 'query-level-monitor-test-index-b';
@@ -27,7 +28,8 @@ const addVisualQueryLevelTrigger = (
   triggerIndex,
   isEdit = true,
   thresholdEnum,
-  thresholdValue
+  thresholdValue,
+  hasNotificationsPlugin
 ) => {
   // Click 'Add trigger' button
   cy.contains('Add trigger', { timeout: 20000 }).click({ force: true });
@@ -54,23 +56,19 @@ const addVisualQueryLevelTrigger = (
     .clear()
     .type(`${thresholdValue}{enter}`);
 
-  // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-  //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-  //  ideally take place in the before() block, and clearing should occur in the after() block.
-  // // Type in the action name
-  // cy.get(
-  //   `input[name="triggerDefinitions[${triggerIndex}].actions.0.name"]`
-  // ).type(`${triggerName}-${triggerIndex}-action1`, { force: true });
-  //
-  // // Click the combo box to list all the destinations
-  // // Using key typing instead of clicking the menu option to avoid occasional failure
-  // cy.get(`[data-test-subj="triggerDefinitions[${triggerIndex}].actions.0_actionDestination"]`)
-  //   .click({ force: true })
-  //   .type(`${SAMPLE_DESTINATION}{downarrow}{enter}`);
+  // Add an action to the trigger
+  if (hasNotificationsPlugin) addActionToTrigger(0, triggerIndex, triggerName);
 };
 
 describe('Query-Level Monitors', () => {
-  before(() => {
+  let hasNotificationsPlugin = false;
+  before(async () => {
+    // Check whether the Notifications plugin is installed
+    hasNotificationsPlugin = await hasPlugin(PLUGIN_NAMES.NOTIFICATIONS_PLUGIN);
+
+    // Create notification channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin) cy.createNotificationChannel(sampleWebhookNotificationChannel);
+
     // Load sample data
     cy.loadSampleEcommerceData();
     cy.insertDocumentToIndex(TESTING_INDEX_A, undefined, { message: 'This is a test.' });
@@ -91,11 +89,6 @@ describe('Query-Level Monitors', () => {
   describe('can be created', () => {
     before(() => {
       cy.deleteAllMonitors();
-
-      // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-      //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-      //  ideally take place in the before() block, and clearing should occur in the after() block.
-      // cy.createDestination(sampleDestination);
     });
 
     it('by extraction query', () => {
@@ -115,7 +108,7 @@ describe('Query-Level Monitors', () => {
       cy.get('input[name="name"]').type(SAMPLE_MONITOR, { force: true });
 
       // Wait for input to load and then type in the index name
-      cy.get('#index').type('*', { force: true });
+      cy.get('#index').type('*{enter}', { force: true });
 
       // Add a trigger
       cy.contains('Add trigger').click({ force: true });
@@ -123,19 +116,8 @@ describe('Query-Level Monitors', () => {
       // Type in the trigger name
       cy.get('input[name="triggerDefinitions[0].name"]').type(SAMPLE_TRIGGER, { force: true });
 
-      // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-      //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-      //  ideally take place in the before() block, and clearing should occur in the after() block.
-      // // Type in the action name
-      // cy.get('input[name="triggerDefinitions[0].actions.0.name"]').type(SAMPLE_ACTION, {
-      //   force: true,
-      // });
-      //
-      // // Click the combo box to list all the destinations
-      // // Using key typing instead of clicking the menu option to avoid occasional failure
-      // cy.get('div[name="triggerDefinitions[0].actions.0.destination_id"]')
-      //   .click({ force: true })
-      //   .type('{downarrow}{enter}');
+      // Add an action to the trigger
+      if (hasNotificationsPlugin) addActionToTrigger(0, 0, SAMPLE_ACTION);
 
       // Click the create button
       cy.get('button').contains('Create').click({ force: true });
@@ -326,7 +308,14 @@ describe('Query-Level Monitors', () => {
       for (let i = 0; i < triggers.length; i++) {
         const trigger = triggers[i];
         triggers[i].value = i;
-        addVisualQueryLevelTrigger(trigger.name, i, true, `IS ${trigger.enum}`, `${i}`);
+        addVisualQueryLevelTrigger(
+          trigger.name,
+          i,
+          true,
+          `IS ${trigger.enum}`,
+          `${i}`,
+          hasNotificationsPlugin
+        );
       }
 
       // Click Update button
@@ -424,5 +413,9 @@ describe('Query-Level Monitors', () => {
     cy.deleteIndexByName(`${INDEX.SAMPLE_DATA_ECOMMERCE}`);
     cy.deleteIndexByName(TESTING_INDEX_A);
     cy.deleteIndexByName(TESTING_INDEX_B);
+
+    // Delete the notifications channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin)
+      deleteNotificationChannelByName(sampleWebhookNotificationChannel.config.name);
   });
 });

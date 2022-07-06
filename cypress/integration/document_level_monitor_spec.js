@@ -4,8 +4,10 @@
  */
 
 import _ from 'lodash';
-import { PLUGIN_NAME } from '../support/constants';
+import { PLUGIN_NAME, PLUGIN_NAMES } from '../support/constants';
 import sampleDocumentLevelMonitor from '../fixtures/sample_document_level_monitor.json';
+import { addActionToTrigger, deleteNotificationChannelByName, hasPlugin } from '../support/helpers';
+import sampleWebhookNotificationChannel from '../fixtures/sample_notification_channel_custom_webhook.json';
 
 const TESTING_INDEX = 'document-level-monitor-test-index';
 const TESTING_INDEX_A = 'document-level-monitor-test-index-a';
@@ -26,7 +28,14 @@ const addDocumentsToTestIndex = (indexName = '', numOfDocs = 0) => {
 };
 
 describe('DocumentLevelMonitor', () => {
-  before(() => {
+  let hasNotificationsPlugin = false;
+  before(async () => {
+    // Check whether the Notifications plugin is installed
+    hasNotificationsPlugin = await hasPlugin(PLUGIN_NAMES.NOTIFICATIONS_PLUGIN);
+
+    // Create notification channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin) cy.createNotificationChannel(sampleWebhookNotificationChannel);
+
     // Load sample data
     addDocumentsToTestIndex(TESTING_INDEX, 5);
     addDocumentsToTestIndex(TESTING_INDEX_A, 1);
@@ -87,9 +96,11 @@ describe('DocumentLevelMonitor', () => {
       cy.contains('Add trigger').click({ force: true });
 
       // Type in the trigger name
-      cy.get('input[name="triggerDefinitions[0].name"]').type(
-        sampleDocumentLevelMonitor.triggers[0].document_level_trigger.name
-      );
+      const triggerName = sampleDocumentLevelMonitor.triggers[0].document_level_trigger.name;
+      cy.get('input[name="triggerDefinitions[0].name"]').type(triggerName);
+
+      // Add an action to the trigger
+      if (hasNotificationsPlugin) addActionToTrigger(0, 0, triggerName);
 
       // Clear the default trigger condition source, and type the sample source
       cy.get('[data-test-subj="triggerQueryCodeEditor"]').within(() => {
@@ -162,9 +173,11 @@ describe('DocumentLevelMonitor', () => {
       cy.contains('Add trigger').click({ force: true });
 
       // Type in the trigger name
-      cy.get('input[name="triggerDefinitions[0].name"]').type(
-        sampleDocumentLevelMonitor.triggers[0].document_level_trigger.name
-      );
+      const triggerName = sampleDocumentLevelMonitor.triggers[0].document_level_trigger.name;
+      cy.get('input[name="triggerDefinitions[0].name"]').type(triggerName);
+
+      // Add an action to the trigger
+      if (hasNotificationsPlugin) addActionToTrigger(0, 0, triggerName);
 
       // Define the first condition
       cy.get(
@@ -240,6 +253,9 @@ describe('DocumentLevelMonitor', () => {
         // Type in the trigger name
         const newTriggerName = 'new-extraction-query-trigger';
         cy.get('input[name="triggerDefinitions[1].name"]').type(newTriggerName);
+
+        // Add an action to the trigger
+        if (hasNotificationsPlugin) addActionToTrigger(0, 0, newTriggerName);
 
         // Clear the default trigger condition source, and type the sample source
         cy.get('[data-test-subj="triggerQueryCodeEditor"]')
@@ -324,6 +340,9 @@ describe('DocumentLevelMonitor', () => {
         const newTriggerName = 'new-visual-editor-trigger';
         cy.get('input[name="triggerDefinitions[0].name"]').type(newTriggerName);
 
+        // Add an action to the trigger
+        if (hasNotificationsPlugin) addActionToTrigger(0, 0, newTriggerName);
+
         // Define the triggere condition
         cy.get(
           '[data-test-subj="documentLevelTriggerExpression_query_triggerDefinitions[0].triggerConditions.0"]'
@@ -391,5 +410,9 @@ describe('DocumentLevelMonitor', () => {
     cy.deleteIndexByName(TESTING_INDEX);
     cy.deleteIndexByName(TESTING_INDEX_A);
     cy.deleteIndexByName(TESTING_INDEX_B);
+
+    // Delete the notifications channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin)
+      deleteNotificationChannelByName(sampleWebhookNotificationChannel.config.name);
   });
 });

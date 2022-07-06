@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { INDEX, PLUGIN_NAME, PLUGIN_NAMES } from '../support/constants';
 import sampleClusterMetricsMonitor from '../fixtures/sample_cluster_metrics_monitor.json';
-import { INDEX, PLUGIN_NAME } from '../../cypress/support/constants';
+import sampleWebhookNotificationChannel from '../fixtures/sample_notification_channel_custom_webhook.json';
+import { addActionToTrigger, deleteNotificationChannelByName, hasPlugin } from '../support/helpers';
 
 const SAMPLE_CLUSTER_METRICS_HEALTH_MONITOR = 'sample_cluster_metrics_health_monitor';
 const SAMPLE_CLUSTER_METRICS_NODES_STATS_MONITOR = 'sample_cluster_metrics_nodes_stats_monitor';
@@ -13,7 +15,14 @@ const SAMPLE_TRIGGER = 'sample_trigger';
 const SAMPLE_ACTION = 'sample_action';
 const SAMPLE_DESTINATION = 'sample_destination';
 
-const addClusterMetricsTrigger = (triggerName, triggerIndex, actionName, isEdit, source) => {
+const addClusterMetricsTrigger = (
+  triggerName,
+  triggerIndex,
+  actionName,
+  isEdit,
+  source,
+  hasNotificationsPlugin
+) => {
   // Click 'Add trigger' button
   cy.contains('Add trigger', { timeout: 20000 }).click({ force: true });
 
@@ -42,27 +51,18 @@ const addClusterMetricsTrigger = (triggerName, triggerIndex, actionName, isEdit,
       .trigger('blur', { force: true });
   });
 
-  // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-  //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-  //  ideally take place in the before() block, and clearing should occur in the after() block.
-  // // Type in the action name
-  // cy.get(`input[name="triggerDefinitions[${triggerIndex}].actions.0.name"]`).type(actionName, {
-  //   force: true,
-  // });
-  //
-  // // Click the combo box to list all the destinations
-  // // Using key typing instead of clicking the menu option to avoid occasional failure
-  // cy.get(`[data-test-subj="triggerDefinitions[${triggerIndex}].actions.0_actionDestination"]`)
-  //   .click({ force: true })
-  //   .type(`${SAMPLE_DESTINATION}{downarrow}{enter}`);
+  // Add an action to the trigger
+  if (hasNotificationsPlugin) addActionToTrigger(0, triggerIndex, triggerName);
 };
 
 describe('ClusterMetricsMonitor', () => {
-  before(() => {
-    // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-    //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-    //  ideally take place in the before() block, and clearing should occur in the after() block.
-    // cy.createDestination(sampleDestination);
+  let hasNotificationsPlugin = false;
+  before(async () => {
+    // Check whether the Notifications plugin is installed
+    hasNotificationsPlugin = await hasPlugin(PLUGIN_NAMES.NOTIFICATIONS_PLUGIN);
+
+    // Create notification channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin) cy.createNotificationChannel(sampleWebhookNotificationChannel);
 
     // Load sample data
     cy.loadSampleEcommerceData();
@@ -114,17 +114,8 @@ describe('ClusterMetricsMonitor', () => {
       // Type in the trigger name
       cy.get('input[name="triggerDefinitions[0].name"]').type(SAMPLE_TRIGGER);
 
-      // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-      //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-      //  ideally take place in the before() block, and clearing should occur in the after() block.
-      // // Type in the action name
-      // cy.get('input[name="triggerDefinitions[0].actions.0.name"]').type(SAMPLE_ACTION);
-      //
-      // // Click the combo box to list all the destinations
-      // // Using key typing instead of clicking the menu option to avoid occasional failure
-      // cy.get('div[name="triggerDefinitions[0].actions.0.destination_id"]')
-      //   .click({ force: true })
-      //   .type('{downarrow}{enter}');
+      // Add an action to the trigger
+      if (hasNotificationsPlugin) addActionToTrigger(0, 0, SAMPLE_ACTION);
 
       // Click the create button
       cy.get('button').contains('Create').click();
@@ -171,17 +162,8 @@ describe('ClusterMetricsMonitor', () => {
       // Type in the trigger name
       cy.get('input[name="triggerDefinitions[0].name"]').type(SAMPLE_TRIGGER);
 
-      // FIXME: Temporarily removing destination creation to resolve flakiness. It seems deleteAllDestinations()
-      //  is executing mid-testing. Need to further investigate a more ideal solution. Destination creation should
-      //  ideally take place in the before() block, and clearing should occur in the after() block.
-      // // Type in the action name
-      // cy.get('input[name="triggerDefinitions[0].actions.0.name"]').type(SAMPLE_ACTION);
-      //
-      // // Click the combo box to list all the destinations
-      // // Using key typing instead of clicking the menu option to avoid occasional failure
-      // cy.get('div[name="triggerDefinitions[0].actions.0.destination_id"]')
-      //   .click({ force: true })
-      //   .type('{downarrow}{enter}');
+      // Add an action to the trigger
+      if (hasNotificationsPlugin) addActionToTrigger(0, 0, SAMPLE_ACTION);
 
       // Click the create button
       cy.get('button').contains('Create').click();
@@ -276,7 +258,8 @@ describe('ClusterMetricsMonitor', () => {
         0,
         SAMPLE_ACTION,
         false,
-        'ctx.results[0].number_of_pending_tasks >= 0'
+        'ctx.results[0].number_of_pending_tasks >= 0',
+        hasNotificationsPlugin
       );
 
       // Confirm there is 1 trigger defined
@@ -373,7 +356,8 @@ describe('ClusterMetricsMonitor', () => {
           0,
           SAMPLE_ACTION,
           true,
-          'ctx.results[0].number_of_pending_tasks >= 0'
+          'ctx.results[0].number_of_pending_tasks >= 0',
+          hasNotificationsPlugin
         );
 
         // Click update button to save monitor changes
@@ -394,5 +378,9 @@ describe('ClusterMetricsMonitor', () => {
 
     // Delete sample data
     cy.deleteIndexByName(`${INDEX.SAMPLE_DATA_ECOMMERCE}`);
+
+    // Delete the notifications channel if the Notifications plugin is installed
+    if (hasNotificationsPlugin)
+      deleteNotificationChannelByName(sampleWebhookNotificationChannel.config.name);
   });
 });

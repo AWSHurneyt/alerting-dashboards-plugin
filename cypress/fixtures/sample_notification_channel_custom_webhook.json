@@ -1,0 +1,11 @@
+{
+  "config": {
+    "name": "Sample Custom Webhook Notification Channel",
+    "description": "This is a custom webhook notification channel",
+    "config_type": "webhook",
+    "is_enabled": true,
+    "webhook": {
+      "url": "http://www.samplenotificationchannel.com"
+    }
+  }
+}

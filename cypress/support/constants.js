@@ -14,9 +14,14 @@ export const INDEX = {
 export const API = {
   MONITOR_BASE: `${API_ROUTE_PREFIX}/monitors`,
   DESTINATION_BASE: `${API_ROUTE_PREFIX}/destinations`,
+  NOTIFICATIONS_BASE: '/_plugins/_notifications/configs',
 };
 
 export const PLUGIN_NAME = 'alerting';
+
+export const PLUGIN_NAMES = {
+  NOTIFICATIONS_PLUGIN: 'opensearch-notifications',
+};
 
 export const ADMIN_AUTH = {
   username: 'admin',

@@ -161,3 +161,7 @@ Cypress.Commands.add('loadSampleFlightsData', () => {
     url: `${Cypress.env('opensearch_dashboards')}/api/sample_data/flights`,
   });
 });
+
+Cypress.Commands.add('createNotificationChannel', (channelJson) => {
+  cy.request('POST', `${Cypress.env('opensearch')}${API.NOTIFICATIONS_BASE}`, channelJson);
+});
