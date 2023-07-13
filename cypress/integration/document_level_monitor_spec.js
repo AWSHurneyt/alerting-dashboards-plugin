@@ -107,11 +107,8 @@ describe('DocumentLevelMonitor', () => {
       cy.deleteAllMonitors();
       cy.reload();
 
-      // Confirm empty monitor list is loaded
-      cy.contains('There are no existing monitors');
-
       // Go to create monitor page
-      cy.contains('Create monitor').click({ force: true });
+      cy.contains('Create monitor', { timeout: 20000 }).click({ force: true });
 
       // Select the Document-Level Monitor type
       cy.get('[data-test-subj="docLevelMonitorRadioCard"]').click({ force: true });

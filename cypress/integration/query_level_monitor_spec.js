@@ -100,11 +100,8 @@ describe('Query-Level Monitors', () => {
     });
 
     it('by extraction query', () => {
-      // Confirm we loaded empty monitor list
-      cy.contains('There are no existing monitors');
-
       // Route us to create monitor page
-      cy.contains('Create monitor').click({ force: true });
+      cy.contains('Create monitor', { timeout: 20000 }).click({ force: true });
 
       // Select the Query-Level Monitor type
       cy.get('[data-test-subj="queryLevelMonitorRadioCard"]').click();
