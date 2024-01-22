@@ -29,6 +29,7 @@ const MonitorTimeField = ({ dataTypes }) => {
         placeholder: 'Select a time field',
         options,
         onChange: (options, field, form) => {
+          // TODO hurneyt: Reset the time field if the current selection doesn't match the available options
           form.setFieldValue('timeField', options[0].label);
         },
         isClearable: false,

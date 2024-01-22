@@ -6,12 +6,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { EuiHealth, EuiHighlight } from '@elastic/eui';
+import { EuiHealth, EuiHighlight, EuiSpacer } from '@elastic/eui';
 
 import { FormikComboBox } from '../../../../components/FormControls';
 import { validateIndex, hasError, isInvalid } from '../../../../utils/validate';
 import { canAppendWildcard, createReasonableWait, getMatchedOptions } from './utils/helpers';
 import { MONITOR_TYPE } from '../../../../utils/constants';
+import CrossClusterConfiguration from '../../components/CrossClusterConfigurations/containers';
 
 const CustomOption = ({ option, searchValue, contentClassName }) => {
   const { health, label, index } = option;
@@ -197,6 +198,7 @@ class MonitorIndex extends React.Component {
   }
 
   render() {
+    const { httpClient } = this.props;
     const {
       isLoading,
       allIndices,
@@ -217,42 +219,63 @@ class MonitorIndex extends React.Component {
       false //isIncludingSystemIndices
     );
 
-    const supportMultipleIndices = this.props.monitorType !== MONITOR_TYPE.DOC_LEVEL;
+    let supportMultipleIndices = true;
+    let supportsCrossClusterMonitoring = false;
+    switch (this.props.monitorType) {
+      case MONITOR_TYPE.DOC_LEVEL:
+        supportMultipleIndices = false;
+        supportsCrossClusterMonitoring = false;
+        break;
+      case MONITOR_TYPE.BUCKET_LEVEL:
+      case MONITOR_TYPE.CLUSTER_METRICS:
+      case MONITOR_TYPE.COMPOSITE_LEVEL:
+      case MONITOR_TYPE.QUERY_LEVEL:
+        supportsCrossClusterMonitoring = true;
+        break;
+      default:
+    }
 
     return (
-      <FormikComboBox
-        name="index"
-        formRow
-        fieldProps={{ validate: validateIndex }}
-        rowProps={{
-          label: 'Index',
-          helpText:
-            'You can use a * as a wildcard or date math index resolution in your index pattern',
-          isInvalid,
-          error: hasError,
-          style: { paddingLeft: '10px' },
-        }}
-        inputProps={{
-          placeholder: supportMultipleIndices ? 'Select indices' : 'Select an index',
-          async: true,
-          isLoading,
-          options: visibleOptions,
-          onBlur: (e, field, form) => {
-            form.setFieldTouched('index', true);
-          },
-          onChange: (options, field, form) => {
-            form.setFieldValue('index', options);
-          },
-          onCreateOption: (value, field, form) => {
-            this.onCreateOption(value, field.value, form.setFieldValue, supportMultipleIndices);
-          },
-          onSearchChange: this.onSearchChange,
-          renderOption: this.renderOption,
-          isClearable: true,
-          singleSelection: supportMultipleIndices ? false : { asPlainText: true },
-          'data-test-subj': 'indicesComboBox',
-        }}
-      />
+      <>
+        {supportsCrossClusterMonitoring ? (
+          <CrossClusterConfiguration monitorType={this.props.monitorType} httpClient={httpClient} />
+        ) : (
+          <FormikComboBox
+            name="index"
+            formRow
+            fieldProps={{ validate: validateIndex }}
+            rowProps={{
+              label: 'Index',
+              helpText:
+                'You can use a * as a wildcard or date math index resolution in your index pattern',
+              isInvalid,
+              error: hasError,
+              style: { paddingLeft: '10px' },
+            }}
+            inputProps={{
+              placeholder: supportMultipleIndices ? 'Select indices' : 'Select an index',
+              async: true,
+              isLoading,
+              options: visibleOptions,
+              onBlur: (e, field, form) => {
+                form.setFieldTouched('index', true);
+              },
+              onChange: (options, field, form) => {
+                form.setFieldValue('index', options);
+              },
+              onCreateOption: (value, field, form) => {
+                this.onCreateOption(value, field.value, form.setFieldValue, supportMultipleIndices);
+              },
+              onSearchChange: this.onSearchChange,
+              renderOption: this.renderOption,
+              delimiter: ',',
+              isClearable: true,
+              singleSelection: supportMultipleIndices ? false : { asPlainText: true },
+              'data-test-subj': 'indicesComboBox',
+            }}
+          />
+        )}
+      </>
     );
   }
 }

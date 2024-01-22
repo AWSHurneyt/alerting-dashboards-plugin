@@ -72,6 +72,7 @@ export default class MonitorDetails extends Component {
       isJsonModalOpen: false,
       tabId: TABLE_TAB_IDS.ALERTS.id,
       showDeleteModal: false,
+      localClusterName: '',
     };
   }
 
@@ -155,6 +156,22 @@ export default class MonitorDetails extends Component {
     });
   };
 
+  getLocalClusterName = async () => {
+    const { httpClient } = this.props;
+    try {
+      const response = await httpClient.get('../api/alerting/_health');
+      console.info(`hurneyt getLocalClusterName::response = ${JSON.stringify(response, null, 4)}`);
+      if (response.ok) {
+        const localClusterName = response.resp[0]?.cluster;
+        this.setState({ localClusterName: localClusterName });
+      } else {
+        console.log('Error getting clusters:', response);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   getMonitor = (id) => {
     const { httpClient } = this.props;
     const isWorkflow = this.isWorkflow();
@@ -197,6 +214,7 @@ export default class MonitorDetails extends Component {
       .catch((err) => {
         console.log('err', err);
       });
+    this.getLocalClusterName().then();
   };
 
   updateMonitor = (update, actionKeywords = ['update', 'monitor']) => {
@@ -407,6 +425,7 @@ export default class MonitorDetails extends Component {
       isJsonModalOpen,
       showDeleteModal,
       delegateMonitors,
+      localClusterName,
     } = this.state;
     const {
       location,
@@ -501,6 +520,8 @@ export default class MonitorDetails extends Component {
           detector={detector}
           detectorId={detectorId}
           delegateMonitors={delegateMonitors}
+          localClusterName={localClusterName}
+          setFlyout={setFlyout}
         />
         <EuiSpacer />
         <Triggers

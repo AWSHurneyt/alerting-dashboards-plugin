@@ -153,6 +153,7 @@ export function formikToAdQuery(values) {
 }
 
 export function formikToClusterMetricsInput(values) {
+  console.info(`hurneyt formikToClusterMetricsInput::values = ${JSON.stringify(values, null, 4)}`);
   let apiType = _.get(values, 'uri.api_type', FORMIK_INITIAL_VALUES.uri.api_type);
   if (_.isEmpty(apiType)) apiType = getApiType(_.get(values, 'uri'));
   let pathParams = _.get(values, 'uri.path_params', FORMIK_INITIAL_VALUES.uri.path_params);
@@ -170,12 +171,18 @@ export function formikToClusterMetricsInput(values) {
       url = url + pathParams + _.get(API_TYPES, `${apiType}.appendText`, '');
     }
   }
+  const clusterNames = _.get(values, 'clusterNames', []);
+  // const clusterNames = _.get(values, 'clusterNames', ['opensearch-cluster1', 'opensearch-cluster2'])
+  console.info(
+    `hurneyt formikToClusterMetricsInput::clusterNames = ${JSON.stringify(clusterNames, null, 4)}`
+  );
   return {
     uri: {
       api_type: apiType,
       path: path,
       path_params: pathParams,
       url: url,
+      cluster_aliases: clusterNames,
     },
   };
 }
@@ -204,7 +211,11 @@ export function formikToUiSearch(values) {
 }
 
 export function formikToIndices(values) {
-  return values.index.map(({ label }) => label);
+  console.info(`hurneyt formikToIndices::values.index = ${JSON.stringify(values.index, null, 4)}`);
+  const hasRemoteClusters = values.index.some(
+    ({ cluster, value }) => !_.isEmpty(cluster) && !_.isEmpty(value)
+  );
+  return values.index.map(({ label, value }) => (hasRemoteClusters ? value : label));
 }
 
 export function formikToQuery(values) {

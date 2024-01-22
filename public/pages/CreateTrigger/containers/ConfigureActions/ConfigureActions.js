@@ -26,13 +26,25 @@ import { TRIGGER_TYPE } from '../CreateTrigger/utils/constants';
 import { formikToTrigger } from '../CreateTrigger/utils/formikToTrigger';
 import { getChannelOptions, toChannelType } from '../../utils/helper';
 import { getInitialActionValues } from '../../components/AddActionButton/utils';
+import { getUnwrappedTriggers } from '../../../MonitorDetails/containers/Triggers/Triggers';
 
-const createActionContext = (context, action) => ({
-  ctx: {
-    ...context,
-    action,
-  },
-});
+const createActionContext = (context, action) => {
+  let trigger = getUnwrappedTriggers({
+    monitor_type: context.monitor.monitor_type,
+    triggers: [context.trigger],
+  });
+
+  if (_.isArray(trigger) && trigger.length > 0) trigger = trigger[0];
+  else trigger = {};
+
+  return {
+    ctx: {
+      ...context,
+      trigger: { ...trigger },
+      action,
+    },
+  };
+};
 
 export const checkForError = (response, error) => {
   for (const trigger_name in response.resp.trigger_results) {

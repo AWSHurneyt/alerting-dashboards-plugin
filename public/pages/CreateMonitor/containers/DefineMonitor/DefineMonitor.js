@@ -370,6 +370,12 @@ class DefineMonitor extends Component {
           : response;
         this.setState({ response, formikSnapshot, performanceResponse });
 
+        console.info(`hurneyt duration = ${JSON.stringify(duration, null, 4)}`);
+        console.info(`hurneyt response = ${JSON.stringify(response, null, 4)}`);
+        console.info(
+          `hurneyt performanceResponse = ${JSON.stringify(performanceResponse, null, 4)}`
+        );
+
         // TODO FIXME: Doc level backend monitor run results don't include duration metrics. Using this for now.
         //  This returns a much longer duration than other monitors, though.
         if (monitor_type === MONITOR_TYPE.DOC_LEVEL) {
@@ -402,7 +408,12 @@ class DefineMonitor extends Component {
   }
 
   async onQueryMappings() {
-    const index = this.props.values.index.map(({ label }) => label);
+    console.info(
+      `hurneyt onQueryMappings::index 1 = ${JSON.stringify(this.props.values.index, null, 4)}`
+    );
+    // Indexes for remote clusters will store the index name in the 'value' attribute of the object, not the 'label' attribute.
+    const index = this.props.values.index.map(({ label, value }) => value || label);
+    console.info(`hurneyt onQueryMappings::index 2 = ${JSON.stringify(index, null, 4)}`);
     try {
       const mappings = await this.queryMappings(index);
       const dataTypes = getPathsPerDataType(mappings);
@@ -417,12 +428,41 @@ class DefineMonitor extends Component {
       return {};
     }
 
+    console.info(`hurneyt queryMappings::index = ${JSON.stringify(index, null, 4)}`);
     try {
-      const response = await this.props.httpClient.post('../api/alerting/_mappings', {
-        body: JSON.stringify({ index }),
-      });
+      const hasRemoteClusters = index.some((indexName) => indexName.includes(':'));
+      console.info(
+        `hurneyt queryMappings::hasRemoteClusters = ${JSON.stringify(hasRemoteClusters, null, 4)}`
+      );
+      const query = {
+        indexes: index.join(','),
+        include_mappings: true,
+      };
+      console.info(`hurneyt queryMappings::query = ${JSON.stringify(query, null, 4)}`);
+      const response = hasRemoteClusters
+        ? await this.props.httpClient.get('../api/alerting/remote/indexes', {
+            query: {
+              indexes: index.join(','),
+              include_mappings: true,
+            },
+          })
+        : await this.props.httpClient.post('../api/alerting/_mappings', {
+            body: JSON.stringify({ index }),
+          });
+      console.info(`hurneyt queryMappings::response = ${JSON.stringify(response, null, 4)}`);
       if (response.ok) {
-        return response.resp;
+        if (hasRemoteClusters) {
+          const mappings = {};
+          Object.entries(response.resp).forEach(([_, clusterInfo]) => {
+            Object.entries(clusterInfo.indexes).forEach(([indexName, indexInfo]) => {
+              mappings[indexName] = { mappings: indexInfo.mappings };
+            });
+          });
+          console.info(`hurneyt queryMappings::mappings = ${JSON.stringify(mappings, null, 4)}`);
+          return mappings;
+        } else {
+          return response.resp;
+        }
       }
       return {};
     } catch (err) {
@@ -594,7 +634,10 @@ class DefineMonitor extends Component {
     const { dataTypes, PanelComponent } = this.state;
     const monitorContent = this.getMonitorContent();
     const { searchType } = this.props.values;
-    const isGraphOrQuery = searchType === SEARCH_TYPE.GRAPH || searchType === SEARCH_TYPE.QUERY;
+    const isGraphOrQuery =
+      searchType === SEARCH_TYPE.GRAPH ||
+      searchType === SEARCH_TYPE.QUERY ||
+      this.props.values.monitor_type === MONITOR_TYPE.CLUSTER_METRICS;
 
     return (
       <div>

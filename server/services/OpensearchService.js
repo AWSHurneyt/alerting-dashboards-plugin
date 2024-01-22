@@ -95,11 +95,39 @@ export default class OpensearchService {
     }
   };
 
+  getClusterHealth = async (context, req, res) => {
+    try {
+      const { callAsCurrentUser } = this.esDriver.asScoped(req);
+      const health = await callAsCurrentUser('cat.health', {
+        format: 'json',
+        h: 'cluster,status',
+      });
+      return res.ok({
+        body: {
+          ok: true,
+          resp: health,
+        },
+      });
+    } catch (err) {
+      console.error('Alerting - OpensearchService - getClusterHealth:', err);
+      return res.ok({
+        body: {
+          ok: false,
+          resp: err.message,
+        },
+      });
+    }
+  };
+
   getMappings = async (context, req, res) => {
     try {
-      const { index } = req.body;
+      const { index = [] } = req.body;
       const { callAsCurrentUser } = this.esDriver.asScoped(req);
+      console.info(`hurneyt server getMappings::index = ${JSON.stringify(index, null, 4)}`);
       const mappings = await callAsCurrentUser('indices.getMapping', { index });
+      console.info(
+        `hurneyt server getMappings::mappings resp = ${JSON.stringify(mappings, null, 4)}`
+      );
       return res.ok({
         body: {
           ok: true,
