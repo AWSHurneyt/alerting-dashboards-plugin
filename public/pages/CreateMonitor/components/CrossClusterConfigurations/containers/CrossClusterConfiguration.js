@@ -114,7 +114,7 @@ export class CrossClusterConfiguration extends Component {
 
     const getClusterOptionLabel = (clusterInfo) => {
       let label = `${clusterInfo.cluster} ${clusterInfo.hub_cluster ? '(Local)' : '(Remote)'}`;
-      // todo hurneyt
+      // todo hurneyt delete
       // if (clusterInfo.latency !== undefined) label = label + ` - ${clusterInfo.latency}ms`;
       return label;
     };
@@ -148,15 +148,23 @@ export class CrossClusterConfiguration extends Component {
         categorizedClusterOptions.Remote.push(clusterOption);
       }
 
-      // Parse the selected clusters when editing a monitor.
-      // TODO hurneyt: need to figure out how to handle wildcard patterns for cluster names.
-      if (!loadedInitialValues && Object.keys(indexes).includes(clusterName))
-        selectedClusters.push(clusterOption);
+      if (!loadedInitialValues) {
+        // Parse the selected clusters when editing a monitor.
+        switch (values.monitor_type) {
+          case MONITOR_TYPE.CLUSTER_METRICS:
+            if ((values.clusterNames || []).includes(clusterName))
+              selectedClusters.push(clusterOption);
+            break;
+          default:
+            // TODO hurneyt: need to figure out how to handle wildcard patterns for cluster names.
+            if (Object.keys(indexes).includes(clusterName)) selectedClusters.push(clusterOption);
+        }
 
-      // Display indexes for the local cluster by default if there are no other selected clusters.
-      if (!loadedInitialValues && !selectedClusters.length && clusterInfo.hub_cluster) {
-        selectedClusters.push(clusterOption);
-        this.setState({ selectedClusters: selectedClusters });
+        // Select the local cluster by default if there are no other selected clusters.
+        if (!selectedClusters.length && clusterInfo.hub_cluster) {
+          selectedClusters.push(clusterOption);
+          this.setState({ selectedClusters: selectedClusters });
+        }
       }
 
       // Only display indexes for the selected clusters
@@ -183,7 +191,6 @@ export class CrossClusterConfiguration extends Component {
                   (indexes[clusterName] || []).includes(indexOption.index)
                 )
                   selectedIndexes.push(indexOption);
-
                 return indexOption;
               });
         console.info(

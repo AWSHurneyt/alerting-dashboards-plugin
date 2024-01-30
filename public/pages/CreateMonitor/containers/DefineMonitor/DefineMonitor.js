@@ -558,23 +558,32 @@ class DefineMonitor extends Component {
   async getSupportedApiList() {
     this.setState({ loadingSupportedApiList: true });
     const { httpClient, values } = this.props;
+    console.info(`hurneyt getSupportedApiList::values = ${JSON.stringify(values, null, 4)}`);
     const requests = [];
     _.keys(API_TYPES).forEach((apiKey) => {
       let requiresPathParams = _.get(API_TYPES, `${apiKey}.paths.withoutPathParams`);
       requiresPathParams = _.isEmpty(requiresPathParams);
       if (!requiresPathParams) {
         const path = _.get(API_TYPES, `${apiKey}.paths.withoutPathParams`);
-        const values = { uri: { ...FORMIK_INITIAL_VALUES.uri, path } };
+        // todo hurneyt: delete cluster names
+        const values = {
+          uri: { ...FORMIK_INITIAL_VALUES.uri, path, clusterNames: ['opensearch-cluster1'] },
+        };
         requests.push(buildClusterMetricsRequest(values));
       }
     });
 
+    console.info(`hurneyt getSupportedApiList::requests = ${JSON.stringify(requests, null, 4)}`);
     const promises = requests.map((request) => {
       const monitor = formikToMonitor(values);
       const tempMonitorName = getApiType(request);
+      console.info(
+        `hurneyt getSupportedApiList::tempMonitorName = ${JSON.stringify(tempMonitorName, null, 4)}`
+      );
       _.set(monitor, 'name', tempMonitorName);
       _.set(monitor, 'triggers', []);
       _.set(monitor, 'inputs[0].uri', request);
+      console.info(`hurneyt getSupportedApiList::monitor = ${JSON.stringify(monitor, null, 4)}`);
       return httpClient.post('../api/alerting/monitors/_execute', {
         body: JSON.stringify(monitor),
       });
@@ -604,6 +613,13 @@ class DefineMonitor extends Component {
     });
     clonedSupportedApiList = _.orderBy(clonedSupportedApiList, (api) => api.label);
 
+    console.info(
+      `hurneyt getSupportedApiList::clonedSupportedApiList = ${JSON.stringify(
+        clonedSupportedApiList,
+        null,
+        4
+      )}`
+    );
     this.setState({
       loadingSupportedApiList: false,
       supportedApiList: clonedSupportedApiList,
@@ -612,6 +628,7 @@ class DefineMonitor extends Component {
 
   getMonitorContent() {
     const { values } = this.props;
+    console.info(`hurneyt getMonitorContent::values = ${JSON.stringify(values, null, 4)}`);
     switch (values.searchType) {
       case SEARCH_TYPE.GRAPH:
         return this.renderVisualMonitor();

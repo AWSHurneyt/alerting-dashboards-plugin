@@ -32,6 +32,14 @@ export const getInitialValues = ({
   detectorId,
   embeddable,
 }) => {
+  // console.info(`hurneyt getInitialValues::searchType 1 = ${JSON.stringify(searchType, null, 4)}`);
+  // if (_.isEmpty(searchType)) {
+  //   searchType = _.has(monitorToEdit, 'inputs[0].uri')
+  //     ? SEARCH_TYPE.CLUSTER_METRICS
+  //     : _.get(monitorToEdit, 'ui_metadata.search.searchType', 'query');
+  // }
+  // console.info(`hurneyt getInitialValues::searchType 2 = ${JSON.stringify(searchType, null, 4)}`);
+
   let initialValues = _.mergeWith(
     {},
     _.cloneDeep(FORMIK_INITIAL_VALUES),
@@ -69,6 +77,10 @@ export const getInitialValues = ({
       triggerDefinitions: triggers.triggerDefinitions,
     };
   }
+
+  console.info(
+    `hurneyt getInitialValues::initialValues output = ${JSON.stringify(initialValues, null, 4)}`
+  );
 
   return initialValues;
 };

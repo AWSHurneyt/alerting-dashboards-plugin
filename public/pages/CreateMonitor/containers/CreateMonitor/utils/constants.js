@@ -52,7 +52,7 @@ export const FORMIK_INITIAL_VALUES = {
   clusterNames: [],
   uri: {
     api_type: '',
-    cluster_aliases: [],
+    clusters: [],
     path: '',
     path_params: '',
     url: '',

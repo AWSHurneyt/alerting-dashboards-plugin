@@ -47,6 +47,7 @@ import monitorToFormik from '../../CreateMonitor/containers/CreateMonitor/utils/
 import FindingsDashboard from '../../Dashboard/containers/FindingsDashboard';
 import { TABLE_TAB_IDS } from '../../Dashboard/components/FindingsDashboard/findingsUtils';
 import { DeleteMonitorModal } from '../../../components/DeleteModal/DeleteMonitorModal';
+import { getLocalClusterName } from '../../CreateMonitor/components/CrossClusterConfigurations/utils/helpers';
 
 export default class MonitorDetails extends Component {
   constructor(props) {
@@ -72,7 +73,7 @@ export default class MonitorDetails extends Component {
       isJsonModalOpen: false,
       tabId: TABLE_TAB_IDS.ALERTS.id,
       showDeleteModal: false,
-      localClusterName: '',
+      localClusterName: undefined,
     };
   }
 
@@ -90,6 +91,7 @@ export default class MonitorDetails extends Component {
 
   componentDidMount() {
     this.getMonitor(this.props.match.params.monitorId);
+    this.getLocalClusterName();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -104,6 +106,12 @@ export default class MonitorDetails extends Component {
   componentWillUnmount() {
     this.props.setFlyout(null);
   }
+
+  getLocalClusterName = async () => {
+    this.setState({
+      localClusterName: await getLocalClusterName(this.props.httpClient),
+    });
+  };
 
   getDetector = (id) => {
     const { httpClient, notifications } = this.props;
@@ -156,22 +164,6 @@ export default class MonitorDetails extends Component {
     });
   };
 
-  getLocalClusterName = async () => {
-    const { httpClient } = this.props;
-    try {
-      const response = await httpClient.get('../api/alerting/_health');
-      console.info(`hurneyt getLocalClusterName::response = ${JSON.stringify(response, null, 4)}`);
-      if (response.ok) {
-        const localClusterName = response.resp[0]?.cluster;
-        this.setState({ localClusterName: localClusterName });
-      } else {
-        console.log('Error getting clusters:', response);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   getMonitor = (id) => {
     const { httpClient } = this.props;
     const isWorkflow = this.isWorkflow();
@@ -214,7 +206,6 @@ export default class MonitorDetails extends Component {
       .catch((err) => {
         console.log('err', err);
       });
-    this.getLocalClusterName().then();
   };
 
   updateMonitor = (update, actionKeywords = ['update', 'monitor']) => {
@@ -465,6 +456,10 @@ export default class MonitorDetails extends Component {
 
     const displayTableTabs = [MONITOR_TYPE.DOC_LEVEL, MONITOR_TYPE.COMPOSITE_LEVEL].includes(
       monitor.monitor_type
+    );
+
+    console.info(
+      `hurneyt MonitorDetails::localClusterName = ${JSON.stringify(localClusterName, null, 4)}`
     );
     return (
       <div style={{ padding: '25px 50px' }}>

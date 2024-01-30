@@ -182,7 +182,7 @@ export function formikToClusterMetricsInput(values) {
       path: path,
       path_params: pathParams,
       url: url,
-      cluster_aliases: clusterNames,
+      clusters: clusterNames,
     },
   };
 }

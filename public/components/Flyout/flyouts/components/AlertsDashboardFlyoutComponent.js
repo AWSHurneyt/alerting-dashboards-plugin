@@ -20,10 +20,7 @@ import {
   EuiToolTip,
   EuiButtonIcon,
 } from '@elastic/eui';
-import {
-  getFormattedDataSources,
-  getTime,
-} from '../../../../pages/MonitorDetails/components/MonitorOverview/utils/getOverviewStats';
+import { getTime } from '../../../../pages/MonitorDetails/components/MonitorOverview/utils/getOverviewStats';
 import { PLUGIN_NAME } from '../../../../../utils/constants';
 import {
   ALERT_STATE,
@@ -57,6 +54,10 @@ import {
 } from '../../../../pages/Dashboard/components/FindingsDashboard/findingsUtils';
 import FindingsDashboard from '../../../../pages/Dashboard/containers/FindingsDashboard';
 import { CLUSTER_METRICS_CROSS_CLUSTER_ALERT_TABLE_COLUMN } from '../../../../pages/CreateMonitor/components/ClusterMetricsMonitor/utils/clusterMetricsMonitorConstants';
+import {
+  getDataSources,
+  getLocalClusterName,
+} from '../../../../pages/CreateMonitor/components/CrossClusterConfigurations/utils/helpers';
 
 export const DEFAULT_NUM_FLYOUT_ROWS = 10;
 
@@ -76,6 +77,7 @@ export default class AlertsDashboardFlyoutComponent extends Component {
       alerts: [],
       alertState: alertState,
       loading: true,
+      localClusterName: undefined,
       monitor: monitor,
       monitorIds: [monitor_id],
       monitorType: monitorType,
@@ -106,6 +108,7 @@ export default class AlertsDashboardFlyoutComponent extends Component {
       alertState,
       monitorIds
     );
+    this.getLocalClusterName();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -151,6 +154,12 @@ export default class AlertsDashboardFlyoutComponent extends Component {
       conditions = conditions.split(/&/);
       return conditions.join('\n');
     }
+  };
+
+  getLocalClusterName = async () => {
+    this.setState({
+      localClusterName: await getLocalClusterName(this.props.httpClient),
+    });
   };
 
   getSeverityText = (severity) => {
@@ -502,7 +511,7 @@ export default class AlertsDashboardFlyoutComponent extends Component {
       triggerID,
       trigger_name,
     } = this.props;
-    const { loading, monitor, monitorType, tabContent } = this.state;
+    const { loading, localClusterName, monitor, monitorType, tabContent } = this.state;
     const searchType = _.get(monitor, 'ui_metadata.search.searchType', SEARCH_TYPE.GRAPH);
     const triggerType = this.getTriggerType(monitorType);
 
@@ -558,6 +567,13 @@ export default class AlertsDashboardFlyoutComponent extends Component {
       monitorType === MONITOR_TYPE.COMPOSITE_LEVEL ? '?type=workflow' : ''
     }`;
 
+    const dataSources = getDataSources(monitor, localClusterName).join('\n');
+    console.info(
+      `hurneyt getFormattedDataSources::dataSources = ${JSON.stringify(dataSources, null, 4)}`
+    );
+    console.info(
+      `hurneyt AlertsFlyout::localClusterName = ${JSON.stringify(localClusterName, null, 4)}`
+    );
     return (
       <div>
         <EuiFlexGroup>
@@ -609,7 +625,7 @@ export default class AlertsDashboardFlyoutComponent extends Component {
           <EuiFlexItem>
             <EuiText size={'m'}>
               <strong>Monitor data sources</strong>
-              <p style={{ whiteSpace: 'pre-wrap' }}>{getFormattedDataSources(monitor)}</p>
+              <p style={{ whiteSpace: 'pre-wrap' }}>{dataSources}</p>
             </EuiText>
           </EuiFlexItem>
         </EuiFlexGroup>

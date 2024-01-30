@@ -56,7 +56,7 @@ export const getPerformanceModal = ({ edit, onClose, onSubmit, values }) => {
   let hasRemoteClusters;
   switch (monitorType) {
     case MONITOR_TYPE.CLUSTER_METRICS:
-      hasRemoteClusters = !_.isEmpty(_.get(values, 'uri.cluster_aliases', []));
+      hasRemoteClusters = !_.isEmpty(_.get(values, 'uri.clusters', []));
       break;
     default:
       // Indexes for remote clusters will store the index name in

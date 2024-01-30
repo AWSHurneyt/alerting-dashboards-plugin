@@ -42,8 +42,12 @@ class DataSource extends Component {
     const monitorIndexDisplay = (
       <>
         <MonitorIndex httpClient={this.props.httpClient} monitorType={monitor_type} />
-        <EuiSpacer />
-        {displayTimeField && <MonitorTimeField dataTypes={this.props.dataTypes} />}
+        {displayTimeField && (
+          <>
+            <EuiSpacer />
+            <MonitorTimeField dataTypes={this.props.dataTypes} />
+          </>
+        )}
       </>
     );
 
