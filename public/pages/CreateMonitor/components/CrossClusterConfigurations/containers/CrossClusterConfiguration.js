@@ -9,6 +9,7 @@ import { EuiHealth, EuiLink, EuiText, EuiSpacer } from '@elastic/eui';
 import { FormikComboBox } from '../../../../../components/FormControls';
 import { MONITOR_TYPE } from '../../../../../utils/constants';
 import { connect } from 'formik';
+import { ExperimentalBanner } from '../components/ExperimentalBanner';
 
 export const CROSS_CLUSTER_SETUP_LINK =
   'https://opensearch.org/docs/latest/security/access-control/cross-cluster-search/';
@@ -406,18 +407,9 @@ export class CrossClusterConfiguration extends Component {
     console.info(`hurneyt selectedIndexes = ${JSON.stringify(selectedIndexes, null, 4)}`);
     console.info(`hurneyt values = ${JSON.stringify(values, null, 4)}`);
 
-    const supportMultipleIndices = (() => {
-      switch (monitorType) {
-        case MONITOR_TYPE.DOC_LEVEL:
-        case MONITOR_TYPE.CLUSTER_METRICS:
-          return false;
-        default:
-          return true;
-      }
-    })();
-
     return (
       <>
+        <ExperimentalBanner />
         <FormikComboBox
           name={'clusterNames'}
           formRow={true}
@@ -446,6 +438,7 @@ export class CrossClusterConfiguration extends Component {
             renderOption: this.renderClusterOption,
             onChange: this.onClustersChange,
             selectedOptions: selectedClusters,
+            'data-test-subj': 'clustersComboBox',
           }}
         />
 
@@ -479,6 +472,7 @@ export class CrossClusterConfiguration extends Component {
               onChange: this.onIndexesChange,
               onCreateOption: this.onCreateOption,
               selectedOptions: selectedIndexes,
+              'data-test-subj': 'indicesComboBox',
             }}
           />
         )}
