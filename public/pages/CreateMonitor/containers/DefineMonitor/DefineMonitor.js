@@ -706,7 +706,12 @@ class DefineMonitor extends Component {
         )}
         {filterByBackendRolesEnabled ? (
           <div>
-            <MonitorSecurity errors={errors} httpClient={httpClient} isDarkMode={isDarkMode} />
+            <MonitorSecurity
+              values={values}
+              errors={errors}
+              httpClient={httpClient}
+              isDarkMode={isDarkMode}
+            />
             <EuiSpacer />
           </div>
         ) : null}

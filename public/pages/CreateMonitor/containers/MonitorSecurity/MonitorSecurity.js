@@ -5,7 +5,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { EuiSpacer } from '@elastic/eui';
 import MonitorRoles from '../MonitorRoles';
 import ContentPanel from '../../../../components/ContentPanel';
 
@@ -30,7 +29,7 @@ class MonitorSecurity extends Component {
     const { isMinimal } = this.props;
     const monitorRoleDisplay = (
       <>
-        <MonitorRoles httpClient={this.props.httpClient} />
+        <MonitorRoles values={this.props.values} httpClient={this.props.httpClient} />
       </>
     );
 
