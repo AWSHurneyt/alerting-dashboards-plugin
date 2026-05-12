@@ -4,19 +4,20 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
 import FormikComboBox from './FormikComboBox';
 
-describe.skip('FormikComboBox', () => {
+describe('FormikComboBox', () => {
   test('renders', () => {
     const component = (
-      <Formik>
+      <Formik initialValues={{ testing: [] }} onSubmit={() => {}}>
         <FormikComboBox name="testing" />
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

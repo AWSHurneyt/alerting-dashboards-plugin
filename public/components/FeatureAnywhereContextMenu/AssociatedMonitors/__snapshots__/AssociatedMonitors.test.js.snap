@@ -1,124 +1,310 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AssociatedMonitors renders 1`] = `
-<div
-  className="associated-monitors"
->
-  <EuiFlyoutHeader
-    hasBorder={true}
+<div>
+  <div
+    class="associated-monitors"
   >
-    <EuiText
-      size="s"
+    <div
+      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
     >
-      <h2
-        id="associated-monitors__title"
+      <div
+        class="euiText euiText--small"
       >
-        Associated monitors
-      </h2>
-    </EuiText>
-  </EuiFlyoutHeader>
-  <EuiFlyoutHeader />
-  <EuiFlyoutBody>
-    <EuiFlexGroup
-      alignItems="center"
-      justifyContent="spaceBetween"
-    >
-      <EuiFlexItem>
-        <EuiText>
-          <h4>
-            Visualization: 
-          </h4>
-        </EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem
-        grow={false}
-      >
-        <EuiSmallButton
-          fill={true}
-          iconType="link"
-          isDisabled={true}
-          onClick={[Function]}
+        <h2
+          id="associated-monitors__title"
         >
-          Associate a monitor
-        </EuiSmallButton>
-      </EuiFlexItem>
-    </EuiFlexGroup>
-    <EuiSpacer
-      size="l"
+          Associated monitors
+        </h2>
+      </div>
+    </div>
+    <div
+      class="euiFlyoutHeader"
     />
-    <EuiInMemoryTable
-      columns={
-        Array [
-          Object {
-            "field": "name",
-            "name": "Monitor Name",
-            "render": [Function],
-            "sortable": true,
-            "truncateText": true,
-            "width": "50%",
-          },
-          Object {
-            "field": "state",
-            "name": "State",
-            "render": [Function],
-            "sortable": true,
-            "width": "105px",
-          },
-          Object {
-            "field": "date",
-            "name": "Latest alert",
-            "render": [Function],
-            "sortable": true,
-            "truncateText": true,
-            "width": "50%",
-          },
-          Object {
-            "actions": Array [
-              Object {
-                "description": "Edit monitor",
-                "icon": "pencil",
-                "name": "Edit monitor",
-                "onClick": [Function],
-                "type": "icon",
-              },
-              Object {
-                "description": "Unlink monitor",
-                "icon": "unlink",
-                "name": "Unlink monitor",
-                "onClick": [Function],
-                "type": "icon",
-              },
-            ],
-            "name": "Actions",
-          },
-        ]
-      }
-      hasActions={true}
-      items={Array []}
-      loading={true}
-      message={
-        <EuiEmptyPrompt
-          body={
-            <EuiLoadingSpinner
-              size="l"
+    <div
+      class="euiFlyoutBody"
+    >
+      <div
+        class="euiFlyoutBody__overflow"
+        tabindex="0"
+      >
+        <div
+          class="euiFlyoutBody__overflowContent"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <div
+              class="euiFlexItem"
+            >
+              <div
+                class="euiText euiText--medium"
+              >
+                <h4>
+                  Visualization: 
+                </h4>
+              </div>
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <button
+                class="euiButton euiButton--primary euiButton--small euiButton--fill euiButton-isDisabled"
+                disabled=""
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButton__content"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                  <span
+                    class="euiButton__text"
+                  >
+                    Associate a monitor
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="euiSpacer euiSpacer--l"
+          />
+          <div>
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive euiFlexGroup--wrap"
+            >
+              <div
+                class="euiFlexItem euiSearchBar__searchHolder"
+              >
+                <div
+                  class="euiFormControlLayout euiFormControlLayout--fullWidth"
+                >
+                  <div
+                    class="euiFormControlLayout__childrenWrapper"
+                  >
+                    <input
+                      aria-label="This is a search bar. As you type, the results lower in the page will automatically filter."
+                      class="euiFieldSearch euiFieldSearch--fullWidth"
+                      disabled=""
+                      placeholder="Search..."
+                      type="search"
+                      value=""
+                    />
+                    <div
+                      class="euiFormControlLayoutIcons"
+                    >
+                      <span
+                        class="euiFormControlLayoutCustomIcon"
+                      >
+                        <div>
+                          EuiIconMock
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="euiSpacer euiSpacer--l"
             />
-          }
-        />
-      }
-      pagination={true}
-      responsive={true}
-      search={
-        Object {
-          "box": Object {
-            "disabled": true,
-            "incremental": true,
-            "schema": true,
-          },
-        }
-      }
-      sorting={true}
-      tableLayout="fixed"
-    />
-  </EuiFlyoutBody>
+            <div
+              class="euiBasicTable euiBasicTable-loading"
+            >
+              <div>
+                <div
+                  class="euiTableHeaderMobile"
+                >
+                  <div
+                    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+                  >
+                    <div
+                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                    />
+                    <div
+                      class="euiFlexItem euiFlexItem--flexGrowZero"
+                    >
+                      <div
+                        class="euiTableSortMobile"
+                      >
+                        <div
+                          class="euiPopover euiPopover--anchorDownRight"
+                        >
+                          <div
+                            class="euiPopover__anchor"
+                          >
+                            <button
+                              class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                              type="button"
+                            >
+                              <span
+                                class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                              >
+                                <div>
+                                  EuiIconMock
+                                </div>
+                                <span
+                                  class="euiButtonEmpty__text"
+                                >
+                                  Sorting
+                                </span>
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <table
+                  class="euiTable euiTable--responsive"
+                  id="generated-id"
+                  tabindex="-1"
+                >
+                  <caption
+                    class="euiScreenReaderOnly euiTableCaption"
+                  />
+                  <thead>
+                    <tr>
+                      <th
+                        aria-live="polite"
+                        aria-sort="none"
+                        class="euiTableHeaderCell"
+                        data-test-subj="tableHeaderCell_name_0"
+                        role="columnheader"
+                        scope="col"
+                        style="width: 50%;"
+                      >
+                        <button
+                          class="euiTableHeaderButton"
+                          data-test-subj="tableHeaderSortButton"
+                          type="button"
+                        >
+                          <span
+                            class="euiTableCellContent"
+                          >
+                            <span
+                              class="euiTableCellContent__text"
+                              title="Monitor Name"
+                            >
+                              Monitor Name
+                            </span>
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-live="polite"
+                        aria-sort="none"
+                        class="euiTableHeaderCell"
+                        data-test-subj="tableHeaderCell_state_1"
+                        role="columnheader"
+                        scope="col"
+                        style="width: 105px;"
+                      >
+                        <button
+                          class="euiTableHeaderButton"
+                          data-test-subj="tableHeaderSortButton"
+                          type="button"
+                        >
+                          <span
+                            class="euiTableCellContent"
+                          >
+                            <span
+                              class="euiTableCellContent__text"
+                              title="State"
+                            >
+                              State
+                            </span>
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-live="polite"
+                        aria-sort="none"
+                        class="euiTableHeaderCell"
+                        data-test-subj="tableHeaderCell_date_2"
+                        role="columnheader"
+                        scope="col"
+                        style="width: 50%;"
+                      >
+                        <button
+                          class="euiTableHeaderButton"
+                          data-test-subj="tableHeaderSortButton"
+                          type="button"
+                        >
+                          <span
+                            class="euiTableCellContent"
+                          >
+                            <span
+                              class="euiTableCellContent__text"
+                              title="Latest alert"
+                            >
+                              Latest alert
+                            </span>
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        class="euiTableHeaderCell"
+                        role="columnheader"
+                        scope="col"
+                      >
+                        <span
+                          class="euiTableCellContent euiTableCellContent--alignRight"
+                        >
+                          <span
+                            class="euiTableCellContent__text"
+                            title="Actions"
+                          >
+                            Actions
+                          </span>
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="euiTableRow"
+                    >
+                      <td
+                        class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
+                        colspan="4"
+                      >
+                        <div
+                          class="euiTableCellContent euiTableCellContent--alignCenter"
+                        >
+                          <span
+                            class="euiTableCellContent__text"
+                          >
+                            <div
+                              class="euiEmptyPrompt"
+                            >
+                              <span
+                                class="euiTextColor euiTextColor--subdued"
+                              >
+                                <div
+                                  class="euiText euiText--medium"
+                                >
+                                  <span
+                                    class="euiLoadingSpinner euiLoadingSpinner--large"
+                                  />
+                                </div>
+                              </span>
+                            </div>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

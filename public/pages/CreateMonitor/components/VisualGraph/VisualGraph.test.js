@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import VisualGraph from './VisualGraph';
 import { FORMIK_INITIAL_VALUES } from '../../containers/CreateMonitor/utils/constants';
@@ -88,7 +88,8 @@ describe('VisualGraph', () => {
         response={queryGraphResponse}
       />
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('renders with bucket level monitor', () => {
@@ -101,6 +102,7 @@ describe('VisualGraph', () => {
         response={bucketGraphResponse}
       />
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

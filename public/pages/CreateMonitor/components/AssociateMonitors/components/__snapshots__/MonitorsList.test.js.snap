@@ -1,182 +1,186 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonitorsList renders 1`] = `
-<div
-  class="euiFormRow euiFormRow--compressed"
-  id="associatedMonitorsList-form-row-row"
->
+<div>
   <div
-    class="euiFormRow__labelWrapper"
-  >
-    <label
-      class="euiFormLabel euiFormRow__label"
-      for="associatedMonitorsList-form-row"
-    >
-      Monitor
-    </label>
-  </div>
-  <div
-    class="euiFormRow__fieldWrapper"
+    class="euiFormRow euiFormRow--compressed"
+    id="associatedMonitorsList-form-row-row"
   >
     <div
-      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
-      style="width:400px;position:relative"
+      class="euiFormRow__labelWrapper"
+    >
+      <label
+        class="euiFormLabel euiFormRow__label"
+        for="associatedMonitorsList-form-row"
+      >
+        Monitor
+      </label>
+    </div>
+    <div
+      class="euiFormRow__fieldWrapper"
     >
       <div
-        class="euiFlexItem"
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="width: 400px; position: relative;"
       >
         <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          class="euiComboBox euiComboBox--compressed euiComboBox--fullWidth"
-          data-test-subj="monitors_list_0"
-          name="associatedMonitorsList_0"
-          role="combobox"
+          class="euiFlexItem"
         >
           <div
-            class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="euiComboBox euiComboBox--compressed euiComboBox--fullWidth"
+            data-test-subj="monitors_list_0"
+            name="associatedMonitorsList_0"
+            role="combobox"
           >
             <div
-              class="euiFormControlLayout__childrenWrapper"
+              class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
             >
               <div
-                class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
-                data-test-subj="comboBoxInput"
-                tabindex="-1"
+                class="euiFormControlLayout__childrenWrapper"
               >
-                <p
-                  class="euiComboBoxPlaceholder"
-                >
-                  Select a monitor
-                </p>
                 <div
-                  class="euiComboBox__input"
-                  style="font-size:14px;display:inline-block"
+                  class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                  data-test-subj="comboBoxInput"
+                  tabindex="-1"
                 >
-                  <input
-                    aria-controls=""
-                    data-test-subj="comboBoxSearchInput"
-                    id="associatedMonitorsList_0"
-                    role="textbox"
-                    style="box-sizing:content-box;width:1px"
-                    value=""
-                  />
+                  <p
+                    class="euiComboBoxPlaceholder"
+                  >
+                    Select a monitor
+                  </p>
                   <div
-                    style="position:absolute;top:0;left:0;visibility:hidden;height:0;overflow:scroll;white-space:pre"
-                  />
-                </div>
-              </div>
-              <div
-                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-              >
-                <button
-                  aria-label="Open list of options"
-                  class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
-                  data-test-subj="comboBoxToggleListButton"
-                  type="button"
-                >
-                  <div>
-                    EuiIconMock
+                    class="euiComboBox__input"
+                    style="font-size: 14px; display: inline-block;"
+                  >
+                    <input
+                      aria-controls=""
+                      data-test-subj="comboBoxSearchInput"
+                      id="associatedMonitorsList_0"
+                      role="textbox"
+                      style="box-sizing: content-box; width: 2px;"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
                   </div>
-                </button>
+                </div>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <button
+                    aria-label="Open list of options"
+                    class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                    data-test-subj="comboBoxToggleListButton"
+                    type="button"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
-      style="width:400px;position:relative"
-    >
       <div
-        class="euiFlexItem"
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="width: 400px; position: relative;"
       >
         <div
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          class="euiComboBox euiComboBox--compressed euiComboBox--fullWidth"
-          data-test-subj="monitors_list_1"
-          name="associatedMonitorsList_1"
-          role="combobox"
+          class="euiFlexItem"
         >
           <div
-            class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="euiComboBox euiComboBox--compressed euiComboBox--fullWidth"
+            data-test-subj="monitors_list_1"
+            name="associatedMonitorsList_1"
+            role="combobox"
           >
             <div
-              class="euiFormControlLayout__childrenWrapper"
+              class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
             >
               <div
-                class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
-                data-test-subj="comboBoxInput"
-                tabindex="-1"
+                class="euiFormControlLayout__childrenWrapper"
               >
-                <p
-                  class="euiComboBoxPlaceholder"
-                >
-                  Select a monitor
-                </p>
                 <div
-                  class="euiComboBox__input"
-                  style="font-size:14px;display:inline-block"
+                  class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--fullWidth euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                  data-test-subj="comboBoxInput"
+                  tabindex="-1"
                 >
-                  <input
-                    aria-controls=""
-                    data-test-subj="comboBoxSearchInput"
-                    id="associatedMonitorsList_1"
-                    role="textbox"
-                    style="box-sizing:content-box;width:1px"
-                    value=""
-                  />
+                  <p
+                    class="euiComboBoxPlaceholder"
+                  >
+                    Select a monitor
+                  </p>
                   <div
-                    style="position:absolute;top:0;left:0;visibility:hidden;height:0;overflow:scroll;white-space:pre"
-                  />
-                </div>
-              </div>
-              <div
-                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
-              >
-                <button
-                  aria-label="Open list of options"
-                  class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
-                  data-test-subj="comboBoxToggleListButton"
-                  type="button"
-                >
-                  <div>
-                    EuiIconMock
+                    class="euiComboBox__input"
+                    style="font-size: 14px; display: inline-block;"
+                  >
+                    <input
+                      aria-controls=""
+                      data-test-subj="comboBoxSearchInput"
+                      id="associatedMonitorsList_1"
+                      role="textbox"
+                      style="box-sizing: content-box; width: 2px;"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
                   </div>
-                </button>
+                </div>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <button
+                    aria-label="Open list of options"
+                    class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                    data-test-subj="comboBoxToggleListButton"
+                    type="button"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="euiSpacer euiSpacer--m"
-    />
-    <button
-      class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
-      disabled=""
-      type="button"
-    >
-      <span
-        class="euiButtonContent euiButton__content"
+      <div
+        class="euiSpacer euiSpacer--m"
+      />
+      <button
+        class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+        disabled=""
+        type="button"
       >
         <span
-          class="euiButton__text"
+          class="euiButtonContent euiButton__content"
         >
-          Add another monitor
+          <span
+            class="euiButton__text"
+          >
+            Add another monitor
+          </span>
         </span>
-      </span>
-    </button>
-    <div
-      class="euiText euiText--extraSmall"
-    >
+      </button>
       <div
-        class="euiTextColor euiTextColor--subdued"
+        class="euiText euiText--extraSmall"
       >
-        You can add up to 8 more monitors.
+        <div
+          class="euiTextColor euiTextColor--subdued"
+        >
+          You can add up to 
+          8
+           more monitors.
+        </div>
       </div>
     </div>
   </div>

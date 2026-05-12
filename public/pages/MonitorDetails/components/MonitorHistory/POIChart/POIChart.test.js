@@ -5,7 +5,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import POIChart from './POIChart';
 
 const startTime = moment('2018-10-29T09:18:00');

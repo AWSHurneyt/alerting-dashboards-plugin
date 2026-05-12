@@ -4,12 +4,17 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Formik } from 'formik';
 import BucketLevelTriggerExpression from './BucketLevelTriggerExpression';
 
 describe('BucketLevelTriggerExpression', () => {
   test('renders', () => {
-    const wrapper = shallow(<BucketLevelTriggerExpression />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <Formik initialValues={{}} onSubmit={() => {}}>
+        <BucketLevelTriggerExpression />
+      </Formik>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

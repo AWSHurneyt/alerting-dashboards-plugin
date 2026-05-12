@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Formik } from 'formik';
 
 import { httpClientMock } from '../../../../../test/mocks';
 import DataSource from './DataSource';
@@ -16,9 +17,15 @@ beforeEach(() => {
 
 describe('DataSource', () => {
   test('renders', () => {
-    const wrapper = shallow(
-      <DataSource values={FORMIK_INITIAL_VALUES} httpClient={httpClientMock} />
+    const { container } = render(
+      <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+        <DataSource
+          values={FORMIK_INITIAL_VALUES}
+          httpClient={httpClientMock}
+          dataTypes={{ date: [], date_nanos: [] }}
+        />
+      </Formik>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import AssociateMonitors from './AssociateMonitors';
 import { Formik } from 'formik';
@@ -17,6 +17,7 @@ describe('AssociateMonitors', () => {
         <AssociateMonitors isDarkMode={false} values={{}} httpClient={{}} errors={{}} />
       </Formik>
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

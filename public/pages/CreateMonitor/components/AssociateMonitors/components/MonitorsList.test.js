@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { Formik } from 'formik';
 import { FORMIK_INITIAL_VALUES } from '../../../containers/CreateMonitor/utils/constants';
@@ -14,9 +14,13 @@ describe('MonitorsList', () => {
   test('renders', () => {
     const component = (
       <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
-        <MonitorsList values={{}} httpClient={{}} />
+        <MonitorsList
+          values={{}}
+          httpClient={{ get: jest.fn().mockResolvedValue({ ok: true, monitors: [] }) }}
+        />
       </Formik>
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,14 +4,14 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AlertsDashboardFlyoutComponent from './AlertsDashboardFlyoutComponent';
 import { historyMock, httpClientMock } from '../../../../../test/mocks';
 
 describe('AlertsDashboardFlyoutComponent', () => {
   test('renders', () => {
     httpClientMock.get.mockResolvedValue({ ok: true, resp: { name: 'random_name' } });
-    const wrapper = shallow(
+    const { container } = render(
       <AlertsDashboardFlyoutComponent
         location={{ pathname: '/dashboard', search: '' }}
         flyout={{ type: 'message', payload: null }}
@@ -20,6 +20,6 @@ describe('AlertsDashboardFlyoutComponent', () => {
         httpClient={httpClientMock}
       />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

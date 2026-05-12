@@ -1,20 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DocumentationTitle renders 1`] = `
-<EuiFlexGroup>
-  <EuiFlexItem>
-    <span
-      data-ui="documentation-title-text"
-    >
-      Documentation
-    </span>
-  </EuiFlexItem>
-  <EuiFlexItem
-    grow={false}
+<div>
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
   >
-    <EuiIcon
-      type="popout"
-    />
-  </EuiFlexItem>
-</EuiFlexGroup>
+    <div
+      class="euiFlexItem"
+    >
+      <span
+        data-ui="documentation-title-text"
+      >
+        Documentation
+      </span>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    >
+      <div>
+        EuiIconMock
+      </div>
+    </div>
+  </div>
+</div>
 `;

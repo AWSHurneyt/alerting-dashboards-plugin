@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 jest.mock('../../../services', () => {
   const services = jest.requireActual('../../../services/services');
@@ -24,7 +24,6 @@ jest.mock('../../utils/helpers', () => {
 });
 
 import Dashboard from './Dashboard';
-import DashboardClassic from './DashboardClassic';
 import { historyMock, httpClientMock } from '../../../../test/mocks';
 import { setupCoreStart } from '../../../../test/utils/helpers';
 
@@ -49,33 +48,10 @@ describe('Dashboard', () => {
     });
   });
 
-  const render = (props = {}) =>
-    shallow(
-      <Dashboard httpClient={httpClientMock} history={historyMock} location={location} {...props} />
+  test('renders', () => {
+    const { container } = render(
+      <Dashboard httpClient={httpClientMock} history={historyMock} location={location} />
     );
-
-  test('renders DashboardClassic', () => {
-    const wrapper = render({ perAlertView: true });
-
-    expect(wrapper.find(DashboardClassic).exists()).toBe(true);
-  });
-
-  test('forwards props to the rendered dashboard', () => {
-    const perAlertView = false;
-
-    const wrapper = shallow(
-      <Dashboard
-        httpClient={httpClientMock}
-        history={historyMock}
-        location={location}
-        perAlertView={perAlertView}
-        monitorIds={['monitor-1']}
-      />
-    );
-
-    const renderedDashboard = wrapper.find(DashboardClassic);
-    expect(renderedDashboard.exists()).toBe(true);
-    expect(renderedDashboard.prop('perAlertView')).toBe(perAlertView);
-    expect(renderedDashboard.prop('monitorIds')).toEqual(['monitor-1']);
+    expect(container).toMatchSnapshot();
   });
 });

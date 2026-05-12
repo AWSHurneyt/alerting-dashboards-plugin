@@ -1,79 +1,195 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BucketLevelTriggerExpression renders 1`] = `
-<EuiFlexGroup
-  alignItems="flexStart"
-  gutterSize="m"
-  style={
-    Object {
-      "maxWidth": 1200,
-      "paddingLeft": "10px",
-      "paddingTop": "10px",
-      "whiteSpace": "nowrap",
-    }
-  }
->
-  <EuiFlexItem
-    grow={false}
-    style={
-      Object {
-        "width": "90px",
-      }
-    }
+<div>
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+    style="max-width: 1200px; padding-left: 10px; padding-top: 10px; white-space: nowrap;"
   >
-    <Field>
-      <Component />
-    </Field>
-  </EuiFlexItem>
-  <EuiFlexItem
-    grow={false}
-    style={
-      Object {
-        "minWidth": "300px",
-      }
-    }
-  >
-    <Field
-      fullWidth={true}
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+      style="width: 90px;"
     >
-      <Component />
-    </Field>
-  </EuiFlexItem>
-  <EuiFlexItem
-    grow={false}
-    style={
-      Object {
-        "width": "200px",
-      }
-    }
-  >
-    <Field
-      fullWidth={true}
+      <div
+        class="euiFormRow euiFormRow--compressed"
+        id="generated-id-row"
+      >
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <select
+                class="euiSelect euiSelect--compressed"
+                id="generated-id"
+              >
+                <option
+                  value="AND"
+                >
+                  AND
+                </option>
+                <option
+                  value="OR"
+                >
+                  OR
+                </option>
+              </select>
+              <div
+                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+      style="min-width: 300px;"
     >
-      <Component />
-    </Field>
-  </EuiFlexItem>
-  <EuiFlexItem
-    grow={false}
-    style={
-      Object {
-        "width": "200px",
-      }
-    }
-  >
-    <Field>
-      <Component />
-    </Field>
-  </EuiFlexItem>
-  <EuiFlexItem
-    grow={false}
-  >
-    <EuiSmallButton
-      color="danger"
-      onClick={[Function]}
+      <div
+        class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+        id="generated-id-row"
+      >
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <select
+                class="euiSelect euiSelect--fullWidth euiSelect--compressed"
+                id="generated-id"
+              />
+              <div
+                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+      style="width: 200px;"
     >
-      Remove condition
-    </EuiSmallButton>
-  </EuiFlexItem>
-</EuiFlexGroup>
+      <div
+        class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+        id="generated-id-row"
+      >
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <select
+                class="euiSelect euiSelect--compressed"
+                id="generated-id"
+              >
+                <option
+                  value="ABOVE"
+                >
+                  IS ABOVE
+                </option>
+                <option
+                  value="BELOW"
+                >
+                  IS BELOW
+                </option>
+                <option
+                  value="EXACTLY"
+                >
+                  IS EXACTLY
+                </option>
+              </select>
+              <div
+                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+      style="width: 200px;"
+    >
+      <div
+        class="euiFormRow euiFormRow--compressed"
+        id="generated-id-row"
+      >
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <input
+                class="euiFieldNumber euiFieldNumber--compressed"
+                id="generated-id"
+                type="number"
+                value="[object Object]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
+    >
+      <button
+        class="euiButton euiButton--danger euiButton--small"
+        type="button"
+      >
+        <span
+          class="euiButtonContent euiButton__content"
+        >
+          <span
+            class="euiButton__text"
+          >
+            Remove condition
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
 `;

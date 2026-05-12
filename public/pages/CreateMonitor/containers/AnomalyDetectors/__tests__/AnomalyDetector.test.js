@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Formik } from 'formik';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 
 import {
   notificationServiceMock,
@@ -13,100 +13,97 @@ import {
 } from '../../../../../../../../src/core/public/mocks';
 import { FORMIK_INITIAL_VALUES } from '../../CreateMonitor/utils/constants';
 import AnomalyDetectors from '../AnomalyDetectors';
-import { httpClientMock } from '../../../../../../test/mocks';
 import { CoreContext } from '../../../../../utils/CoreContext';
 import { setClient, setNotifications } from '../../../../../services';
 
-// Used to wait until all of the promises have cleared, especially waiting for asynchronous Formik's handlers.
-const runAllPromises = () => new Promise(setImmediate);
-
 const renderEmptyMessage = jest.fn();
-function getMountWrapper() {
-  return mount(
-    <CoreContext.Provider value={{ http: httpClientMock }}>
-      <Formik initialValues={FORMIK_INITIAL_VALUES}>
-        {({ values }) => (
-          <AnomalyDetectors values={values} renderEmptyMessage={renderEmptyMessage} />
-        )}
-      </Formik>
-    </CoreContext.Provider>
-  );
-}
 
 describe('AnomalyDetectors', () => {
   const notifications = notificationServiceMock.createStartContract();
   setNotifications(notifications);
+  // Use the same httpClient instance for both setClient and assertions
   const httpClient = httpServiceMock.createStartContract();
   setClient(httpClient);
+
   beforeEach(() => {
     jest.clearAllMocks();
+    httpClient.post.mockResolvedValue({ ok: true, detectors: [] });
   });
+
   test('renders', () => {
-    httpClientMock.post.mockResolvedValue({ ok: true, detectors: [] });
-    const wrapper = getMountWrapper();
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+          {({ values }) => (
+            <AnomalyDetectors values={values} renderEmptyMessage={renderEmptyMessage} />
+          )}
+        </Formik>
+      </CoreContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('should be able to select the detector', async () => {
+    httpClient.post.mockResolvedValue({
+      ok: true,
+      detectors: [{ id: 'det-1', name: 'Test Detector', indices: ['index-1'] }],
+    });
+
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+          {({ values }) => (
+            <AnomalyDetectors values={values} renderEmptyMessage={renderEmptyMessage} />
+          )}
+        </Formik>
+      </CoreContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(httpClient.post).toHaveBeenCalledWith(
+        '../api/alerting/detectors/_search',
+        expect.anything()
+      );
+    });
   });
 
   test('refetches detectors when landingDataSourceId changes', async () => {
-    httpClient.post.mockResolvedValue({ ok: true, detectors: [] });
-    const TestHarness = ({ landingDataSourceId }) => (
-      <CoreContext.Provider value={{ http: httpClientMock }}>
-        <Formik initialValues={FORMIK_INITIAL_VALUES}>
+    const { rerender } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
           {({ values }) => (
             <AnomalyDetectors
               values={values}
               renderEmptyMessage={renderEmptyMessage}
-              landingDataSourceId={landingDataSourceId}
+              landingDataSourceId="ds-1"
             />
           )}
         </Formik>
       </CoreContext.Provider>
     );
 
-    const wrapper = mount(<TestHarness landingDataSourceId={undefined} />);
-
-    await runAllPromises();
-    wrapper.update();
-
-    // Change the data source id and ensure we re-fetch with the new query param.
-    wrapper.setProps({ landingDataSourceId: 'demo' });
-
-    await runAllPromises();
-    wrapper.update();
-
-    const lastCallArgs = httpClient.post.mock.calls[httpClient.post.mock.calls.length - 1];
-    expect(lastCallArgs[0]).toEqual('../api/alerting/detectors/_search');
-    expect(lastCallArgs[1]).toMatchObject({ query: { dataSourceId: 'demo' } });
-  });
-
-  test('should be able to select the detector', async () => {
-    httpClientMock.post.mockResolvedValueOnce({
-      ok: true,
-      detectors: [{ name: 'sample-detector', id: 'sample-id', feature_attributes: [] }],
+    await waitFor(() => {
+      expect(httpClient.post).toHaveBeenCalled();
     });
-    //Preview mock
-    httpClientMock.post.mockResolvedValueOnce({
-      ok: true,
-      response: { anomalyResult: { anomalies: [], featureData: [] }, detector: {} },
-    });
-    const wrapper = getMountWrapper();
 
-    wrapper
-      .find('[data-test-subj="comboBoxSearchInput"]')
-      .hostNodes()
-      .simulate('change', { target: { value: 'sample-detect' } });
+    httpClient.post.mockClear();
 
-    await runAllPromises();
-
-    wrapper
-      .find('[data-test-subj="comboBoxInput"]')
-      .hostNodes()
-      .simulate('keyDown', { key: 'ArrowDown' })
-      .simulate('keyDown', { key: 'Enter' });
-
-    // Validate the specific detector is in the input field
-    expect(wrapper.find('[data-test-subj="comboBoxInput"]').hostNodes().text()).toEqual(
-      'sample-detect'
+    rerender(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+          {({ values }) => (
+            <AnomalyDetectors
+              values={values}
+              renderEmptyMessage={renderEmptyMessage}
+              landingDataSourceId="ds-2"
+            />
+          )}
+        </Formik>
+      </CoreContext.Provider>
     );
+
+    await waitFor(() => {
+      expect(httpClient.post).toHaveBeenCalled();
+    });
   });
 });

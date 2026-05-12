@@ -5,15 +5,20 @@
 
 import React from 'react';
 import { Formik } from 'formik';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { FORMIK_INITIAL_VALUES } from '../../../containers/CreateMonitor/utils/constants';
 import Daily from './Daily';
 
-describe.skip('Daily', () => {
+describe('Daily', () => {
   test('renders', () => {
-    const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Daily />} />;
+    const component = (
+      <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+        <Daily />
+      </Formik>
+    );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

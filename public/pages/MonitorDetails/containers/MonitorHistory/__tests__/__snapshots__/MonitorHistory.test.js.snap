@@ -1,5 +1,646 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<MonitorHistory/> should create appropriate alerts data 1`] = `Object {}`;
-
-exports[`<MonitorHistory/> should fetch new data on timeSeriesWindow change  1`] = `Object {}`;
+exports[`<MonitorHistory/> renders with triggers 1`] = `
+<div>
+  <div
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px;"
+  >
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <h2>
+            History
+          </h2>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+                style="padding: 0px 10px;"
+              >
+                <div
+                  class="euiDatePickerRange euiDatePickerRange--fullWidth"
+                >
+                  <span>
+                    <span
+                      class="euiDatePicker euiDatePicker--shadow"
+                    >
+                      <div
+                        class="euiFormControlLayout euiFormControlLayout--fullWidth"
+                      >
+                        <div
+                          class="euiFormControlLayout__childrenWrapper"
+                        >
+                          <div
+                            class="react-datepicker-wrapper"
+                          >
+                            <div
+                              class="react-datepicker__input-container"
+                            >
+                              <input
+                                aria-label="Press the down key to open a popover containing a calendar."
+                                class="euiDatePicker euiFieldText euiFieldText--fullWidth euiFieldText--withIcon euiFieldText--compressed"
+                                type="text"
+                                value="05/10/2026 12:00 AM"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="euiFormControlLayoutIcons"
+                          >
+                            <span
+                              class="euiFormControlLayoutCustomIcon"
+                            >
+                              <div>
+                                EuiIconMock
+                              </div>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                  <div
+                    class="euiText euiText--small euiDatePickerRange__delimeter"
+                  >
+                    <div
+                      class="euiTextColor euiTextColor--subdued"
+                    >
+                      →
+                    </div>
+                  </div>
+                  <span>
+                    <span
+                      class="euiDatePicker euiDatePicker--shadow"
+                    >
+                      <div
+                        class="euiFormControlLayout euiFormControlLayout--fullWidth"
+                      >
+                        <div
+                          class="euiFormControlLayout__childrenWrapper"
+                        >
+                          <div
+                            class="react-datepicker-wrapper"
+                          >
+                            <div
+                              class="react-datepicker__input-container"
+                            >
+                              <input
+                                aria-label="Press the down key to open a popover containing a calendar."
+                                class="euiDatePicker euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
+                                type="text"
+                                value="05/12/2026 02:44 PM"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+    />
+    <div
+      style="padding: 0px; min-height: 200px;"
+    >
+      <div
+        style="min-height: 80px; opacity: 1;"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--directionColumn euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem"
+                style="align-items: center; max-width: 10%; padding: 0px 10px; word-break: break-all;"
+              >
+                <div
+                  class="euiText euiText--small euiText--constrainedWidth"
+                >
+                  <div
+                    class="euiTextAlign euiTextAlign--center"
+                  >
+                    Trigger 1
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem"
+                style="width: 90%;"
+              />
+            </div>
+            <hr
+              class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+            />
+          </div>
+          <div
+            class="euiFlexItem"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem"
+                style="align-items: center; max-width: 10%; padding: 0px 10px; word-break: break-all;"
+              >
+                <div
+                  class="euiText euiText--small euiText--constrainedWidth"
+                >
+                  <div
+                    class="euiTextAlign euiTextAlign--center"
+                  >
+                    Trigger 2
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem"
+                style="width: 90%;"
+              />
+            </div>
+            <hr
+              class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+            />
+          </div>
+          <div
+            class="euiFlexItem"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+              style="padding-left: 10%;"
+            >
+              <div
+                style="width: 100%; height: 100%;"
+              >
+                <div
+                  class="rv-xy-plot"
+                  style="width: 0px; height: 35px;"
+                >
+                  <svg
+                    class="rv-xy-plot__inner"
+                    height="35"
+                    width="0"
+                  >
+                    <g
+                      class="rv-xy-plot__axis rv-xy-plot__axis--horizontal"
+                      transform="translate(25,-5)"
+                    >
+                      <g
+                        class="rv-xy-plot__axis__ticks"
+                        transform="translate(0, 0)"
+                      />
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+        />
+      </div>
+      <div
+        class="euiFlexGroup euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="padding-left: 10%;"
+      >
+        <div
+          style="width: 100%; height: 100%;"
+        >
+          <div
+            class="rv-xy-plot"
+            style="width: 0px; height: 90px;"
+          >
+            <svg
+              class="rv-xy-plot__inner"
+              height="90"
+              width="0"
+            >
+              <path
+                class="rv-xy-plot__series rv-xy-plot__series--line"
+                style="opacity: 1; stroke: darkgray; fill: darkgray;"
+                transform="translate(25,10)"
+              />
+              <g
+                class="rv-xy-plot__axis rv-xy-plot__axis--horizontal"
+                transform="translate(20,50)"
+              >
+                <line
+                  class="rv-xy-plot__axis__line"
+                  x1="0"
+                  x2="-45"
+                  y1="0"
+                  y2="0"
+                />
+                <g
+                  class="rv-xy-plot__axis__ticks"
+                  transform="translate(0, 0)"
+                >
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(0, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      May 10
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-8.60629602351272, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      12 PM
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-17.21259204702544, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      Mon 11
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-25.818888070538158, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      12 PM
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-34.42518409405088, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      Tue 12
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-43.031480117563596, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      12 PM
+                    </text>
+                  </g>
+                </g>
+              </g>
+              <g
+                class="rv-xy-plot__axis rv-xy-plot__axis--vertical"
+                transform="translate(0,10)"
+              >
+                <line
+                  class="rv-xy-plot__axis__line"
+                  x1="25"
+                  x2="25"
+                  y1="0"
+                  y2="40"
+                />
+                <g
+                  class="rv-xy-plot__axis__ticks"
+                  transform="translate(25, 0)"
+                >
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(0, 40)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="6"
+                      x2="-6"
+                      y1="0"
+                      y2="0"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.32em"
+                      text-anchor="end"
+                      transform="translate(-14, 0)"
+                    >
+                      0
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(0, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="6"
+                      x2="-6"
+                      y1="0"
+                      y2="0"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.32em"
+                      text-anchor="end"
+                      transform="translate(-14, 0)"
+                    >
+                      5
+                    </text>
+                  </g>
+                </g>
+              </g>
+              <g
+                class=" rv-highlight-container"
+                transform="translate(0, 0)"
+              >
+                <rect
+                  class="rv-mouse-target"
+                  cursor="move"
+                  height="50"
+                  opacity="0"
+                  width="0"
+                  x="25"
+                  y="0"
+                />
+                <rect
+                  class="rv-mouse-target"
+                  fill="white"
+                  height="50"
+                  opacity="0.8"
+                  pointer-events="none"
+                  width="0"
+                  x="25"
+                  y="0"
+                />
+                <rect
+                  fill="white"
+                  height="50"
+                  opacity="0.3"
+                  pointer-events="none"
+                  width="0"
+                  x="25"
+                  y="0"
+                />
+                <rect
+                  class="rv-mouse-target"
+                  fill="white"
+                  height="50"
+                  opacity="0.8"
+                  pointer-events="none"
+                  width="0"
+                  x="0"
+                  y="0"
+                />
+                <g>
+                  <rect
+                    fill="rgb(151,151,151)"
+                    height="50"
+                    pointer-events="none"
+                    stroke="none"
+                    width="1"
+                    x="25"
+                    y="0"
+                  />
+                  <rect
+                    fill="rgb(151,151,151)"
+                    height="50"
+                    pointer-events="none"
+                    stroke="none"
+                    width="1"
+                    x="0"
+                    y="0"
+                  />
+                  <line
+                    pointer-events="none"
+                    stroke="rgb(151,151,151)"
+                    stroke-width="2"
+                    x1="25"
+                    x2="0"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr
+        class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="margin-left: 20px;"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            style="height: 30px;"
+          >
+            <div
+              class="euiFlexItem"
+              style="height: 30px;"
+            >
+              <div
+                style="height: 100%; width: 15px; background-color: rgb(208, 2, 27);"
+              />
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <div
+                class="euiText euiText--extraSmall"
+              >
+                Triggered
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            style="height: 30px;"
+          >
+            <div
+              class="euiFlexItem"
+              style="height: 30px;"
+            >
+              <div
+                style="height: 100%; width: 15px; background-color: lightgrey;"
+              />
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <div
+                class="euiText euiText--extraSmall"
+              >
+                Error
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            style="height: 30px;"
+          >
+            <div
+              class="euiFlexItem"
+              style="height: 30px;"
+            >
+              <div
+                style="height: 100%; width: 15px; background-color: pink;"
+              />
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <div
+                class="euiText euiText--extraSmall"
+              >
+                Acknowledge
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterExtraSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow euiFlexGroup--responsive"
+            style="height: 30px;"
+          >
+            <div
+              class="euiFlexItem"
+              style="height: 30px;"
+            >
+              <div
+                style="height: 100%; width: 15px; background-color: rgb(106, 175, 53);"
+              />
+            </div>
+            <div
+              class="euiFlexItem euiFlexItem--flexGrowZero"
+            >
+              <div
+                class="euiText euiText--extraSmall"
+              >
+                No alerts
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

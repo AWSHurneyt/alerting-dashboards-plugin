@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
-import { EuiButton } from '@elastic/eui';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Formik } from 'formik';
 
 import TriggerQuery, { getExecuteMessage } from './TriggerQuery';
 import { FORMIK_INITIAL_TRIGGER_VALUES } from '../../containers/CreateTrigger/utils/constants';
@@ -22,14 +22,21 @@ const props = {
 
 describe('TriggerQuery', () => {
   test('renders', () => {
-    const wrapper = shallow(<TriggerQuery {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <Formik initialValues={{}} onSubmit={() => {}}>
+        <TriggerQuery {...props} />
+      </Formik>
+    );
+    expect(container).toMatchSnapshot();
   });
 
   test('calls onRun when clicking Run', () => {
-    const wrapper = shallow(<TriggerQuery {...props} />);
-    const button = wrapper.find(EuiButton);
-    button.simulate('click');
+    render(
+      <Formik initialValues={{}} onSubmit={() => {}}>
+        <TriggerQuery {...props} />
+      </Formik>
+    );
+    fireEvent.click(screen.getByText('Preview condition response'));
     expect(props.onRun).toHaveBeenCalled();
     expect(props.onRun).toHaveBeenCalledWith([
       { ...formikToTrigger(props.triggerValues), actions: [] },

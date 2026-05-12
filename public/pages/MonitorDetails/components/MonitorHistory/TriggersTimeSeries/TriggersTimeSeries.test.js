@@ -5,7 +5,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import TriggersTimeSeries from './TriggersTimeSeries';
 
 describe('<TriggersTimeSeries/>', () => {

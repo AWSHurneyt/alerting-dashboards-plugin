@@ -1,11 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddTriggerButton renders 1`] = `
-<EuiButton
-  fill={false}
-  onClick={[Function]}
-  size="s"
->
-  Add trigger
-</EuiButton>
+<div>
+  <button
+    class="euiButton euiButton--primary euiButton--small"
+    type="button"
+  >
+    <span
+      class="euiButtonContent euiButton__content"
+    >
+      <span
+        class="euiButton__text"
+      >
+        Add trigger
+      </span>
+    </span>
+  </button>
+</div>
 `;

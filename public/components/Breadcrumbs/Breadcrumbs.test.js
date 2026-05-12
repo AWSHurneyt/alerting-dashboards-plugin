@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
 
 jest.mock('../../services', () => {
   const actual = jest.requireActual('../../services');

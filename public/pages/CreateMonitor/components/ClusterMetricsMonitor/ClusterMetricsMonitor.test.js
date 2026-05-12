@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
 import ClusterMetricsMonitor from './ClusterMetricsMonitor';
@@ -16,6 +16,7 @@ describe('ClusterMetricsMonitor', () => {
         <ClusterMetricsMonitor values={{ searchType: 'clusterMetrics' }} />
       </Formik>
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ActionEmptyPrompt from './ActionEmptyPrompt';
 
 describe('ActionEmptyPrompt', () => {
   test('renders', () => {
-    const wrapper = shallow(<ActionEmptyPrompt />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<ActionEmptyPrompt />);
+    expect(container).toMatchSnapshot();
   });
 });

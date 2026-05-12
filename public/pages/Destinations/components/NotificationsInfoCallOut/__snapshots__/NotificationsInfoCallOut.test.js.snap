@@ -2,141 +2,130 @@
 
 exports[`NotificationsInfoCallOut renders when Notifications plugin is installed 1`] = `
 <div>
-  <div
-    class="euiCallOut euiCallOut--primary"
-  >
+  <div>
     <div
-      class="euiCallOutHeader"
-    >
-      <span
-        class="euiCallOutHeader__title"
-      >
-        Destinations have become channels in Notifications.
-      </span>
-    </div>
-    <div
-      class="euiText euiText--small"
+      class="euiCallOut euiCallOut--primary"
     >
       <div
-        class="euiTextColor euiTextColor--default"
+        class="euiCallOutHeader"
       >
-        <p>
-          Your destinations have been migrated to Notifications, a new centralized place to manage your notification channels. Destinations will be deprecated going forward. 
-          <a
-            class="euiLink euiLink--primary"
-            href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Learn more
-          </a>
-        </p>
-        <div>
-          <a
-            class="euiLink euiLink--primary"
-            href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            EuiIconMock
-          </a>
-        </div>
-        <a
-          class="euiLink euiLink--primary"
-          href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
-          rel="noopener noreferrer"
-          target="_blank"
+        <span
+          class="euiCallOutHeader__title"
         >
-          <span
-            class="euiScreenReaderOnly"
-          >
-            (opens in a new tab or window)
-          </span>
-        </a>
-        <p />
+          Destinations have become channels in Notifications.
+        </span>
+      </div>
+      <div
+        class="euiText euiText--small"
+      >
         <div
-          class="euiSpacer euiSpacer--l"
-        />
-        <a
-          class="euiButton euiButton--primary euiButton--small"
-          href="/app/notifications-dashboards#/channels"
-          rel="noreferrer"
+          class="euiTextColor euiTextColor--default"
         >
-          <span
-            class="euiButtonContent euiButton__content"
+          <p>
+            Your destinations have been migrated to Notifications, a new centralized place to manage your notification channels. Destinations will be deprecated going forward. 
+            <a
+              class="euiLink euiLink--primary"
+              href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Learn more
+              <div>
+                EuiIconMock
+              </div>
+              <span
+                class="euiScreenReaderOnly"
+              >
+                (opens in a new tab or window)
+              </span>
+            </a>
+          </p>
+          <div
+            class="euiSpacer euiSpacer--l"
+          />
+          <a
+            class="euiButton euiButton--primary euiButton--small"
+            href="/app/notifications-dashboards#/channels"
+            rel="noreferrer"
           >
             <span
-              class="euiButton__text"
+              class="euiButtonContent euiButton__content"
             >
-              View in Notifications
+              <span
+                class="euiButton__text"
+              >
+                View in Notifications
+              </span>
             </span>
-          </span>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
   </div>
-  <div
-    class="euiSpacer euiSpacer--l"
-  />
 </div>
 `;
 
 exports[`NotificationsInfoCallOut renders when Notifications plugin is not installed 1`] = `
 <div>
-  <div
-    class="euiCallOut euiCallOut--danger"
-  >
+  <div>
     <div
-      class="euiCallOutHeader"
-    >
-      <div>
-        EuiIconMock
-      </div>
-      <span
-        class="euiCallOutHeader__title"
-      >
-        Unable to send notifications. Notifications plugin is required.
-      </span>
-    </div>
-    <div
-      class="euiText euiText--small"
+      class="euiCallOut euiCallOut--danger"
     >
       <div
-        class="euiTextColor euiTextColor--default"
+        class="euiCallOutHeader"
       >
-        <p>
-          Destinations will be deprecated going forward. Install the Notifications plugin for a new centralized place to manage your notification channels.
-        </p>
-        <p>
-          Existing destinations will be automatically migrated once Notifications plugin is installed.
-        </p>
-        <div
-          class="euiSpacer euiSpacer--l"
-        />
-        <a
-          class="euiButton euiButton--primary euiButton--small"
-          href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
-          rel="noopener noreferrer"
-          target="_blank"
+        <div>
+          EuiIconMock
+        </div>
+        <span
+          class="euiCallOutHeader__title"
         >
-          <span
-            class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+          Unable to send notifications. Notifications plugin is required.
+        </span>
+      </div>
+      <div
+        class="euiText euiText--small"
+      >
+        <div
+          class="euiTextColor euiTextColor--default"
+        >
+          <p>
+            Destinations will be deprecated going forward. Install the Notifications plugin for a new centralized place to manage your notification channels.
+          </p>
+          <p>
+            Existing destinations will be automatically migrated once Notifications plugin is installed.
+          </p>
+          <div
+            class="euiSpacer euiSpacer--l"
+          />
+          <a
+            class="euiButton euiButton--primary euiButton--small"
+            href="https://opensearch.org/docs/monitoring-plugins/alerting/monitors/#questions-about-destinations"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <div>
-              EuiIconMock
-            </div>
             <span
-              class="euiButton__text"
+              class="euiButtonContent euiButtonContent--iconRight euiButton__content"
             >
-              View install instructions
+              <div>
+                EuiIconMock
+              </div>
+              <span
+                class="euiButton__text"
+              >
+                View install instructions
+              </span>
             </span>
-          </span>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
   </div>
-  <div
-    class="euiSpacer euiSpacer--l"
-  />
 </div>
 `;

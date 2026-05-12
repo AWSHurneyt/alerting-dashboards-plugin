@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import EnhancedAccordion from './EnhancedAccordion';
 
 describe('EnhancedAccordion', () => {
   test('renders', () => {
-    const wrapper = shallow(<EnhancedAccordion />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<EnhancedAccordion />);
+    expect(container).toMatchSnapshot();
   });
 });

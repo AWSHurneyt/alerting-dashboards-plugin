@@ -1,31 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ActionEmptyPrompt renders 1`] = `
-<EuiEmptyPrompt
-  actions={
-    <EuiSmallButton
-      disabled={true}
-      fill={true}
-      iconSide="right"
-      iconType="popout"
-      onClick={[Function]}
+<div>
+  <div
+    class="euiEmptyPrompt"
+    style="max-width: 45em;"
+  >
+    <span
+      class="euiTextColor euiTextColor--subdued"
     >
-      Manage channels
-    </EuiSmallButton>
-  }
-  body={
-    <EuiText
-      size="s"
+      <div
+        class="euiText euiText--medium"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <p>
+            There are no existing channels. Add a channel to create an action.
+          </p>
+        </div>
+      </div>
+    </span>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
+    <button
+      class="euiButton euiButton--primary euiButton--small euiButton--fill euiButton-isDisabled"
+      disabled=""
+      type="button"
     >
-      <p>
-        There are no existing channels. Add a channel to create an action.
-      </p>
-    </EuiText>
-  }
-  style={
-    Object {
-      "maxWidth": "45em",
-    }
-  }
-/>
+      <span
+        class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+      >
+        <div>
+          EuiIconMock
+        </div>
+        <span
+          class="euiButton__text"
+        >
+          Manage channels
+        </span>
+      </span>
+    </button>
+  </div>
+</div>
 `;

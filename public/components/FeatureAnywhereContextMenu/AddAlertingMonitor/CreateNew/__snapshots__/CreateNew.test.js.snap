@@ -1,54 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CreateNew renders 1`] = `
-<div
-  className="create-new"
->
-  <EuiText
-    size="xs"
-  >
-    <p>
-       
-      <a
-        href="https://opensearch.org/docs/latest/monitoring-plugins/alerting/index/"
-        target="_blank"
-      >
-        Learn more 
-        <EuiIcon
-          type="popout"
-        />
-      </a>
-    </p>
-  </EuiText>
-  <EuiSpacer
-    size="m"
-  />
+<div>
   <div
-    className="create-new__title-and-toggle"
+    class="create-new"
   >
-    <EuiTitle
-      size="xxs"
+    <div
+      class="euiText euiText--extraSmall"
     >
-      <h4>
-        <EuiIcon
-          className="create-new__title-icon"
-          type="visLine"
-        />
+      <p>
+        Create query level monitor, associated with the visualization. Learn more in the documentation.
+         
+        <a
+          href="https://opensearch.org/docs/latest/monitoring-plugins/alerting/index/"
+          target="_blank"
+        >
+          Learn more 
+          <div>
+            EuiIconMock
+          </div>
+        </a>
+      </p>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--m"
+    />
+    <div
+      class="create-new__title-and-toggle"
+    >
+      <h4
+        class="euiTitle euiTitle--xxsmall"
+      >
+        <div>
+          EuiIconMock
+        </div>
+        Test Vis
       </h4>
-    </EuiTitle>
-    <EuiCompressedSwitch
-      checked={false}
-      label="Show visualization"
-      onChange={[Function]}
-    />
-  </div>
-  <div
-    className="create-new__vis create-new__vis--hidden"
-  >
-    <EuiSpacer
-      size="s"
-    />
-    <EmbeddableRenderer />
+      <div
+        class="euiSwitch euiSwitch--primary euiSwitch--compressed"
+      >
+        <button
+          aria-checked="false"
+          aria-labelledby="generated-id"
+          class="euiSwitch__button"
+          id="generated-id"
+          role="switch"
+          type="button"
+        >
+          <span
+            class="euiSwitch__body"
+          >
+            <span
+              class="euiSwitch__thumb"
+            />
+            <span
+              class="euiSwitch__track"
+            />
+          </span>
+        </button>
+        <span
+          class="euiSwitch__label"
+          id="generated-id"
+        >
+          Show visualization
+        </span>
+      </div>
+    </div>
+    <div
+      class="create-new__vis create-new__vis--hidden"
+    >
+      <div
+        class="euiSpacer euiSpacer--s"
+      />
+      <div
+        data-test-subj="embeddableRenderer"
+      />
+    </div>
   </div>
 </div>
 `;

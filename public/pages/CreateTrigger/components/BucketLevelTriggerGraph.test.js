@@ -4,12 +4,17 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Formik } from 'formik';
 import BucketLevelTriggerGraph from './BucketLevelTriggerGraph';
 
 describe('BucketLevelTriggerGraph', () => {
   test('renders', () => {
-    const wrapper = shallow(<BucketLevelTriggerGraph />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <Formik initialValues={{}} onSubmit={() => {}}>
+        <BucketLevelTriggerGraph />
+      </Formik>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

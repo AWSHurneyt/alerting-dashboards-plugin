@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import ContentPanel from './ContentPanel';
 
@@ -16,6 +16,7 @@ describe('ContentPanel', () => {
       </ContentPanel>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

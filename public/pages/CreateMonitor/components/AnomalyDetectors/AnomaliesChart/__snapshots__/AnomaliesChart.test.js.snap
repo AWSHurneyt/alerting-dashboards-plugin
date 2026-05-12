@@ -1,27 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AnomaliesChart renders  1`] = `
-Array [
+<div>
   <div
     class="euiText euiText--extraSmall"
   >
     <strong>
       Sample preview for anomaly score
     </strong>
-  </div>,
+  </div>
   <div
     class="euiSpacer euiSpacer--s"
-  />,
+  />
   <div>
     <div
-      style="border-radius:5px;padding:10px;border:1px solid #D9D9D9;height:300px;width:100%;opacity:1"
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 300px; width: 100%; opacity: 1;"
     >
       <div
         class="echChart"
       >
         <div
           class="echChartBackground"
-          style="background-color:transparent"
+          style="background-color: transparent;"
         />
         <div
           class="echChartStatus"
@@ -36,6 +36,6 @@ Array [
         />
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

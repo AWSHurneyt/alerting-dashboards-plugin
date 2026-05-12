@@ -1,0 +1,624 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard renders 1`] = `
+<div>
+  <div
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px;"
+  >
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <h2>
+            Alerts by triggers
+          </h2>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem"
+          >
+            <button
+              class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+              disabled=""
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  View alert details
+                </span>
+              </span>
+            </button>
+          </div>
+          <div
+            class="euiFlexItem"
+          >
+            <button
+              class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+              data-test-subj="acknowledgeAlertsButton"
+              disabled=""
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButton__content"
+              >
+                <span
+                  class="euiButton__text"
+                >
+                  Acknowledge
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+    />
+    <div
+      style="padding: initial;"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="padding: 0px 0px 16px;"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <input
+                class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
+                placeholder="Search"
+                type="search"
+                value=""
+              />
+              <div
+                class="euiFormControlLayoutIcons"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <select
+                class="euiSelect euiSelect--compressed"
+              >
+                <option
+                  value="ALL"
+                >
+                  All severity levels
+                </option>
+                <option
+                  value="1"
+                >
+                  1 (Highest)
+                </option>
+                <option
+                  value="2"
+                >
+                  2 (High)
+                </option>
+                <option
+                  value="3"
+                >
+                  3 (Medium)
+                </option>
+                <option
+                  value="4"
+                >
+                  4 (Low)
+                </option>
+                <option
+                  value="5"
+                >
+                  5 (Lowest)
+                </option>
+              </select>
+              <div
+                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFormControlLayout euiFormControlLayout--compressed"
+          >
+            <div
+              class="euiFormControlLayout__childrenWrapper"
+            >
+              <select
+                class="euiSelect euiSelect--compressed"
+                data-test-subj="dashboardAlertStateFilter"
+              >
+                <option
+                  value="ALL"
+                >
+                  All alerts
+                </option>
+                <option
+                  value="ACTIVE"
+                >
+                  Active
+                </option>
+                <option
+                  value="ACKNOWLEDGED"
+                >
+                  Acknowledged
+                </option>
+                <option
+                  value="COMPLETED"
+                >
+                  Completed
+                </option>
+                <option
+                  value="ERROR"
+                >
+                  Error
+                </option>
+                <option
+                  value="DELETED"
+                >
+                  Deleted
+                </option>
+              </select>
+              <div
+                class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+              >
+                <span
+                  class="euiFormControlLayoutCustomIcon"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiBasicTable"
+        data-test-subj="alertsDashboard_table"
+      >
+        <div>
+          <div
+            class="euiTableHeaderMobile"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+            >
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <div
+                  class="euiCheckbox"
+                >
+                  <input
+                    aria-label="Select all rows"
+                    class="euiCheckbox__input"
+                    disabled=""
+                    id="_selection_column-checkbox_generated-id"
+                    type="checkbox"
+                  />
+                  <div
+                    class="euiCheckbox__square"
+                  />
+                  <label
+                    class="euiCheckbox__label"
+                    for="_selection_column-checkbox_generated-id"
+                  >
+                    Select all rows
+                  </label>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <div
+                  class="euiTableSortMobile"
+                >
+                  <div
+                    class="euiPopover euiPopover--anchorDownRight"
+                  >
+                    <div
+                      class="euiPopover__anchor"
+                    >
+                      <button
+                        class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                        type="button"
+                      >
+                        <span
+                          class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                        >
+                          <div>
+                            EuiIconMock
+                          </div>
+                          <span
+                            class="euiButtonEmpty__text"
+                          >
+                            Sorting
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table
+            class="euiTable euiTable--responsive"
+            id="generated-id"
+            tabindex="-1"
+          >
+            <caption
+              class="euiScreenReaderOnly euiTableCaption"
+            />
+            <thead>
+              <tr>
+                <th
+                  class="euiTableHeaderCellCheckbox"
+                  scope="col"
+                >
+                  <div
+                    class="euiTableCellContent"
+                  >
+                    <div
+                      class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                    >
+                      <input
+                        aria-label="Select all rows"
+                        class="euiCheckbox__input"
+                        data-test-subj="checkboxSelectAll"
+                        disabled=""
+                        id="_selection_column-checkbox_generated-id"
+                        type="checkbox"
+                      />
+                      <div
+                        class="euiCheckbox__square"
+                      />
+                    </div>
+                  </div>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_total_0"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Alerts"
+                      >
+                        Alerts
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_ACTIVE_1"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Active"
+                      >
+                        Active
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_ACKNOWLEDGED_2"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Acknowledged"
+                      >
+                        Acknowledged
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_ERROR_3"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Errors"
+                      >
+                        Errors
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_trigger_name_4"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Trigger name"
+                      >
+                        Trigger name
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="descending"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_start_time_5"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Trigger start time"
+                      >
+                        Trigger start time
+                      </span>
+                      <div>
+                        EuiIconMock
+                      </div>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_last_notification_time_6"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Trigger last updated"
+                      >
+                        Trigger last updated
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_severity_7"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <span
+                    class="euiTableCellContent"
+                  >
+                    <span
+                      class="euiTableCellContent__text"
+                      title="Severity"
+                    >
+                      Severity
+                    </span>
+                  </span>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_monitor_name_8"
+                  role="columnheader"
+                  scope="col"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Monitor name"
+                      >
+                        Monitor name
+                      </span>
+                    </span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="euiTableRow"
+              >
+                <td
+                  class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
+                  colspan="10"
+                >
+                  <div
+                    class="euiTableCellContent euiTableCellContent--alignCenter"
+                  >
+                    <span
+                      class="euiTableCellContent__text"
+                    >
+                      <div
+                        class="euiEmptyPrompt"
+                        style="max-width: 45em;"
+                      >
+                        <span
+                          class="euiTextColor euiTextColor--subdued"
+                        >
+                          <div
+                            class="euiText euiText--medium"
+                          >
+                            <div
+                              class="euiText euiText--small"
+                            >
+                              <p>
+                                There are no existing alerts. Create a monitor to add triggers and actions. Once an alarm is triggered, the state will show in this table.
+                              </p>
+                            </div>
+                          </div>
+                        </span>
+                        <div
+                          class="euiSpacer euiSpacer--l"
+                        />
+                        <a
+                          class="euiButton euiButton--primary euiButton--small euiButton--fill"
+                          href="#/create-monitor"
+                          rel="noreferrer"
+                        >
+                          <span
+                            class="euiButtonContent euiButton__content"
+                          >
+                            <span
+                              class="euiButton__text"
+                            >
+                              Create monitor
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

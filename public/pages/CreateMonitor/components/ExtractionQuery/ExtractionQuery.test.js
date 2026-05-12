@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import ExtractionQuery from './ExtractionQuery';
 import { Formik } from 'formik';
@@ -18,6 +18,7 @@ describe('ExtractionQuery', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

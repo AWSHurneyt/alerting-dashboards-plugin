@@ -1,103 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QueryPerformance renders 1`] = `
-<div
-  class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-  style="padding:16px;padding-left:10px;padding-right:10px"
->
+<div>
   <div
-    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="padding:0px 10px"
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px 10px 16px 10px;"
   >
     <div
-      class="euiFlexItem"
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
     >
       <div
-        class="euiText euiText--small"
-      >
-        <h2>
-          Monitor performance
-        </h2>
-      </div>
-    </div>
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    >
-      <div
-        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        class="euiFlexItem"
       >
         <div
-          class="euiFlexItem"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    class="euiText euiText--extraSmall"
-    style="padding:0px 10px"
-  >
-    <div
-      class="euiTextColor euiTextColor--subdued"
-    />
-  </div>
-  <hr
-    class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
-  />
-  <div
-    style="padding:0px 10px"
-  >
-    <div
-      class="euiSpacer euiSpacer--s"
-    />
-    <div
-      class="euiFlexGroup euiFlexGroup--gutterExtraLarge euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
-    >
-      <div
-        class="euiFlexItem euiFlexItem--flexGrowZero"
-      >
-        <div
-          class="euiText euiText--extraSmall"
+          class="euiText euiText--small"
         >
-          <strong>
-            Monitor duration
-          </strong>
-          <span
-            style="display:block"
-          >
-            5 ms
-          </span>
+          <h2>
+            Monitor performance
+          </h2>
         </div>
       </div>
       <div
         class="euiFlexItem euiFlexItem--flexGrowZero"
       >
         <div
-          class="euiText euiText--extraSmall"
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
         >
-          <strong>
-            Request duration
-          </strong>
-          <span
-            style="display:block"
-          >
-            -
-          </span>
+          <div
+            class="euiFlexItem"
+          />
         </div>
       </div>
+    </div>
+    <div
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
       <div
-        class="euiFlexItem euiFlexItem--flexGrowZero"
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+    />
+    <div
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiSpacer euiSpacer--s"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterExtraLarge euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
       >
         <div
-          class="euiText euiText--extraSmall"
+          class="euiFlexItem euiFlexItem--flexGrowZero"
         >
-          <strong>
-            Hits
-          </strong>
-          <span
-            style="display:block"
+          <div
+            class="euiText euiText--extraSmall"
           >
-            15
-          </span>
+            <strong>
+              Monitor duration
+            </strong>
+            <span
+              style="display: block;"
+            >
+              5 ms
+            </span>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Request duration
+            </strong>
+            <span
+              style="display: block;"
+            >
+              -
+            </span>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Hits
+            </strong>
+            <span
+              style="display: block;"
+            >
+              15
+            </span>
+          </div>
         </div>
       </div>
     </div>

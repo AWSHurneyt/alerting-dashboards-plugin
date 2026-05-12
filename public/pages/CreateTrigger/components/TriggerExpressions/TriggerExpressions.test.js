@@ -4,11 +4,10 @@
  */
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { EuiExpression } from '@elastic/eui';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
-import TriggerExpressions, { Expressions } from './TriggerExpressions';
+import TriggerExpressions from './TriggerExpressions';
 
 const props = {
   thresholdEnum: 'ABOVE',
@@ -17,7 +16,11 @@ const props = {
 
 describe('TriggerExpressions', () => {
   test('renders', () => {
-    const wrapper = shallow(<TriggerExpressions {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <Formik initialValues={{}} onSubmit={() => {}}>
+        <TriggerExpressions {...props} />
+      </Formik>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

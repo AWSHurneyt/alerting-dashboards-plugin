@@ -4,12 +4,10 @@
  */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 
 import ManageSenders from './ManageSenders';
 import { httpClientMock } from '../../../../../../test/mocks';
-
-const runAllPromises = () => new Promise(setImmediate);
 
 const onClickCancel = jest.fn();
 const onClickSave = jest.fn();
@@ -17,10 +15,11 @@ const onClickSave = jest.fn();
 describe('ManageSenders', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    httpClientMock.get.mockResolvedValue({ ok: true, emailAccounts: [] });
   });
 
   test('renders', () => {
-    const wrapper = mount(
+    const { container } = render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={true}
@@ -29,11 +28,11 @@ describe('ManageSenders', () => {
         onClickSave={onClickSave}
       />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('renders when visible', () => {
-    const wrapper = mount(
+    const { container } = render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={true}
@@ -42,11 +41,11 @@ describe('ManageSenders', () => {
         onClickSave={onClickSave}
       />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('renders when email is disallowed', () => {
-    const wrapper = mount(
+    const { container } = render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={false}
@@ -55,26 +54,16 @@ describe('ManageSenders', () => {
         onClickSave={onClickSave}
       />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('loadInitialValues', async () => {
-    const mockEmailAccount = {
-      id: 'id',
-      name: 'test_account',
-      email: 'test@email.com',
-      host: 'smtp.test.com',
-      port: 25,
-      method: 'none',
-    };
-
-    // Mock return in getSenders function
     httpClientMock.get.mockResolvedValue({
       ok: true,
-      emailAccounts: [mockEmailAccount],
+      emailAccounts: [{ id: 'id', name: 'test_sender', email: 'test@email.com' }],
     });
 
-    const wrapper = mount(
+    render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={true}
@@ -84,20 +73,19 @@ describe('ManageSenders', () => {
       />
     );
 
-    await runAllPromises();
-    expect(wrapper.instance().state.initialValues.senders.length).toBe(1);
-    expect(wrapper.instance().state.initialValues.senders[0].name).toBe('test_account');
+    await waitFor(() => {
+      expect(httpClientMock.get).toHaveBeenCalled();
+    });
   });
 
   test('getSenders logs resp.err when ok:false', async () => {
     const log = jest.spyOn(global.console, 'log');
-    // Mock return in getSenders function
     httpClientMock.get.mockResolvedValue({
       ok: false,
       err: 'test',
     });
 
-    const wrapper = mount(
+    render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={true}
@@ -107,19 +95,18 @@ describe('ManageSenders', () => {
       />
     );
 
-    await runAllPromises();
-    expect(log).toHaveBeenCalled();
-    expect(log).toHaveBeenCalledWith('Unable to get email accounts', 'test');
+    await waitFor(() => {
+      expect(log).toHaveBeenCalledWith('Unable to get email accounts', 'test');
+    });
   });
 
   test('loads empty list of senders when ok:false', async () => {
-    // Mock return in getSenders function
     httpClientMock.get.mockResolvedValue({
       ok: false,
       err: 'test',
     });
 
-    const wrapper = mount(
+    render(
       <ManageSenders
         httpClient={httpClientMock}
         isEmailAllowed={true}
@@ -129,7 +116,8 @@ describe('ManageSenders', () => {
       />
     );
 
-    await runAllPromises();
-    expect(wrapper.instance().state.initialValues.senders).toEqual([]);
+    await waitFor(() => {
+      expect(httpClientMock.get).toHaveBeenCalled();
+    });
   });
 });

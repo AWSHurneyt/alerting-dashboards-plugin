@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import FullPageNotificationsInfoCallOut from './FullPageNotificationsInfoCallOut';
 import { setupCoreStart } from '../../../../../test/utils/helpers';
@@ -16,10 +16,12 @@ beforeAll(() => {
 describe('FullPageNotificationsInfoCallOut', () => {
   test('renders when Notifications plugin is installed', () => {
     const component = <FullPageNotificationsInfoCallOut hasNotificationPlugin={true} />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
   test('renders when Notifications plugin is not installed', () => {
     const component = <FullPageNotificationsInfoCallOut hasNotificationPlugin={false} />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

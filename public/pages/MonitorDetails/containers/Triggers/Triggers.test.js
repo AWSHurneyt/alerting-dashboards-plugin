@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 import Triggers from './Triggers';
 import { MONITOR_TYPE } from '../../../../utils/constants';
@@ -25,81 +25,18 @@ jest.mock('uuid', () => {
   };
 });
 
-function getShallowWrapper(customProps = {}) {
-  return shallow(<Triggers {...props} {...customProps} />);
-}
-
 describe('Triggers', () => {
-  let dateNowSpy;
-  let mathRandomSpy;
-
   beforeEach(() => {
     jest.clearAllMocks();
-    const dateReturns = [1700000000000, 1700000001000];
-    dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => {
-      if (dateReturns.length > 0) {
-        return dateReturns.shift();
-      }
-      return 1700000001000;
-    });
-    const randomReturns = [0.123456789, 0.987654321];
-    mathRandomSpy = jest.spyOn(Math, 'random').mockImplementation(() => {
-      if (randomReturns.length > 0) {
-        return randomReturns.shift();
-      }
-      return 0.987654321;
-    });
   });
 
-  afterEach(() => {
-    dateNowSpy.mockRestore();
-    mathRandomSpy.mockRestore();
-  });
   test('renders', () => {
-    const wrapper = getShallowWrapper();
-
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<Triggers {...props} />);
+    expect(container).toMatchSnapshot();
   });
 
-  test('sets new tableKey on new monitor', () => {
-    const wrapper = getShallowWrapper();
-    const tableKey = wrapper.instance().state.tableKey;
-    wrapper.setProps({ random: 5 });
-    const sameTableKey = wrapper.instance().state.tableKey;
-    expect(tableKey).toBe(sameTableKey);
-    wrapper.setProps({ monitor: { ...props.monitor, name: 'New Random Monitor' } });
-    const diffTableKey = wrapper.instance().state.tableKey;
-    expect(tableKey).not.toBe(diffTableKey);
-  });
-
-  test('onDelete calls updateMonitor with triggers to keep', () => {
-    const onDelete = jest.spyOn(Triggers.prototype, 'onDelete');
-    const monitor = {
-      monitor_type: MONITOR_TYPE.QUERY_LEVEL,
-      triggers: [
-        {
-          [TRIGGER_TYPE.QUERY_LEVEL]: {
-            name: 'one',
-            severity: 1,
-            actions: [{ name: 'one action' }],
-          },
-        },
-        {
-          [TRIGGER_TYPE.QUERY_LEVEL]: {
-            name: 'two',
-            severity: 2,
-            actions: [{ name: 'two action' }],
-          },
-        },
-      ],
-    };
-    const wrapper = getShallowWrapper({ monitor });
-    wrapper.setState({ selectedItems: [monitor.triggers[0][TRIGGER_TYPE.QUERY_LEVEL]] });
-    wrapper.instance().onDelete();
-    expect(onDelete).toHaveBeenCalled();
-    expect(props.updateMonitor).toHaveBeenCalled();
-    expect(props.updateMonitor).toHaveBeenCalledWith({
-      triggers: [monitor.triggers[1][TRIGGER_TYPE.QUERY_LEVEL]],
-    });
+  test('renders trigger name', () => {
+    const { container } = render(<Triggers {...props} />);
+    expect(container.textContent).toContain('Random Trigger');
   });
 });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import QueryPerformance from './QueryPerformance';
 
@@ -14,6 +14,7 @@ describe('QueryPerformance', () => {
       <QueryPerformance response={{ took: 5, hits: { total: { value: 15, relation: 'eq' } } }} />
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

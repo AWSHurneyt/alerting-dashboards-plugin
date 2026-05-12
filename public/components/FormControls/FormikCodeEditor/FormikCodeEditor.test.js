@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
 import FormikCodeEditor from './FormikCodeEditor';
@@ -20,7 +20,8 @@ describe('FormikCodeEditor', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
   test('renders', () => {
     const component = (
@@ -29,6 +30,7 @@ describe('FormikCodeEditor', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

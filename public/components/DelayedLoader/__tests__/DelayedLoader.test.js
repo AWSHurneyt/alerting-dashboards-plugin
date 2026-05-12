@@ -4,71 +4,78 @@
  */
 
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { render, act } from '@testing-library/react';
 import DelayedLoader from '../DelayedLoader';
 
 describe('<DelayedLoader/>', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   test('renders', () => {
-    expect(
-      render(
-        <DelayedLoader isLoading={false}>
-          {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
-        </DelayedLoader>
-      )
-    ).toMatchSnapshot();
-  });
-
-  test('should set Timer for 1 seconds if initial loading is true', () => {
-    const setTimeout = jest.spyOn(window, 'setTimeout');
-    const wrapper = mount(
-      <DelayedLoader isLoading={true}>
-        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
-      </DelayedLoader>
-    );
-    expect(setTimeout).toHaveBeenCalledTimes(1);
-    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-    expect(wrapper).toMatchSnapshot();
-  });
-  test('should clear Timer on componentWillUnmount if exists', () => {
-    const setTimeout = jest.spyOn(window, 'setTimeout');
-    const clearTimeout = jest.spyOn(window, 'clearTimeout');
-    const wrapper = mount(
-      <DelayedLoader isLoading={true}>
-        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
-      </DelayedLoader>
-    );
-    expect(setTimeout).toHaveBeenCalledTimes(1);
-    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
-    wrapper.unmount();
-    expect(clearTimeout).toHaveBeenCalledTimes(1);
-  });
-
-  test('should not show loader if data fetching is finished before threshold', () => {
-    const clearTimeout = jest.spyOn(window, 'clearTimeout');
-    const wrapper = mount(
-      <DelayedLoader isLoading={true}>
-        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
-      </DelayedLoader>
-    );
-    wrapper.setProps({ isLoading: false });
-    expect(clearTimeout).toHaveBeenCalledTimes(1);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test('should show loader if data fetching takes more than threshold', () => {
-    const wrapper = mount(
+    const { container } = render(
       <DelayedLoader isLoading={false}>
         {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
       </DelayedLoader>
     );
-    wrapper.setProps({ isLoading: true });
-    jest.runAllTimers();
-    wrapper.update();
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
+  });
+
+  test('should set Timer for 1 seconds if initial loading is true', () => {
+    const setTimeoutSpy = jest.spyOn(window, 'setTimeout');
+    const { container } = render(
+      <DelayedLoader isLoading={true}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 1000);
+    expect(container).toMatchSnapshot();
+  });
+
+  test('should clear Timer on unmount if exists', () => {
+    const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
+    const { unmount } = render(
+      <DelayedLoader isLoading={true}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    unmount();
+    expect(clearTimeoutSpy).toHaveBeenCalled();
+  });
+
+  test('should not show loader if data fetching is finished before threshold', () => {
+    const { container, rerender } = render(
+      <DelayedLoader isLoading={true}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    rerender(
+      <DelayedLoader isLoading={false}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    expect(container.querySelector('div').style.opacity).toBe('1');
+  });
+
+  test('should show loader if data fetching takes more than threshold', () => {
+    const { container, rerender } = render(
+      <DelayedLoader isLoading={false}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    rerender(
+      <DelayedLoader isLoading={true}>
+        {(showLoader) => <div style={{ opacity: showLoader ? '0.2' : '1' }} />}
+      </DelayedLoader>
+    );
+    act(() => {
+      jest.runAllTimers();
+    });
+    expect(container.querySelector('div').style.opacity).toBe('0.2');
   });
 
   test('should throw an error if children is not function', () => {

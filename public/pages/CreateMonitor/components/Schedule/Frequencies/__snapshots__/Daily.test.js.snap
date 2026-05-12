@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Daily renders 1`] = `
+<div>
+  <div
+    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionColumn euiFlexGroup--responsive"
+    style="margin-top: 5px;"
+  >
+    <div
+      class="euiFlexItem"
+      style="margin-top: 0px;"
+    >
+      <div
+        class="euiFormRow"
+        id="generated-id-row"
+        style="margin-top: 0px;"
+      >
+        <div
+          class="euiFormRow__labelWrapper"
+        >
+          <label
+            class="euiFormLabel euiFormRow__label"
+            for="generated-id"
+          >
+            Around
+          </label>
+        </div>
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <span>
+            <span
+              class="euiDatePicker euiDatePicker--shadow"
+            >
+              <div
+                class="euiFormControlLayout"
+              >
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <div
+                    class="react-datepicker-wrapper"
+                  >
+                    <div
+                      class="react-datepicker__input-container"
+                    >
+                      <input
+                        aria-label="Press the down key to open a popover containing a calendar."
+                        class="euiDatePicker euiFieldText euiFieldText--withIcon"
+                        id="generated-id"
+                        name="daily"
+                        type="text"
+                        value="12:00 AM"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="euiFormControlLayoutIcons"
+                  >
+                    <span
+                      class="euiFormControlLayoutCustomIcon"
+                    >
+                      <div>
+                        EuiIconMock
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlexItem"
+      style="margin-top: 0px;"
+    >
+      <div
+        class="euiFormRow euiFormRow--compressed"
+        id="timezone-form-row-row"
+        style="margin-top: 0px;"
+      >
+        <div
+          class="euiFormRow__fieldWrapper"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="euiComboBox euiComboBox--compressed"
+            data-test-subj="timezoneComboBox"
+            name="timezone"
+            role="combobox"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <div
+                  class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                  data-test-subj="comboBoxInput"
+                  tabindex="-1"
+                >
+                  <p
+                    class="euiComboBoxPlaceholder"
+                  >
+                    Select a timezone
+                  </p>
+                  <div
+                    class="euiComboBox__input"
+                    style="font-size: 14px; display: inline-block;"
+                  >
+                    <input
+                      aria-controls=""
+                      data-test-subj="comboBoxSearchInput"
+                      id="timezone"
+                      role="textbox"
+                      style="box-sizing: content-box; width: 2px;"
+                      value=""
+                    />
+                    <div
+                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <button
+                    aria-label="Open list of options"
+                    class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                    data-test-subj="comboBoxToggleListButton"
+                    type="button"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

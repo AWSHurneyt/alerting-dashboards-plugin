@@ -4,13 +4,14 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import IconToolTip from './IconToolTip';
 
 describe('IconToolTip', () => {
   test('renders', () => {
     const component = <IconToolTip iconType="questionInCircle" content="test content" />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

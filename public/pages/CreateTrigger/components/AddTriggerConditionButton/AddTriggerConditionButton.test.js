@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AddTriggerConditionButton from './AddTriggerConditionButton';
 
 describe('AddTriggerConditionButton', () => {
   test('renders', () => {
-    const wrapper = shallow(<AddTriggerConditionButton />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<AddTriggerConditionButton />);
+    expect(container).toMatchSnapshot();
   });
 });

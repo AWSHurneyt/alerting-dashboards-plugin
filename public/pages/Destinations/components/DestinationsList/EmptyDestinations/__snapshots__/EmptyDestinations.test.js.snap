@@ -1,64 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<EmptyDestinations /> should render empty destinations message 1`] = `
-<div
-  class="euiEmptyPrompt"
-  style="max-width:45em"
->
-  <span
-    class="euiTextColor euiTextColor--subdued"
+<div>
+  <div
+    class="euiEmptyPrompt"
+    style="max-width: 45em;"
   >
-    <div
-      class="euiText euiText--medium"
+    <span
+      class="euiTextColor euiTextColor--subdued"
     >
       <div
         class="euiText euiText--medium"
       >
-        <p>
-          There are no existing destinations.
-        </p>
+        <div
+          class="euiText euiText--medium"
+        >
+          <p>
+            There are no existing destinations.
+          </p>
+        </div>
       </div>
-    </div>
-  </span>
+    </span>
+  </div>
 </div>
 `;
 
 exports[`<EmptyDestinations /> should render no results for filter criteria 1`] = `
-<div
-  class="euiEmptyPrompt"
-  style="max-width:45em"
->
-  <span
-    class="euiTextColor euiTextColor--subdued"
+<div>
+  <div
+    class="euiEmptyPrompt"
+    style="max-width: 45em;"
   >
-    <div
-      class="euiText euiText--medium"
+    <span
+      class="euiTextColor euiTextColor--subdued"
     >
       <div
         class="euiText euiText--medium"
       >
-        <p>
-          There are no destinations matching your applied filters. Reset your filters to view all destinations.
-        </p>
+        <div
+          class="euiText euiText--medium"
+        >
+          <p>
+            There are no destinations matching your applied filters. Reset your filters to view all destinations.
+          </p>
+        </div>
       </div>
-    </div>
-  </span>
-  <div
-    class="euiSpacer euiSpacer--l"
-  />
-  <button
-    class="euiButton euiButton--primary euiButton--small euiButton--fill"
-    type="button"
-  >
-    <span
-      class="euiButtonContent euiButton__content"
+    </span>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
+    <button
+      class="euiButton euiButton--primary euiButton--small euiButton--fill"
+      type="button"
     >
       <span
-        class="euiButton__text"
+        class="euiButtonContent euiButton__content"
       >
-        Reset filters
+        <span
+          class="euiButton__text"
+        >
+          Reset filters
+        </span>
       </span>
-    </span>
-  </button>
+    </button>
+  </div>
 </div>
 `;

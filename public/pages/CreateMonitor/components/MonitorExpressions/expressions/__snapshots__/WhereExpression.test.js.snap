@@ -2,59 +2,124 @@
 
 exports[`WhereExpression renders 1`] = `
 <div>
-  <div
-    class="euiText euiText--extraSmall"
-  >
-    <strong>
-      Data filter
-    </strong>
-    <i>
-       - optional 
-    </i>
-    <span
-      class="euiToolTipAnchor"
-    >
-      <div>
-        EuiIconMock
-      </div>
-    </span>
-  </div>
-  <div
-    class="euiSpacer euiSpacer--s"
-  />
   <div>
     <div
       class="euiText euiText--extraSmall"
     >
-      No filters defined.
+      <strong>
+        Data filter
+      </strong>
+      <i>
+         - optional 
+      </i>
+      <span
+        class="euiToolTipAnchor"
+      >
+        <div>
+          EuiIconMock
+        </div>
+      </span>
     </div>
     <div
-      class="euiSpacer euiSpacer--xs"
+      class="euiSpacer euiSpacer--s"
     />
-    <button
-      class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
-      data-test-subj="addFilterButton"
-      style="padding-top:5px"
-      type="button"
-    >
-      <span
-        class="euiButtonContent euiButtonEmpty__content"
+    <div>
+      <div
+        class="euiText euiText--extraSmall"
+      >
+        No filters defined.
+      </div>
+      <div
+        class="euiSpacer euiSpacer--xs"
+      />
+      <button
+        class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+        data-test-subj="addFilterButton"
+        style="padding-top: 5px;"
+        type="button"
       >
         <span
-          class="euiButtonEmpty__text"
+          class="euiButtonContent euiButtonEmpty__content"
         >
-          + Add filter
+          <span
+            class="euiButtonEmpty__text"
+          >
+            + Add filter
+          </span>
         </span>
-      </span>
-    </button>
+      </button>
+      <div
+        class="euiText euiText--extraSmall"
+        style="padding-left: 10px;"
+      >
+        <div
+          class="euiTextColor euiTextColor--subdued"
+        >
+          You can add up to 10 more data filters.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`WhereExpression renders with popover open 1`] = `
+<div>
+  <div>
     <div
       class="euiText euiText--extraSmall"
-      style="padding-left:10px"
     >
-      <div
-        class="euiTextColor euiTextColor--subdued"
+      <strong>
+        Data filter
+      </strong>
+      <i>
+         - optional 
+      </i>
+      <span
+        class="euiToolTipAnchor"
       >
-        You can add up to 10 more data filters.
+        <div>
+          EuiIconMock
+        </div>
+      </span>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--s"
+    />
+    <div>
+      <div
+        class="euiText euiText--extraSmall"
+      >
+        No filters defined.
+      </div>
+      <div
+        class="euiSpacer euiSpacer--xs"
+      />
+      <button
+        class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+        data-test-subj="addFilterButton"
+        style="padding-top: 5px;"
+        type="button"
+      >
+        <span
+          class="euiButtonContent euiButtonEmpty__content"
+        >
+          <span
+            class="euiButtonEmpty__text"
+          >
+            + Add filter
+          </span>
+        </span>
+      </button>
+      <div
+        class="euiText euiText--extraSmall"
+        style="padding-left: 10px;"
+      >
+        <div
+          class="euiTextColor euiTextColor--subdued"
+        >
+          You can add up to 10 more data filters.
+        </div>
       </div>
     </div>
   </div>

@@ -4,27 +4,26 @@
  */
 
 import React from 'react';
-import { mount, render } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
 import EmptyDestinations from './EmptyDestinations';
 
 describe('<EmptyDestinations />', () => {
   test('should render empty destinations message', () => {
-    const wrapper = render(
+    const { container } = render(
       <EmptyDestinations isFilterApplied={false} onResetFilters={jest.fn()} />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('should render no results for filter criteria', () => {
-    const wrapper = render(<EmptyDestinations isFilterApplied onResetFilters={jest.fn()} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<EmptyDestinations isFilterApplied onResetFilters={jest.fn()} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('should call reset Filters callback on click of Reset Filters Button', () => {
     const handleResetFilter = jest.fn();
-    const wrapper = mount(<EmptyDestinations isFilterApplied onResetFilters={handleResetFilter} />);
-    // Simulate Reset button click Click
-    wrapper.find('button').simulate('click');
+    render(<EmptyDestinations isFilterApplied onResetFilters={handleResetFilter} />);
+    fireEvent.click(screen.getByRole('button'));
     expect(handleResetFilter).toHaveBeenCalledTimes(1);
   });
 });

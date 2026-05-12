@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import FormikFormRow from './FormikFormRow';
 
@@ -17,6 +17,7 @@ describe('FormikFormRow', () => {
       </FormikFormRow>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -2,6 +2,8 @@
 
 exports[`FormikInputWrapper renders 1`] = `
 <div>
-  test
+  <div>
+    test
+  </div>
 </div>
 `;

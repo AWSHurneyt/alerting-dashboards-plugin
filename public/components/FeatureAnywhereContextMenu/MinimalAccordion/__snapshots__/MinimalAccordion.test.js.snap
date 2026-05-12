@@ -1,34 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MinimalAccordion renders 1`] = `
-<div
-  className="minimal-accordion"
->
-  <EuiAccordion
-    arrowDisplay="left"
-    buttonContent={
-      <React.Fragment>
-        <EuiTitle
-          size="xxs"
-        >
-          <h5
-            className="minimal-accordion__title"
-          />
-        </EuiTitle>
-      </React.Fragment>
-    }
-    forceState="closed"
-    initialIsOpen={false}
-    isLoading={false}
-    isLoadingMessage={false}
-    paddingSize="none"
+<div>
+  <div
+    class="minimal-accordion"
   >
-    <EuiPanel
-      className="minimal-accordion__panel"
-      hasBorder={false}
-      hasShadow={false}
-      paddingSize="l"
-    />
-  </EuiAccordion>
+    <div
+      class="euiAccordion"
+    >
+      <div
+        class="euiAccordion__triggerWrapper"
+      >
+        <button
+          aria-expanded="false"
+          class="euiAccordion__button"
+          id="generated-id"
+          type="button"
+        >
+          <span
+            class="euiAccordion__iconWrapper"
+          >
+            <div>
+              EuiIconMock
+            </div>
+          </span>
+          <span
+            class="euiIEFlexWrapFix"
+          >
+            <h5
+              class="euiTitle euiTitle--xxsmall minimal-accordion__title"
+            />
+          </span>
+        </button>
+      </div>
+      <div
+        aria-labelledby="generated-id"
+        class="euiAccordion__childWrapper"
+        role="region"
+        tabindex="-1"
+      >
+        <div>
+          <div
+            class=""
+          >
+            <div
+              class="euiPanel euiPanel--paddingLarge euiPanel--borderRadiusMedium euiPanel--plain euiPanel--noShadow euiPanel--noBorder minimal-accordion__panel"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

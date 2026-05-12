@@ -1,19 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`OverviewStat renders 1`] = `
-<div
-  class="euiFlexItem"
->
+<div>
   <div
-    class="euiText euiText--extraSmall"
+    class="euiFlexItem"
   >
-    <strong>
-      Test Header
-    </strong>
     <div
-      style="word-wrap:break-word;overflow-wrap:break-word"
+      class="euiText euiText--extraSmall"
     >
-      Test Value
+      <strong>
+        Test Header
+      </strong>
+      <div
+        style="word-wrap: break-word; overflow-wrap: break-word;"
+      >
+        Test Value
+      </div>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import DashboardControls from './DashboardControls';
 
@@ -23,6 +23,7 @@ describe('DashboardControls', () => {
         onPageChange={() => {}}
       />
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

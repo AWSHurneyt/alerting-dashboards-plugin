@@ -1,18 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FindingsPopover renders 1`] = `
-<div
-  class="euiPopover euiPopover--anchorDownCenter"
->
+<div>
   <div
-    class="euiPopover__anchor"
+    class="euiPopover euiPopover--anchorDownCenter"
   >
-    <button
-      class="euiLink euiLink--primary"
-      type="button"
+    <div
+      class="euiPopover__anchor"
     >
-      0 Queries
-    </button>
+      <button
+        class="euiLink euiLink--primary"
+        type="button"
+      >
+        0 Queries
+      </button>
+    </div>
   </div>
 </div>
 `;
