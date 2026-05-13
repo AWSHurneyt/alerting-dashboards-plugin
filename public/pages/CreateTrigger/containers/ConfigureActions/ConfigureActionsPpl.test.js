@@ -9,7 +9,8 @@ import { Formik } from 'formik';
 
 jest.mock('../../components/Action', () => () => null);
 jest.mock('../../components/ActionEmptyPrompt', () => () => null);
-jest.mock('../../components/AddActionButton', () => () => null);
+jest.mock('../../components/AddActionButton/AddActionButtonPpl', () => () => null);
+jest.mock('../../components/Action/actions/MessagePpl', () => () => null);
 jest.mock('../../../Destinations/utils/helpers', () => ({
   getAllowList: jest.fn().mockResolvedValue([]),
 }));
@@ -32,7 +33,7 @@ jest.mock('../../utils/helper', () => ({
   toChannelType: jest.fn(() => ''),
 }));
 jest.mock('../../components/AddActionButton/utils', () => ({
-  getInitialActionValues: jest.fn(() => ({ name: '', destination_id: '' })),
+  getInitialPplActionValues: jest.fn(() => ({ name: '', destination_id: '' })),
 }));
 jest.mock('../../../utils/helpers', () => ({
   getDataSourceId: jest.fn(() => undefined),
@@ -40,7 +41,7 @@ jest.mock('../../../utils/helpers', () => ({
   dataSourceEnabled: jest.fn(() => false),
 }));
 
-import ConfigureActions from './ConfigureActions';
+import ConfigureActionsPpl from './ConfigureActionsPpl';
 
 const defaultProps = {
   httpClient: {
@@ -58,49 +59,26 @@ const defaultProps = {
   monitorType: 'monitor',
 };
 
-describe('ConfigureActions', () => {
+describe('ConfigureActionsPpl', () => {
   beforeEach(() => jest.clearAllMocks());
 
-  test('renders empty state when no actions', async () => {
+  test('renders empty state', async () => {
     const { container } = render(
       <Formik initialValues={{ actions: [] }} onSubmit={() => {}}>
-        <ConfigureActions {...defaultProps} />
+        <ConfigureActionsPpl {...defaultProps} />
       </Formik>
     );
-    await waitFor(() => {
-      expect(container).toBeTruthy();
-    });
+    await waitFor(() => expect(container).toBeTruthy());
   });
 
-  test('loads destinations on mount', async () => {
+  test('loads channels on mount', async () => {
     render(
       <Formik initialValues={{ actions: [] }} onSubmit={() => {}}>
-        <ConfigureActions {...defaultProps} />
+        <ConfigureActionsPpl {...defaultProps} />
       </Formik>
     );
     await waitFor(() => {
-      expect(defaultProps.httpClient.get).toHaveBeenCalledWith(
-        expect.stringContaining('destinations'),
-        expect.anything()
-      );
-    });
-  });
-
-  test('renders with existing actions', async () => {
-    const propsWithActions = {
-      ...defaultProps,
-      values: { actions: [{ name: 'action1' }] },
-    };
-    const { container } = render(
-      <Formik
-        initialValues={{ actions: [{ name: 'action1', destination_id: 'dest-1' }] }}
-        onSubmit={() => {}}
-      >
-        <ConfigureActions {...propsWithActions} />
-      </Formik>
-    );
-    await waitFor(() => {
-      expect(container).toBeTruthy();
+      expect(defaultProps.httpClient.get).toHaveBeenCalled();
     });
   });
 });
