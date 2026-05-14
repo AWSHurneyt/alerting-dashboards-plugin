@@ -42,7 +42,7 @@ jobs:
           cd ./OpenSearch-Dashboards/
           su `id -un 1000` -c "source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v &&
                                cd ./plugins/alerting-dashboards-plugin &&
-                               whoami && yarn osd bootstrap --single-version=loose && yarn build && yarn run test:jest --coverage"
+                               whoami && yarn osd bootstrap --single-version=loose && yarn build && yarn run test:jest -u --coverage"
       - name: Uploads coverage
         uses: codecov/codecov-action@v1
 
@@ -89,9 +89,9 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           cd OpenSearch-Dashboards/plugins/alerting-dashboards-plugin
-          yarn run test:jest:windows --coverage
+          yarn run test:jest:windows -u --coverage
       - name: Run non-window tests
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           cd OpenSearch-Dashboards/plugins/alerting-dashboards-plugin
-          yarn run test:jest --coverage
+          yarn run test:jest -u --coverage
