@@ -3,40 +3,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+jest.mock('./getScheduleFromPplMonitor', () => jest.fn(() => 'Every 1 minute'));
+jest.mock('../../../../../utils/constants', () => ({ DEFAULT_EMPTY_DATA: '-' }));
+jest.mock('../../../../CreateMonitor/containers/CreateMonitor/utils/pplAlertingHelpers', () => ({
+  formatDuration: jest.fn((m) => (m ? `${m} min` : '-')),
+}));
+
 import getOverviewStatsV2 from './getOverviewStatsV2';
-import { DEFAULT_EMPTY_DATA } from '../../../../../utils/constants';
 
 describe('getOverviewStatsV2', () => {
-  test('returns minimal overview stats for PPL monitors', () => {
+  test('returns firstRow and secondRow', () => {
     const monitor = {
-      description: 'Example description',
-      last_update_time: '2024-01-01T00:00:00Z',
-      schedule: {
-        period: { interval: 5, unit: 'MINUTES' },
-      },
+      last_update_time: '2024-01-15T12:00:00Z',
+      description: 'Test desc',
+      look_back_window_minutes: 60,
     };
-    const monitorId = 'monitor-123';
-    const activeCount = 3;
-
-    const stats = getOverviewStatsV2(monitor, monitorId, activeCount);
-
-    expect(stats).toHaveProperty('firstRow');
-    expect(stats).toHaveProperty('secondRow');
-    expect(stats.firstRow).toHaveLength(5);
-    expect(stats.firstRow[0]).toEqual({ header: 'Total active alerts', value: activeCount });
-    expect(stats.firstRow[1].header).toBe('Schedule');
-    expect(stats.firstRow[2].header).toBe('Look back window');
-    // Last updated header is now a React element with tooltip
-    expect(stats.firstRow[3].header).toBeDefined();
-    expect(React.isValidElement(stats.firstRow[3].header)).toBe(true);
-    expect(stats.firstRow[4]).toEqual({ header: 'Monitor ID', value: monitorId });
-    expect(stats.secondRow).toHaveLength(1);
-    expect(stats.secondRow[0]).toEqual({ header: 'Description', value: 'Example description' });
+    const result = getOverviewStatsV2(monitor, 'mon-1', 3);
+    expect(result.firstRow).toHaveLength(5);
+    expect(result.secondRow).toHaveLength(1);
+    expect(result.firstRow[0].value).toBe(3);
+    expect(result.firstRow[1].value).toBe('Every 1 minute');
+    expect(result.firstRow[2].value).toBe('60 min');
+    expect(result.firstRow[4].value).toBe('mon-1');
+    expect(result.secondRow[0].value).toBe('Test desc');
   });
 
-  test('handles missing fields gracefully', () => {
-    const stats = getOverviewStatsV2({}, 'id-1');
-    expect(stats.secondRow[0]).toEqual({ header: 'Description', value: DEFAULT_EMPTY_DATA });
+  test('handles missing description', () => {
+    const result = getOverviewStatsV2({ last_update_time: null }, 'mon-1', 0);
+    expect(result.secondRow[0].value).toBe('-');
+  });
+
+  test('handles missing last_update_time', () => {
+    const result = getOverviewStatsV2({}, 'mon-1', 0);
+    expect(result.firstRow[3].value).toBe('-');
   });
 });
