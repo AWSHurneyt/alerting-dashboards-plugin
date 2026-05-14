@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { EuiText, EuiTitle } from '@elastic/eui';
-import { htmlIdGenerator } from '@elastic/eui/lib/services';
 import {
   displayAcknowledgedAlertsToast,
   filterActiveAlerts,
@@ -22,8 +21,6 @@ import semver from 'semver';
 import { SEVERITY_OPTIONS } from './constants';
 import { ANALYTICS_ALL_OVERVIEW_CONTENT_AREAS } from '../../../../src/plugins/content_management/public';
 import { DataSourceAlertsCard } from '../components/DataSourceAlertsCard/DataSourceAlertsCard';
-
-export const makeId = htmlIdGenerator();
 
 // A helper function that wraps an event handler and filters out ESCAPE keys
 export const ignoreEscape = (eventHandler) => (event) => {

@@ -20,6 +20,12 @@ import { TRIGGER_TYPE } from '../../../../CreateTrigger/containers/CreateTrigger
 import { getInitialTriggerValues } from '../../../../CreateTrigger/components/AddTriggerButton/utils';
 import { AGGREGATION_TYPES } from '../../../components/MonitorExpressions/expressions/utils/constants';
 import { getDataSourceQueryObj } from '../../../../utils/helpers';
+import {
+  getPlugins as getPluginsShared,
+  create as createShared,
+  update as updateShared,
+  prepareTriggers,
+} from './monitorApiHelpers';
 
 export const getInitialValues = ({
   title,
@@ -158,144 +164,11 @@ const getMetricAgg = (embeddable) => {
   ];
 };
 
-export const getPlugins = async (httpClient) => {
-  try {
-    const dataSourceQuery = getDataSourceQueryObj();
-    const pluginsResponse = await httpClient.get('/api/alerting/_plugins', dataSourceQuery);
-    if (pluginsResponse.ok) {
-      return pluginsResponse.resp.map((plugin) => plugin.component);
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('There was a problem getting plugins list');
-      return [];
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error('There was a problem getting plugins list', e);
-    return [];
-  }
-};
-
-export const prepareTriggers = ({
-  trigger,
-  triggerMetadata,
-  monitor,
-  edit,
-  triggerToEdit = [],
-}) => {
-  const { ui_metadata: uiMetadata = {}, triggers, monitor_type } = monitor;
-  let updatedTriggers;
-  let updatedUiMetadata;
-
-  if (edit) {
-    updatedTriggers = _.isArray(trigger) ? trigger.concat(triggers) : [trigger].concat(triggers);
-    updatedUiMetadata = {
-      ...uiMetadata,
-      triggers: { ...uiMetadata.triggers, ...triggerMetadata },
-    };
-  } else {
-    const updatedTriggersMetadata = _.cloneDeep(uiMetadata.triggers || {});
-
-    let triggerType;
-    switch (monitor_type) {
-      case MONITOR_TYPE.BUCKET_LEVEL:
-        triggerType = TRIGGER_TYPE.BUCKET_LEVEL;
-        break;
-      case MONITOR_TYPE.DOC_LEVEL:
-        triggerType = TRIGGER_TYPE.DOC_LEVEL;
-        break;
-      case MONITOR_TYPE.COMPOSITE_LEVEL:
-        triggerType = TRIGGER_TYPE.COMPOSITE_LEVEL;
-        break;
-      default:
-        triggerType = TRIGGER_TYPE.QUERY_LEVEL;
-        break;
-    }
-
-    if (_.isArray(triggerToEdit)) {
-      const names = triggerToEdit.map((entry) => _.get(entry, `${triggerType}.name`));
-      names.forEach((name) => delete updatedTriggersMetadata[name]);
-      updatedTriggers = _.cloneDeep(trigger);
-    } else {
-      const { name } = _.get(triggerToEdit, `${triggerType}`);
-      delete updatedTriggersMetadata[name];
-
-      const findTriggerName = (element) => {
-        return name === _.get(element, `${triggerType}.name`);
-      };
-
-      const indexToUpdate = _.findIndex(triggers, findTriggerName);
-      updatedTriggers = triggers.slice();
-      updatedTriggers.splice(indexToUpdate, 1, trigger);
-    }
-
-    updatedUiMetadata = {
-      ...uiMetadata,
-      triggers: { ...updatedTriggersMetadata, ...triggerMetadata },
-    };
-  }
-
-  return { triggers: updatedTriggers, ui_metadata: updatedUiMetadata };
-};
-
-export const create = async ({
-  monitor,
-  formikBag,
-  httpClient,
-  notifications,
-  history,
-  onSuccess,
-}) => {
-  const { setSubmitting } = formikBag;
-
-  try {
-    const isWorkflow = monitor.workflow_type === MONITOR_TYPE.COMPOSITE_LEVEL;
-    const creationPool = isWorkflow ? 'workflows' : 'monitors';
-    const dataSourceQuery = getDataSourceQueryObj();
-    const resp = await httpClient.post(`/api/alerting/${creationPool}`, {
-      body: JSON.stringify(monitor),
-      query: dataSourceQuery?.query,
-    });
-
-    if (resp.ok) {
-      setSubmitting(false);
-      history.push(`/monitors/${resp.resp._id}?type=${isWorkflow ? 'workflow' : 'monitor'}`);
-
-      if (onSuccess) {
-        onSuccess({ monitor: { _id: resp.resp._id, ...monitor } });
-      }
-    } else {
-      setSubmitting(false);
-      backendErrorNotification(notifications, 'create', 'monitor', resp.resp);
-    }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    setSubmitting(false);
-  }
-};
-
-export const update = async ({ history, updateMonitor, notifications, monitor, formikBag }) => {
-  const { setSubmitting } = formikBag;
-  const updatedMonitor = _.cloneDeep(monitor);
-  try {
-    const isWorkflow = updatedMonitor.workflow_type === MONITOR_TYPE.COMPOSITE_LEVEL;
-    const resp = await updateMonitor(updatedMonitor);
-    setSubmitting(false);
-    const { ok, id } = resp;
-    if (ok) {
-      notifications.toasts.addSuccess(`Monitor "${monitor.name}" successfully updated.`);
-      history.push(`/monitors/${id}?type=${isWorkflow ? 'workflow' : 'monitor'}`);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('Failed to update:', resp);
-    }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    setSubmitting(false);
-  }
-};
+// Re-export shared functions (canonical implementation in monitorApiHelpers.js)
+export const getPlugins = (httpClient) => getPluginsShared(httpClient, '/api/alerting');
+export const create = (args) => createShared({ ...args, baseUrl: '/api/alerting' });
+export const update = updateShared;
+export { prepareTriggers };
 
 export const submit = ({
   values,
