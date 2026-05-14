@@ -108,7 +108,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                                 aria-label="Press the down key to open a popover containing a calendar."
                                 class="euiDatePicker euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
                                 type="text"
-                                value="05/14/2026 11:35 AM"
+                                value="05/14/2026 11:57 AM"
                               />
                             </div>
                           </div>
@@ -297,7 +297,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-9.062931063234448, 0)"
+                    transform="translate(-9.006819747081645, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -317,7 +317,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-18.125862126468895, 0)"
+                    transform="translate(-18.01363949416329, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -337,7 +337,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-27.188793189703347, 0)"
+                    transform="translate(-27.020459241244932, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -357,7 +357,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-36.25172425293779, 0)"
+                    transform="translate(-36.02727898832658, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
