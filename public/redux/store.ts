@@ -19,7 +19,7 @@ export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof configureAlertingStore>;
 export type AppDispatch = AppStore['dispatch'];
 
-export const configureAlertingStore = (
+const configureAlertingStore = (
   preloadedState?: PreloadedState<RootState>
 ) => {
   return configureStore({

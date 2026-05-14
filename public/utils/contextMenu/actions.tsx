@@ -15,13 +15,13 @@ import Container from '../../components/FeatureAnywhereContextMenu/Container';
 import { getOverlays, setDataSource } from '../../services';
 import { dataSourceEnabled } from '../../pages/utils/helpers';
 
-export const ALERTING_ACTION_CONTEXT = 'ALERTING_ACTION_CONTEXT';
-export const ALERTING_ACTION_CONTEXT_GROUP_ID = 'ALERTING_ACTION_CONTEXT_GROUP_ID';
-export const ALERTING_ACTION_ADD_ID = 'ALERTING_ACTION_ADD_ID';
-export const ALERTING_ACTION_ASSOCIATED_ID = 'ALERTING_ACTION_ASSOCIATED_ID';
-export const ALERTING_ACTION_DOC_ID = 'ALERTING_ACTION_DOC_ID';
-export const ALERTING_ACTION_AD = 'ALERTING_ACTION_AD';
-export const ALERTING_TRIGGER_AD_ID = 'ALERTING_TRIGGER_AD_ID';
+const ALERTING_ACTION_CONTEXT = 'ALERTING_ACTION_CONTEXT';
+const ALERTING_ACTION_CONTEXT_GROUP_ID = 'ALERTING_ACTION_CONTEXT_GROUP_ID';
+const ALERTING_ACTION_ADD_ID = 'ALERTING_ACTION_ADD_ID';
+const ALERTING_ACTION_ASSOCIATED_ID = 'ALERTING_ACTION_ASSOCIATED_ID';
+const ALERTING_ACTION_DOC_ID = 'ALERTING_ACTION_DOC_ID';
+const ALERTING_ACTION_AD = 'ALERTING_ACTION_AD';
+const ALERTING_TRIGGER_AD_ID = 'ALERTING_TRIGGER_AD_ID';
 
 declare module '../../../../../src/plugins/ui_actions/public' {
   export interface ActionContextMapping {
@@ -30,7 +30,7 @@ declare module '../../../../../src/plugins/ui_actions/public' {
   }
 }
 
-export const openContainerInFlyout = async ({
+const openContainerInFlyout = async ({
   defaultFlyoutMode,
   embeddable,
   detectorId,
