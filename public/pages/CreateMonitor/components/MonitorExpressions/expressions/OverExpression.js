@@ -3,98 +3,56 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'formik';
-import { EuiPopover, EuiExpression, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import { EuiPopover, EuiExpression } from '@elastic/eui';
 
 import { POPOVER_STYLE, Expressions, OVER_TYPES, EXPRESSION_STYLE } from './utils/constants';
-import { FormikSelect, FormikFieldNumber } from '../../../../../components/FormControls';
+import { FormikSelect } from '../../../../../components/FormControls';
 
-class OverExpression extends Component {
-  onChangeWrapper = (e, field) => {
-    this.props.onMadeChanges();
+const OverExpression = ({
+  formik: { values },
+  openedStates,
+  closeExpression,
+  openExpression,
+  onMadeChanges,
+}) => {
+  const onChangeWrapper = (e, field) => {
+    onMadeChanges();
     field.onChange(e);
   };
 
-  renderTypeSelect = () => (
-    <FormikSelect
-      name="overDocuments"
-      inputProps={{ onChange: this.onChangeWrapper, options: OVER_TYPES }}
-    />
+  const isGroupedOver = values.overDocuments === 'top';
+  const buttonValue = isGroupedOver
+    ? `${values.overDocuments} ${values.groupedOverTop} ${values.groupedOverFieldName}`
+    : values.overDocuments;
+
+  return (
+    <EuiPopover
+      id="over-popover"
+      button={
+        <EuiExpression
+          description={isGroupedOver ? 'grouped over' : 'over'}
+          value={buttonValue}
+          isActive={openedStates.OVER}
+          onClick={() => openExpression(Expressions.OVER)}
+        />
+      }
+      isOpen={openedStates.OVER}
+      closePopover={() => closeExpression(Expressions.OVER)}
+      panelPaddingSize="none"
+      ownFocus
+      withTitle
+      anchorPosition="downLeft"
+    >
+      <div style={{ ...POPOVER_STYLE, ...EXPRESSION_STYLE }}>
+        <FormikSelect
+          name="overDocuments"
+          inputProps={{ onChange: onChangeWrapper, options: OVER_TYPES }}
+        />
+      </div>
+    </EuiPopover>
   );
-
-  renderTopFieldNumber = () => (
-    <FormikFieldNumber name="groupedOverTop" inputProps={{ onChange: this.onChangeWrapper }} />
-  );
-
-  renderTermField = (fields = []) => (
-    <FormikSelect
-      name="groupedOverFieldName"
-      inputProps={{ onChange: this.onChangeWrapper, options: fields }}
-    />
-  );
-
-  renderOverPopover = () => (
-    <div style={{ ...POPOVER_STYLE, ...EXPRESSION_STYLE }}>{this.renderTypeSelect()}</div>
-  );
-
-  renderGroupedPopover = () => (
-    <div style={POPOVER_STYLE}>
-      <EuiFlexGroup
-        style={{
-          maxWidth: 600,
-          width: Math.max(expressionWidth, 180),
-          ...EXPRESSION_STYLE,
-        }}
-      >
-        <EuiFlexItem grow={false} style={{ width: 100 }}>
-          {this.renderTypeSelect()}
-        </EuiFlexItem>
-
-        <EuiFlexItem grow={false} style={{ width: 100 }}>
-          {this.renderTopFieldNumber()}
-        </EuiFlexItem>
-
-        <EuiFlexItem grow={false} style={{ width: 180 }}>
-          {this.renderTermField()}
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </div>
-  );
-
-  render() {
-    const {
-      formik: { values },
-      openedStates,
-      closeExpression,
-      openExpression,
-    } = this.props;
-    const isGroupedOver = values.overDocuments === 'top';
-    const buttonValue = isGroupedOver
-      ? `${values.overDocuments} ${values.groupedOverTop} ${values.groupedOverFieldName}`
-      : values.overDocuments;
-    return (
-      <EuiPopover
-        id="over-popover"
-        button={
-          <EuiExpression
-            description={isGroupedOver ? 'grouped over' : 'over'}
-            value={buttonValue}
-            isActive={openedStates.OVER}
-            onClick={() => openExpression(Expressions.OVER)}
-          />
-        }
-        isOpen={openedStates.OVER}
-        closePopover={() => closeExpression(Expressions.OVER)}
-        panelPaddingSize="none"
-        ownFocus
-        withTitle
-        anchorPosition="downLeft"
-      >
-        {this.renderOverPopover()}
-      </EuiPopover>
-    );
-  }
-}
+};
 
 export default connect(OverExpression);

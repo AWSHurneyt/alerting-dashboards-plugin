@@ -676,3 +676,143 @@ Gap: 72 lines at 4% coverage
 - Step 2 DEFERRED: ConfigureActions/ConfigureActionsPpl have behavioral differences in context-building and test-message logic
 - Step 3 DEFERRED: MonitorDetails V1/V2 share small methods but differ on API endpoints
 - Step 4 ✅: Un-exported 21 internal helpers from `formikToTrigger.js`
+
+### Phase 9: Identify Improvement Areas
+
+**Goal:** Survey the codebase for modernization opportunities and develop a prioritized plan.
+
+#### Step 1: Inventory class components
+- [x] List all `React.Component` / `Component` class files with line counts
+- [x] Identify which are candidates for hooks conversion (stateful logic, lifecycle methods)
+- [x] Flag components that are too complex or risky to convert (e.g., deeply coupled to OSD lifecycle)
+
+**Findings: 67 class components total**
+
+**Easy candidates (< 200 lines, simple state/lifecycle):**
+
+| File | Lines | State | Lifecycle | Risk |
+|------|-------|-------|-----------|------|
+| `ForExpression.js` | 50 | 0 | none | Low — stateless, just render |
+| `WhenExpression.js` | 63 | 0 | none | Low — stateless |
+| `DelayedLoader.js` | 65 | 4 | cdm+cdu | Low — timer logic → useEffect |
+| `TriggerExpressions.js` | 70 | 0 | none | Low — stateless |
+| `MonitorDetails.js` (router) | 70 | 3 | cdm+cdu | Low — routing wrapper |
+| `ConfigureDocumentLevelQueries.js` | 73 | 1 | none | Low |
+| `DestinationsActions.js` | 78 | 3 | none | Low |
+| `DataSource.js` | 79 | 1 | none | Low |
+| `OfExpression.js` | 88 | 0 | none | Low — stateless |
+| `FeatureChart.js` | 94 | 4 | none | Low |
+| `OverExpression.js` | 100 | 0 | none | Low — stateless |
+| `AcknowledgeModal.js` | 106 | 3 | none | Low |
+| `DocumentLevelTriggerExpression.js` | 106 | 1 | none | Low |
+| `CustomSteps.js` | 112 | 3 | cdm | Low |
+| `Home.js` | 134 | 3 | cdu | Low |
+| `GroupByExpression.js` | 135 | 0 | none | Low — stateless |
+| `BucketLevelTriggerExpression.js` | 135 | 0 | none | Low — stateless |
+| `WhereExpression.js` | 145 | 0 | none | Low — stateless |
+| `AnomalyDetectorTrigger.js` | 149 | 0 | none | Low — stateless |
+| `MetricExpression.js` | 151 | 0 | none | Low — stateless |
+
+**Medium candidates (200-400 lines):**
+- `MonitorExpressions.tsx` (192L) — uses formik connect()
+- `DocumentLevelQuery.js` (204L) — moderate state
+- `VisualGraph.js` (203L) — chart rendering
+- `TriggersPpl.js` (235L) — has `componentWillReceiveProps` (deprecated!)
+- `Triggers.js` (348L) — has `componentWillReceiveProps` (deprecated!)
+- `MonitorHistory.js` (373L) — complex async data fetching
+- `CrossClusterConfiguration.js` (396L) — formik connect()
+
+**Too complex / risky (> 400 lines or deeply coupled):**
+- `CreateMonitorFlyout.tsx` (1038L), `PplAlertingCreateMonitor.js` (1019L), `DefineMonitor.js` (971L)
+- `MonitorDetailsV1/V2.js` (617/803L), `DashboardClassic.js` (675L)
+- `ConfigureActions/Ppl.js` (438/444L), `CreateMonitor.js` (663L)
+
+**Deprecated patterns found:**
+- `componentWillReceiveProps` in `TriggersPpl.js` and `Triggers.js` — should be replaced with `componentDidUpdate` or hooks
+
+#### Step 2: Identify other improvement areas
+- [x] Deprecated patterns (e.g., `componentWillMount`, string refs, legacy context)
+- [x] Prop drilling that could use React context or custom hooks
+- [x] Repeated patterns that could be extracted into custom hooks (e.g., data fetching, form state)
+- [x] Accessibility gaps
+- [x] Performance issues (unnecessary re-renders, missing memoization)
+
+**Findings:**
+
+**Deprecated patterns:**
+- `componentWillReceiveProps` in 2 files (Triggers.js, TriggersPpl.js) — replace with `componentDidUpdate` or `useEffect`
+- No string refs, no UNSAFE_ methods, no legacy context
+
+**Prop drilling:**
+- `httpClient` is passed as a prop through 94 locations — candidate for a `useHttpClient()` hook via React context
+- `notifications` is similarly drilled through many levels
+- `getDataSourceQueryObj()` called in 56 places — could be a `useDataSource()` hook
+
+**Repeated patterns extractable to custom hooks:**
+- `useMonitorFetch(httpClient, monitorId)` — getMonitor + loading/error state (used in V1, V2, Dashboard)
+- `useAlertsFetch(httpClient, monitorId)` — getAlerts + pagination (used in Dashboard, AcknowledgeAlertsModal)
+- `useChannels(httpClient)` — getChannels + loadDestinations (used in ConfigureActions, ConfigureActionsPpl)
+- `usePplPreview(httpClient, query)` — runPPLPreview + loading state (used in PplAlertingCreateMonitor, DefineMonitor)
+
+**Performance:**
+- Large form components (PplAlertingCreateMonitor, DefineMonitor) re-render entire tree on every Formik field change
+- No `React.memo` usage on presentational components that receive stable props
+- Chart components (VisualGraph, TriggersTimeSeries) re-render on every state update without memoization
+
+#### Step 3: Develop prioritized plan
+- [x] Rank candidates by: risk (low/med/high), effort (S/M/L), and value (coverage improvement, maintainability)
+- [x] Group into batches that can be tested independently
+- [x] Document plan with checkboxes for Phase 10 execution
+
+**Prioritized Plan for Phase 10:**
+
+**Batch 1: Stateless class → function components (Low risk, Small effort, Quick wins)**
+Convert components with 0 state and no lifecycle methods to simple function components:
+- [ ] `ForExpression.js` (50L)
+- [ ] `WhenExpression.js` (63L)
+- [ ] `TriggerExpressions.js` (70L)
+- [ ] `OfExpression.js` (88L)
+- [ ] `OverExpression.js` (100L)
+- [ ] `GroupByExpression.js` (135L)
+- [ ] `BucketLevelTriggerExpression.js` (135L)
+- [ ] `WhereExpression.js` (145L)
+- [ ] `AnomalyDetectorTrigger.js` (149L)
+- [ ] `MetricExpression.js` (151L)
+- [ ] `DefineCompositeLevelTrigger.js` (169L)
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+**Batch 2: Simple stateful class → hooks (Low risk, Small effort)**
+Convert components with simple state + basic lifecycle:
+- [ ] `DelayedLoader.js` (65L) — timer → useEffect
+- [ ] `MonitorDetails.js` router (70L) — simple routing
+- [ ] `DestinationsActions.js` (78L) — popover state
+- [ ] `DataSource.js` (79L) — single state
+- [ ] `AcknowledgeModal.js` (106L) — modal state
+- [ ] `CustomSteps.js` (112L) — step state + cdm
+- [ ] `Home.js` (134L) — tab state + cdu
+- [ ] `DateRangePicker.js` (145L) — date state
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+**Batch 3: Fix deprecated patterns (Medium risk, Small effort, High value)**
+- [ ] `Triggers.js` — replace `componentWillReceiveProps` with `componentDidUpdate`
+- [ ] `TriggersPpl.js` — replace `componentWillReceiveProps` with `componentDidUpdate`
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+**Batch 4: Extract custom hooks (Medium risk, Medium effort, High value)**
+- [ ] Create `useHttpClient()` context hook — reduce prop drilling
+- [ ] Create `useDataSource()` hook — encapsulate getDataSourceQueryObj pattern
+- [ ] Create `useChannels(httpClient)` hook — shared channel loading logic
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+**Batch 5: Medium class → hooks (Medium risk, Medium effort)**
+- [ ] `AnomalyDetectors.js` (156L) — async fetch + state
+- [ ] `AnomalyDetectorData.js` (119L) — data fetching
+- [ ] `MonitorHistory.js` (373L) — complex but well-tested
+- [ ] `TriggersPpl.js` (235L) — after Batch 3 fixes deprecated pattern
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+### Phase 10: Implement Improvements
+
+**Goal:** Execute the modernization plan from Phase 9.
+
+*(Steps to be populated after Phase 9 analysis)*
