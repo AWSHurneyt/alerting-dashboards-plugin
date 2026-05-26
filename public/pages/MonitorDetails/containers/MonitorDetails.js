@@ -3,68 +3,56 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MonitorDetailsV1 from './MonitorDetailsV1';
 import MonitorDetailsV2 from './MonitorDetailsV2';
 import { getDataSourceQueryObj } from '../../utils/helpers';
 import { isPplMonitor as isPplMonitorUtil } from '../../../utils/pplHelpers';
 
-export default class MonitorDetailsRouter extends Component {
-  state = {
-    isPplMonitor: undefined,
-  };
+const MonitorDetailsRouter = (props) => {
+  const [isPplMonitor, setIsPplMonitor] = useState(undefined);
+  const isMounted = useRef(true);
 
-  componentDidMount() {
-    this._isMounted = true;
-    this.resolveMonitorType();
-  }
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    const locationChanged =
-      prevProps.location?.search !== this.props.location?.search ||
-      prevProps.match?.params?.monitorId !== this.props.match?.params?.monitorId;
-    if (locationChanged) {
-      this.resolveMonitorType();
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  resolveMonitorType = async () => {
-    try {
-      const dataSourceQuery = getDataSourceQueryObj();
-      const monitorId = this.props.match?.params?.monitorId;
-      if (monitorId) {
-        const resp = await this.props.httpClient.get(
-          `../api/alerting/monitors/${encodeURIComponent(monitorId)}`,
-          dataSourceQuery
-        );
-        const monitor = resp?.resp ?? null;
-        if (this._isMounted) {
-          this.setState({ isPplMonitor: monitor ? isPplMonitorUtil(monitor) : false });
+  useEffect(() => {
+    const resolveMonitorType = async () => {
+      try {
+        const dataSourceQuery = getDataSourceQueryObj();
+        const monitorId = props.match?.params?.monitorId;
+        if (monitorId) {
+          const resp = await props.httpClient.get(
+            `../api/alerting/monitors/${encodeURIComponent(monitorId)}`,
+            dataSourceQuery
+          );
+          const monitor = resp?.resp ?? null;
+          if (isMounted.current) {
+            setIsPplMonitor(monitor ? isPplMonitorUtil(monitor) : false);
+          }
+          return;
         }
-        return;
+      } catch (err) {
+        console.error('MonitorDetails: unable to determine monitor type', err);
       }
-    } catch (err) {
-      console.error('MonitorDetails: unable to determine monitor type', err);
-    }
+      if (isMounted.current) setIsPplMonitor(false);
+    };
 
-    if (this._isMounted) this.setState({ isPplMonitor: false });
-  };
+    resolveMonitorType();
+  }, [props.location?.search, props.match?.params?.monitorId]);
 
-  render() {
-    const { isPplMonitor } = this.state;
-
-    if (isPplMonitor === undefined) {
-      return null;
-    }
-
-    if (isPplMonitor) {
-      return <MonitorDetailsV2 {...this.props} />;
-    }
-
-    return <MonitorDetailsV1 {...this.props} />;
+  if (isPplMonitor === undefined) {
+    return null;
   }
-}
+
+  if (isPplMonitor) {
+    return <MonitorDetailsV2 {...props} />;
+  }
+
+  return <MonitorDetailsV1 {...props} />;
+};
+
+export default MonitorDetailsRouter;
