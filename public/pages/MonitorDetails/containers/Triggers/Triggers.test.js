@@ -39,4 +39,23 @@ describe('Triggers', () => {
     const { container } = render(<Triggers {...props} />);
     expect(container.textContent).toContain('Random Trigger');
   });
+
+  test('updates items when monitor prop changes', () => {
+    const { container, rerender } = render(<Triggers {...props} />);
+    expect(container.textContent).toContain('Random Trigger');
+
+    rerender(
+      <Triggers
+        {...props}
+        monitor={{
+          triggers: [
+            { query_level_trigger: { name: 'Trigger A', severity: '1', actions: [] } },
+            { query_level_trigger: { name: 'Trigger B', severity: '2', actions: [] } },
+          ],
+        }}
+      />
+    );
+    expect(container.textContent).toContain('Trigger A');
+    expect(container.textContent).toContain('Trigger B');
+  });
 });

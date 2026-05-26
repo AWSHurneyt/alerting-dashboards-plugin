@@ -57,4 +57,28 @@ describe('TriggersPpl', () => {
     expect(container.textContent).toContain('T1');
     expect(container.textContent).toContain('T2');
   });
+
+  test('updates items when monitor prop changes', () => {
+    const { container, rerender } = render(<TriggersPpl {...defaultProps} />);
+
+    rerender(
+      <TriggersPpl
+        {...defaultProps}
+        monitor={{
+          name: 'Test',
+          triggers: [
+            {
+              name: 'New Trigger',
+              severity: 'high',
+              type: 'number_of_results',
+              num_results_condition: '>=',
+              num_results_value: 5,
+              actions: [],
+            },
+          ],
+        }}
+      />
+    );
+    expect(container.textContent).toContain('New Trigger');
+  });
 });
