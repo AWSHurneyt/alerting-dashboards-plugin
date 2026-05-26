@@ -114,8 +114,8 @@ export default class Triggers extends Component {
     this.setState({ items: triggers });
   }
 
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.monitor !== nextProps.monitor) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.monitor !== this.props.monitor) {
       // In the React version OpenSearch Dashboards uses there is a bug regarding getDerivedStateFromProps
       // which EuiInMemoryTable uses which causes items to not be updated correctly.
       // Whenever the monitor is updated we'll generate a new key for the table

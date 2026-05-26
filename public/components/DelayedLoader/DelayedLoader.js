@@ -3,59 +3,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-class DelayedLoader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayLoader: false,
-    };
-    if (typeof props.children !== 'function') {
-      throw new Error('Children should be function');
+const DelayedLoader = ({ isLoading, children }) => {
+  if (typeof children !== 'function') {
+    throw new Error('Children should be function');
+  }
+  const [displayLoader, setDisplayLoader] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => setDisplayLoader(true), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setDisplayLoader(false);
     }
-  }
-  componentDidMount() {
-    if (this.props.isLoading) {
-      this.setTimer();
-    }
-  }
-  componentDidUpdate(prevProps) {
-    const { isLoading } = this.props;
-    // Setting up the loader to be visible only when network is too slow
-    if (isLoading !== prevProps.isLoading) {
-      if (isLoading) {
-        this.setTimer();
-      } else {
-        this.clearTimer();
-        this.setState({ displayLoader: false });
-      }
-    }
-  }
+  }, [isLoading]);
 
-  componentWillUnmount() {
-    this.clearTimer();
-  }
-
-  clearTimer = () => {
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
-  };
-
-  setTimer = () => {
-    this.timer = setTimeout(this.handleDisplayLoader, 1000);
-  };
-
-  handleDisplayLoader = () => this.setState({ displayLoader: true });
-
-  render() {
-    const { displayLoader } = this.state;
-    return this.props.children(displayLoader);
-  }
-}
+  return children(displayLoader);
+};
 
 DelayedLoader.propTypes = {
   isLoading: PropTypes.bool.isRequired,

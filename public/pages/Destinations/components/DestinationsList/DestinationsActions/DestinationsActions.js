@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   EuiSmallButton,
   EuiContextMenuPanel,
@@ -13,66 +13,62 @@ import {
   EuiPopover,
 } from '@elastic/eui';
 
-export default class DestinationsActions extends Component {
-  state = {
-    isActionsOpen: false,
-  };
+const DestinationsActions = ({
+  isEmailAllowed,
+  onClickManageSenders,
+  onClickManageEmailGroups,
+}) => {
+  const [isActionsOpen, setIsActionsOpen] = useState(false);
 
-  getActions = () => {
-    return [
-      <EuiContextMenuItem
-        key="manageSenders"
-        onClick={() => {
-          this.onCloseActions();
-          this.props.onClickManageSenders();
-        }}
-      >
-        View email senders
-      </EuiContextMenuItem>,
-      <EuiContextMenuItem
-        key="manageEmailGroups"
-        onClick={() => {
-          this.onCloseActions();
-          this.props.onClickManageEmailGroups();
-        }}
-      >
-        View email groups
-      </EuiContextMenuItem>,
-    ];
-  };
+  const onCloseActions = () => setIsActionsOpen(false);
 
-  onCloseActions = () => {
-    this.setState({ isActionsOpen: false });
-  };
+  const actions = [
+    <EuiContextMenuItem
+      key="manageSenders"
+      onClick={() => {
+        onCloseActions();
+        onClickManageSenders();
+      }}
+    >
+      View email senders
+    </EuiContextMenuItem>,
+    <EuiContextMenuItem
+      key="manageEmailGroups"
+      onClick={() => {
+        onCloseActions();
+        onClickManageEmailGroups();
+      }}
+    >
+      View email groups
+    </EuiContextMenuItem>,
+  ];
 
-  onClickActions = () => {
-    this.setState((prevState) => ({ isActionsOpen: !prevState.isActionsOpen }));
-  };
+  return (
+    <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
+      {isEmailAllowed ? (
+        <EuiFlexItem>
+          <EuiPopover
+            id="destinationActionsPopover"
+            button={
+              <EuiSmallButton
+                onClick={() => setIsActionsOpen((prev) => !prev)}
+                iconType="arrowDown"
+                iconSide="right"
+              >
+                Actions
+              </EuiSmallButton>
+            }
+            isOpen={isActionsOpen}
+            closePopover={onCloseActions}
+            panelPaddingSize="none"
+            anchorPosition="downLeft"
+          >
+            <EuiContextMenuPanel items={actions} />
+          </EuiPopover>
+        </EuiFlexItem>
+      ) : null}
+    </EuiFlexGroup>
+  );
+};
 
-  render() {
-    const { isEmailAllowed } = this.props;
-    const { isActionsOpen } = this.state;
-    return (
-      <EuiFlexGroup justifyContent="spaceBetween" alignItems="center">
-        {isEmailAllowed ? (
-          <EuiFlexItem>
-            <EuiPopover
-              id="destinationActionsPopover"
-              button={
-                <EuiSmallButton onClick={this.onClickActions} iconType="arrowDown" iconSide="right">
-                  Actions
-                </EuiSmallButton>
-              }
-              isOpen={isActionsOpen}
-              closePopover={this.onCloseActions}
-              panelPaddingSize="none"
-              anchorPosition="downLeft"
-            >
-              <EuiContextMenuPanel items={this.getActions()} />
-            </EuiPopover>
-          </EuiFlexItem>
-        ) : null}
-      </EuiFlexGroup>
-    );
-  }
-}
+export default DestinationsActions;
