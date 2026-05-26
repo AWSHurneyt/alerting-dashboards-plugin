@@ -87,11 +87,6 @@ class TriggersPpl extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.monitor !== prevProps.monitor) {
       this.updateMonitorState();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.monitor !== this.props.monitor) {
       this.setState({ tableKey: `table-${Date.now()}-${Math.random()}` });
     }
   }
