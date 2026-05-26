@@ -3,112 +3,85 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { CoreContext } from '../../../../utils/CoreContext';
 import { AD_PREVIEW_DAYS, DEFAULT_PREVIEW_ERROR_MSG } from '../../../../utils/constants';
 import { backendErrorNotification } from '../../../../utils/helpers';
 import { getClient, getNotifications } from '../../../../services';
 import { getDataSourceId } from '../../../utils/helpers';
 
-class AnomalyDetectorData extends React.Component {
-  static contextType = CoreContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      anomalyResult: {
-        anomalies: [],
-        featureData: {},
-      },
-      detector: {
-        featureAttributes: [],
-      },
-      previewStartTime: 0,
-      previewEndTime: 0,
-      isLoading: false,
-      error: '',
-    };
-    this.getPreviewData = this.getPreviewData.bind(this);
+const getPreviewErrorMessage = (err) => {
+  if (typeof err === 'string') return err;
+  if (err) {
+    if (err.msg === 'Bad Request') return err.response || DEFAULT_PREVIEW_ERROR_MSG;
+    if (err.msg) return err.msg;
   }
+  return DEFAULT_PREVIEW_ERROR_MSG;
+};
 
-  async componentDidMount() {
-    await this.getPreviewData();
-  }
+const AnomalyDetectorData = ({ detectorId, startTime, endTime, preview = true, render }) => {
+  const [state, setState] = useState({
+    anomalyResult: { anomalies: [], featureData: {} },
+    detector: { featureAttributes: [] },
+    previewStartTime: 0,
+    previewEndTime: 0,
+    isLoading: false,
+    error: '',
+  });
 
-  async componentDidUpdate(prevProps) {
-    if (prevProps.detectorId !== this.props.detectorId) {
-      await this.getPreviewData();
-    }
-  }
+  useEffect(() => {
+    const getPreviewData = async () => {
+      if (!detectorId) return;
+      const httpClient = getClient();
+      const notifications = getNotifications();
+      setState((prev) => ({ ...prev, isLoading: true }));
 
-  getPreviewErrorMessage(err) {
-    if (typeof err === 'string') return err;
-    if (err) {
-      if (err.msg === 'Bad Request') {
-        return err.response || DEFAULT_PREVIEW_ERROR_MSG;
-      }
-      if (err.msg) return err.msg;
-    }
-    return DEFAULT_PREVIEW_ERROR_MSG;
-  }
-
-  async getPreviewData() {
-    const { detectorId, startTime, endTime } = this.props;
-    const httpClient = getClient();
-    const notifications = getNotifications();
-    this.setState({
-      isLoading: true,
-    });
-    if (!detectorId) return;
-    const requestParams = {
-      startTime: startTime,
-      endTime: endTime,
-      preview: this.props.preview,
-    };
-    try {
-      const dataSourceId = getDataSourceId();
-      const extendedParams = {
-        ...(dataSourceId !== undefined && { dataSourceId }), // Only include dataSourceId if it exists
-        ...requestParams, // Other parameters
-      };
-      const response = await httpClient.get(`../api/alerting/detectors/${detectorId}/results`, {
-        query: extendedParams,
-      });
-      if (response.ok) {
-        const { anomalyResult, detector } = response.response;
-        this.setState({
-          ...this.state,
-          anomalyResult,
-          detector,
-          previewStartTime: requestParams.startTime,
-          previewEndTime: requestParams.endTime,
-          isLoading: false,
+      try {
+        const dataSourceId = getDataSourceId();
+        const query = {
+          ...(dataSourceId !== undefined && { dataSourceId }),
+          startTime,
+          endTime,
+          preview,
+        };
+        const response = await httpClient.get(`../api/alerting/detectors/${detectorId}/results`, {
+          query,
         });
-      } else {
-        this.setState({
-          isLoading: false,
-          error: getPreviewErrorMessage(response.error),
-        });
-        backendErrorNotification(notifications, 'get', 'detector results', response.error);
+        if (response.ok) {
+          const { anomalyResult, detector } = response.response;
+          setState((prev) => ({
+            ...prev,
+            anomalyResult,
+            detector,
+            previewStartTime: startTime,
+            previewEndTime: endTime,
+            isLoading: false,
+          }));
+        } else {
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error: getPreviewErrorMessage(response.error),
+          }));
+          backendErrorNotification(notifications, 'get', 'detector results', response.error);
+        }
+      } catch (err) {
+        console.error('Unable to get detectorResults', err);
+        setState((prev) => ({ ...prev, isLoading: false, error: err }));
       }
-    } catch (err) {
-      console.error('Unable to get detectorResults', err);
-      this.setState({
-        isLoading: false,
-        error: err,
-      });
-    }
-  }
-  render() {
-    const { render } = this.props;
-    return render({ ...this.state });
-  }
-}
+    };
+
+    getPreviewData();
+  }, [detectorId]);
+
+  return render({ ...state });
+};
 
 AnomalyDetectorData.propTypes = {
   detectorId: PropTypes.string.isRequired,
   preview: PropTypes.bool,
+  render: PropTypes.func.isRequired,
 };
 AnomalyDetectorData.defaultProps = {
   preview: true,
