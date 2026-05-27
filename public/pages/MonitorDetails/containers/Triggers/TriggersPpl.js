@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { EuiInMemoryTable, EuiIcon, EuiToolTip } from '@elastic/eui';
 import _ from 'lodash';
@@ -41,187 +41,127 @@ const formatTriggerType = (type) => {
   }
 };
 
-const formatMinutes = (value) =>
-  value === 0
-    ? '0 minutes'
-    : value
-    ? `${value} minute${value === 1 ? '' : 's'}`
-    : DEFAULT_EMPTY_DATA;
-
-const getExpireDurationHeader = () => {
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-      Expire duration
-      <EuiToolTip content="Default to 7 days if not specified">
-        <EuiIcon type="iInCircle" size="s" style={{ marginLeft: '4px' }} />
-      </EuiToolTip>
-    </span>
-  );
-};
+const getExpireDurationHeader = () => (
+  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+    Expire duration
+    <EuiToolTip content="Default to 7 days if not specified">
+      <EuiIcon type="iInCircle" size="s" style={{ marginLeft: '4px' }} />
+    </EuiToolTip>
+  </span>
+);
 
 const normalizeTrigger = (trigger = {}) => ({
   ...trigger,
   id: trigger.id ?? trigger.name ?? `${trigger.type || 'trigger'}-${Math.random()}`,
 });
 
-class TriggersPpl extends Component {
-  constructor(props) {
-    super(props);
+const TriggersPpl = ({ monitor }) => {
+  const [items, setItems] = useState([]);
+  const [tableKey, setTableKey] = useState(`table-${Date.now()}`);
+  const [sorting, setSorting] = useState({ sort: { field: 'name', direction: 'asc' } });
+  const prevMonitorRef = useRef(monitor);
 
-    this.state = {
-      field: 'name',
-      tableKey: `table-${Date.now()}-${Math.random()}`,
-      direction: 'asc',
-      selectedItems: [],
-      items: [],
-    };
-
-    this.onSelectionChange = this.onSelectionChange.bind(this);
-    this.onTableChange = this.onTableChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateMonitorState();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.monitor !== prevProps.monitor) {
-      this.updateMonitorState();
-      this.setState({ tableKey: `table-${Date.now()}-${Math.random()}` });
-    }
-  }
-
-  updateMonitorState() {
-    const { monitor } = this.props;
-
+  useEffect(() => {
     const rawTriggers = Array.isArray(monitor?.triggers) ? monitor.triggers : [];
     const triggers = rawTriggers.map((trigger) => {
       const unwrapped = trigger.ppl_trigger ? trigger.ppl_trigger : trigger;
       return normalizeTrigger(unwrapped);
     });
+    setItems(triggers);
+  }, [monitor]);
 
-    this.setState({ items: triggers });
-  }
+  useEffect(() => {
+    if (prevMonitorRef.current !== monitor) {
+      setTableKey(`table-${Date.now()}-${Math.random()}`);
+      prevMonitorRef.current = monitor;
+    }
+  }, [monitor]);
 
-  onSelectionChange(selectedItems) {
-    this.setState({ selectedItems });
-  }
+  const numOfTriggers = Array.isArray(monitor?.triggers) ? monitor.triggers.length : 0;
 
-  onTableChange({ sort: { field, direction } = {} }) {
-    this.setState({ field, direction });
-  }
+  const columns = [
+    { field: 'name', name: 'Name', sortable: true, truncateText: true, width: '15%' },
+    {
+      field: 'mode',
+      name: 'Trigger mode',
+      sortable: false,
+      width: '12%',
+      render: formatTriggerMode,
+    },
+    {
+      field: 'type',
+      name: 'Trigger type',
+      sortable: false,
+      width: '12%',
+      render: formatTriggerType,
+    },
+    {
+      field: 'actions',
+      name: 'Number of actions',
+      sortable: true,
+      width: '12%',
+      render: (actions = []) => actions.length,
+    },
+    { field: 'severity', name: 'Severity', sortable: true, width: '10%' },
+    {
+      field: 'num_results_condition',
+      name: 'Num results condition',
+      sortable: false,
+      width: '12%',
+      render: (value, item) =>
+        item.type === 'number_of_results' ? value || DEFAULT_EMPTY_DATA : DEFAULT_EMPTY_DATA,
+    },
+    {
+      field: 'num_results_value',
+      name: 'Num results value',
+      sortable: false,
+      width: '12%',
+      render: (value, item) =>
+        item.type === 'number_of_results' ? value ?? DEFAULT_EMPTY_DATA : DEFAULT_EMPTY_DATA,
+    },
+    {
+      name: 'Custom condition',
+      sortable: false,
+      width: '20%',
+      render: (item) =>
+        item.type !== 'number_of_results'
+          ? _.get(item, 'condition.script.source') || DEFAULT_EMPTY_DATA
+          : DEFAULT_EMPTY_DATA,
+    },
+    {
+      field: 'expires_minutes',
+      name: getExpireDurationHeader(),
+      sortable: false,
+      width: '12%',
+      render: (value) => formatDuration(value),
+    },
+    {
+      field: 'throttle_minutes',
+      name: 'Throttle duration',
+      sortable: false,
+      width: '12%',
+      render: (value) => formatDuration(value),
+    },
+  ];
 
-  render() {
-    const { direction, field, tableKey, items } = this.state;
-    const { monitor } = this.props;
-    const numOfTriggers = Array.isArray(monitor?.triggers) ? monitor.triggers.length : 0;
-
-    const columns = [
-      {
-        field: 'name',
-        name: 'Name',
-        sortable: true,
-        truncateText: true,
-        width: '15%',
-      },
-      {
-        field: 'mode',
-        name: 'Trigger mode',
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (mode) => formatTriggerMode(mode),
-      },
-      {
-        field: 'type',
-        name: 'Trigger type',
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (type) => formatTriggerType(type),
-      },
-      {
-        field: 'actions',
-        name: 'Number of actions',
-        sortable: true,
-        truncateText: false,
-        render: (actions = []) => actions.length,
-        width: '12%',
-      },
-      {
-        field: 'severity',
-        name: 'Severity',
-        sortable: true,
-        truncateText: false,
-        width: '10%',
-      },
-      {
-        field: 'num_results_condition',
-        name: 'Num results condition',
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (value, item) =>
-          item.type === 'number_of_results' ? value || DEFAULT_EMPTY_DATA : DEFAULT_EMPTY_DATA,
-      },
-      {
-        field: 'num_results_value',
-        name: 'Num results value',
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (value, item) =>
-          item.type === 'number_of_results' ? value ?? DEFAULT_EMPTY_DATA : DEFAULT_EMPTY_DATA,
-      },
-      {
-        name: 'Custom condition',
-        sortable: false,
-        truncateText: false,
-        width: '20%',
-        render: (item) =>
-          item.type !== 'number_of_results'
-            ? _.get(item, 'condition.script.source') || DEFAULT_EMPTY_DATA
-            : DEFAULT_EMPTY_DATA,
-      },
-      {
-        field: 'expires_minutes',
-        name: getExpireDurationHeader(),
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (value) => formatDuration(value),
-      },
-      {
-        field: 'throttle_minutes',
-        name: 'Throttle duration',
-        sortable: false,
-        truncateText: false,
-        width: '12%',
-        render: (value) => formatDuration(value),
-      },
-    ];
-
-    const sorting = { sort: { field, direction } };
-
-    return (
-      <ContentPanel
-        title={`Triggers (${numOfTriggers})`}
-        titleSize="s"
-        bodyStyles={{ padding: 'initial' }}
-      >
-        <EuiInMemoryTable
-          items={items}
-          itemId="id"
-          key={tableKey}
-          columns={columns}
-          sorting={sorting}
-          onTableChange={this.onTableChange}
-          noItemsMessage={'There are no triggers.'}
-        />
-      </ContentPanel>
-    );
-  }
-}
+  return (
+    <ContentPanel
+      title={`Triggers (${numOfTriggers})`}
+      titleSize="s"
+      bodyStyles={{ padding: 'initial' }}
+    >
+      <EuiInMemoryTable
+        items={items}
+        itemId="id"
+        key={tableKey}
+        columns={columns}
+        sorting={sorting}
+        onTableChange={({ sort }) => sort && setSorting({ sort })}
+        noItemsMessage={'There are no triggers.'}
+      />
+    </ContentPanel>
+  );
+};
 
 TriggersPpl.propTypes = {
   monitor: PropTypes.object.isRequired,
