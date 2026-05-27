@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { get, isEqual } from 'lodash';
 import { EuiHorizontalRule } from '@elastic/eui';
@@ -31,149 +31,110 @@ import { backendErrorNotification } from '../../../../utils/helpers';
 import { MONITOR_TYPE } from '../../../../utils/constants';
 import { getDataSourceQueryObj, getDataSourceId } from '../../../utils/helpers';
 
-class MonitorHistory extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    //TODO:: we might move this to DateRangePicker and make callback to update POIInterest? Check the perf and timings.
-    this.initialStartTime = moment(Date.now())
+const MonitorHistory = ({
+  triggers,
+  onShowTrigger,
+  isDarkMode,
+  notifications,
+  monitorType,
+  httpClient,
+  monitorId,
+}) => {
+  const initialStartTime = useRef(
+    moment(Date.now())
       .subtract(HistoryConstants.DEFAULT_POI_TIME_WINDOW_DAYS, 'days')
-      .startOf('day');
-    this.initialEndTime = moment(Date.now());
+      .startOf('day')
+  );
+  const initialEndTime = useRef(moment(Date.now()));
+  const dataSourceQuery = useRef(getDataSourceQueryObj());
 
-    this.state = {
-      poiData: [],
-      triggersData: {},
-      isLoading: true,
-      maxAlerts: 0,
-      timeSeriesWindow: {},
-      poiTimeWindow: {
-        startTime: this.initialStartTime,
-        endTime: this.initialEndTime,
-      },
-    };
+  const [poiData, setPoiData] = useState([]);
+  const [triggersData, setTriggersData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [maxAlerts, setMaxAlerts] = useState(0);
+  const [timeSeriesWindow, setTimeSeriesWindow] = useState({});
+  const [prevTimeSeriesWindow, setPrevTimeSeriesWindow] = useState(null);
+  const [poiTimeWindow, setPoiTimeWindow] = useState({
+    startTime: initialStartTime.current,
+    endTime: initialEndTime.current,
+  });
 
-    this.dataSourceQuery = getDataSourceQueryObj();
-  }
-
-  async componentDidMount() {
-    const { triggers } = this.props;
-    if (triggers.length > 0) {
-      await this.getPOIData();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!isEqual(this.props.triggers, prevProps.triggers)) {
-      this.getPOIData();
-    }
-  }
-
-  handleRangeChange = (startTime, endTime) => {
-    this.setState({ poiTimeWindow: { startTime, endTime } }, () => this.getPOIData());
-  };
-
-  /* This will generate data points and returns array
-    {
-      x0: plotting starts from.
-      x: plotting ends,
-      meta: Any meta data
-  */
-  generatePlotData = (alertsData) => {
-    const { monitorType } = this.props;
-    const {
-      timeSeriesWindow: { startTime: windowStartTime, endTime: windowEndTime },
-    } = this.state;
-    // In case of empty just return  start-end as not alerting state.
-    if (alertsData.length === 0) {
-      return [
-        {
-          x0: windowStartTime,
-          x: windowEndTime,
-          state: HistoryConstants.TIME_SERIES_ALERT_STATE.NO_ALERTS,
-          meta: {
-            startTime: windowStartTime,
-            endTime: windowEndTime,
-          },
-        },
-      ];
-    }
-    const [firstAlert, ...restAlerts] = alertsData;
-    //handles first alert separately.
-    const firstAlertDataPoints = generateFirstDataPoints({
-      startTime: get(firstAlert, '_source.start_time'),
-      acknowledgedTime: get(firstAlert, '_source.acknowledged_time'),
-      endTime: get(firstAlert, '_source.end_time'),
-      state: get(firstAlert, '_source.state'),
-      windowStartTime,
-      windowEndTime,
-      errorsCount: get(firstAlert, '_source.alert_history.length', 0),
-    });
-    // Handle rest of the alerts
-    let lastEndTime = get(firstAlert, '_source.end_time');
-
-    const restAlertsDataPoints = restAlerts.reduce((acc, currentAlert) => {
-      const {
-        start_time: startTime,
-        acknowledged_time: acknowledgedTime,
-        end_time: currentEndTime,
-        state,
-        alert_history = [],
-      } = currentAlert._source;
-      acc.push(
-        ...dataPointsGenerator(
+  const generatePlotData = useCallback(
+    (alertsData, windowStartTime, windowEndTime) => {
+      if (alertsData.length === 0) {
+        return [
           {
-            startTime,
-            acknowledgedTime,
-            endTime: currentEndTime,
-            lastEndTime,
-            windowStartTime,
-            windowEndTime,
-            meta: {
+            x0: windowStartTime,
+            x: windowEndTime,
+            state: HistoryConstants.TIME_SERIES_ALERT_STATE.NO_ALERTS,
+            meta: { startTime: windowStartTime, endTime: windowEndTime },
+          },
+        ];
+      }
+
+      const [firstAlert, ...restAlerts] = alertsData;
+      const firstAlertDataPoints = generateFirstDataPoints({
+        startTime: get(firstAlert, '_source.start_time'),
+        acknowledgedTime: get(firstAlert, '_source.acknowledged_time'),
+        endTime: get(firstAlert, '_source.end_time'),
+        state: get(firstAlert, '_source.state'),
+        windowStartTime,
+        windowEndTime,
+        errorsCount: get(firstAlert, '_source.alert_history.length', 0),
+      });
+
+      let lastEndTime = get(firstAlert, '_source.end_time');
+      const restAlertsDataPoints = restAlerts.reduce((acc, currentAlert) => {
+        const {
+          start_time: startTime,
+          acknowledged_time: acknowledgedTime,
+          end_time: currentEndTime,
+          state,
+          alert_history = [],
+        } = currentAlert._source;
+        acc.push(
+          ...dataPointsGenerator(
+            {
               startTime,
               acknowledgedTime,
               endTime: currentEndTime,
-              state,
-              errorsCount: alert_history.length,
+              lastEndTime,
+              windowStartTime,
+              windowEndTime,
+              meta: {
+                startTime,
+                acknowledgedTime,
+                endTime: currentEndTime,
+                state,
+                errorsCount: alert_history.length,
+              },
             },
-          },
-          lastEndTime
-        )
-      );
-      lastEndTime = currentEndTime;
-      return acc;
-    }, []);
+            lastEndTime
+          )
+        );
+        lastEndTime = currentEndTime;
+        return acc;
+      }, []);
 
-    // Handle last data point if required.
-    const lastAlertDataPoint = [];
-    if (lastEndTime && lastEndTime < windowEndTime) {
-      lastAlertDataPoint.push({
-        x0: lastEndTime,
-        x: windowEndTime,
-        state: HistoryConstants.TIME_SERIES_ALERT_STATE.NO_ALERTS,
-        meta: {
-          startTime: lastEndTime,
-          endTime: windowEndTime,
-        },
-      });
-    }
+      const lastAlertDataPoint = [];
+      if (lastEndTime && lastEndTime < windowEndTime) {
+        lastAlertDataPoint.push({
+          x0: lastEndTime,
+          x: windowEndTime,
+          state: HistoryConstants.TIME_SERIES_ALERT_STATE.NO_ALERTS,
+          meta: { startTime: lastEndTime, endTime: windowEndTime },
+        });
+      }
 
-    const triggerData = [...firstAlertDataPoints, ...restAlertsDataPoints, ...lastAlertDataPoint];
-    // For bucket level monitors, group the alerts together
-    const isBucketMonitor = monitorType === MONITOR_TYPE.BUCKET_LEVEL;
-    return isBucketMonitor ? parseGroupedData(triggerData) : triggerData;
-  };
+      const triggerData = [...firstAlertDataPoints, ...restAlertsDataPoints, ...lastAlertDataPoint];
+      return monitorType === MONITOR_TYPE.BUCKET_LEVEL
+        ? parseGroupedData(triggerData)
+        : triggerData;
+    },
+    [monitorType]
+  );
 
-  getWindowSize = (poiData, intervalDuration) => {
-    /*
-      brushAreaStart Duration is to defined the start point for smaller window over zoomer
-      on which time line will be displayed. Duration will default to what interval has been
-      computed to OpenSearch bucket in case it is too small,
-      just scale it so that customer can have better experience
-    */
-    const {
-      poiTimeWindow: { endTime },
-    } = this.state;
+  const getWindowSize = useCallback((intervalDuration, endTime) => {
     const brushAreaStartDuration =
       intervalDuration.asMinutes() < 10
         ? moment.duration(HistoryConstants.MIN_HIGHLIGHT_WINDOW_DURATION, 'm')
@@ -182,11 +143,59 @@ class MonitorHistory extends PureComponent {
       startTime: endTime.valueOf() - brushAreaStartDuration.asMilliseconds(),
       endTime: endTime.valueOf(),
     };
-  };
+  }, []);
 
-  getPOIData = async () => {
-    const { httpClient, monitorId } = this.props;
-    const { poiTimeWindow } = this.state;
+  const getAlerts = useCallback(
+    async (window) => {
+      setIsLoading(true);
+      try {
+        const params = {
+          size: HistoryConstants.MAX_DOC_COUNT_FOR_ALERTS,
+          sortField: 'start_time',
+          sortDirection: 'asc',
+          monitorIds: monitorId,
+          monitorType,
+          dataSourceId: getDataSourceId(),
+        };
+        const resp = await httpClient.get('../api/alerting/alerts', { query: params });
+        let alerts = [];
+        if (resp.ok) {
+          alerts = resp.alerts;
+        } else {
+          backendErrorNotification(notifications, 'get', 'alerts', resp.err);
+        }
+
+        const triggerTemp = {};
+        alerts.forEach((alert) => {
+          if (
+            alert.start_time <= window.endTime &&
+            (alert.end_time == null || alert.end_time >= window.startTime)
+          ) {
+            if (!(alert.trigger_id in triggerTemp)) triggerTemp[alert.trigger_id] = [];
+            triggerTemp[alert.trigger_id].push({ _source: alert });
+          }
+        });
+
+        const newTriggersData = {};
+        triggers.forEach((trigger) => {
+          newTriggersData[trigger.id] = generatePlotData(
+            get(triggerTemp, trigger.id, []),
+            window.startTime,
+            window.endTime
+          );
+        });
+
+        setTriggersData(newTriggersData);
+        setIsLoading(false);
+        setPrevTimeSeriesWindow(window);
+      } catch (err) {
+        console.log('err', err);
+      }
+    },
+    [httpClient, monitorId, monitorType, triggers, notifications, generatePlotData]
+  );
+
+  const getPOIData = useCallback(async () => {
     const intervalDuration = calculateInterval(
       moment.duration(poiTimeWindow.endTime - poiTimeWindow.startTime, 'ms')
     );
@@ -204,163 +213,95 @@ class MonitorHistory extends PureComponent {
 
       const resp = await httpClient.post('../api/alerting/monitors/_search', {
         body: JSON.stringify(requestBody),
-        query: this.dataSourceQuery?.query,
+        query: dataSourceQuery.current?.query,
       });
 
       if (resp.ok) {
-        const poiData = get(resp, 'resp.aggregations.alerts_over_time.buckets', []).map((item) => ({
-          x: item.key,
-          y: item.doc_count,
-        }));
-        this.setState(
-          {
-            poiData,
-            maxAlerts: get(resp, 'resp.aggregations.max_alerts.value', 0),
-            timeSeriesWindow: {
-              ...this.getWindowSize(poiData, intervalDuration),
-            },
-          },
-          () => this.getAlerts()
+        const newPoiData = get(resp, 'resp.aggregations.alerts_over_time.buckets', []).map(
+          (item) => ({ x: item.key, y: item.doc_count })
         );
-      } else {
-        const parsedError = JSON.parse(resp.resp.response);
-        this.setState({ queryResponse: parsedError });
+        const newMaxAlerts = get(resp, 'resp.aggregations.max_alerts.value', 0);
+        const newWindow = getWindowSize(intervalDuration, poiTimeWindow.endTime);
+        setPoiData(newPoiData);
+        setMaxAlerts(newMaxAlerts);
+        setTimeSeriesWindow(newWindow);
+        getAlerts(newWindow);
       }
     } catch (err) {
-      //TODO:: Handle Errors Gracefully.
       console.log('err', err);
     }
-  };
+  }, [httpClient, monitorId, poiTimeWindow, getWindowSize, getAlerts]);
 
-  getAlerts = async () => {
-    this.setState({
-      isLoading: true,
-    });
-    const { timeSeriesWindow } = this.state;
-    const { httpClient, triggers, monitorId, notifications, monitorType } = this.props;
-    try {
-      const params = {
-        size: HistoryConstants.MAX_DOC_COUNT_FOR_ALERTS,
-        sortField: 'start_time',
-        sortDirection: 'asc',
-        monitorIds: monitorId,
-        monitorType,
-        dataSourceId: getDataSourceId(),
-      };
-      const resp = await httpClient.get('../api/alerting/alerts', { query: params });
-      var alerts;
-      if (resp.ok) {
-        alerts = resp.alerts;
-      } else {
-        console.log('error getting alerts:', resp);
-        backendErrorNotification(notifications, 'get', 'alerts', resp.err);
-        alerts = [];
-      }
-
-      const triggerTemp = {};
-      alerts.forEach((alert) => {
-        if (
-          alert.start_time <= timeSeriesWindow.endTime &&
-          (alert.end_time == null || alert.end_time >= timeSeriesWindow.startTime)
-        ) {
-          if (!(alert.trigger_id in triggerTemp)) {
-            triggerTemp[alert.trigger_id] = [];
-          }
-          triggerTemp[alert.trigger_id].push({ _source: alert });
-        }
-      });
-
-      const triggersData = {};
-      triggers.forEach((trigger) => {
-        triggersData[trigger.id] = this.generatePlotData(get(triggerTemp, trigger.id, []));
-      });
-
-      this.setState({
-        isLoading: false,
-        triggersData,
-        prevTimeSeriesWindow: timeSeriesWindow,
-      });
-    } catch (err) {
-      //TODO:: Handle Errors Gracefully.
-      console.log('err', err);
+  useEffect(() => {
+    if (triggers.length > 0) {
+      getPOIData();
     }
-  };
+  }, [triggers, poiTimeWindow]);
 
-  handleDragEnd = (area) => {
-    const { timeSeriesWindow } = this.state;
-    if ((area && area.left.getTime() === timeSeriesWindow.startTime) || this.state.isLoading)
-      return;
-    this.setState(
-      {
-        prevTimeSeriesWindow: timeSeriesWindow,
-        timeSeriesWindow: {
-          startTime: area.left.getTime(),
-          endTime: area.right.getTime(),
-        },
-      },
-      () => this.getAlerts()
-    );
-  };
-  render() {
-    const {
-      poiData,
-      timeSeriesWindow,
-      isLoading,
-      triggersData,
-      poiTimeWindow,
-      maxAlerts,
-      prevTimeSeriesWindow,
-    } = this.state;
-    const { triggers, onShowTrigger, monitorType } = this.props;
-    const isBucketMonitor = monitorType === MONITOR_TYPE.BUCKET_LEVEL;
-    return (
-      <ContentPanel
-        title="History"
-        titleSize="s"
-        bodyStyles={{ minHeight: 200, padding: 0 }}
-        actions={[
-          <DateRangePicker
-            initialStartTime={this.initialStartTime}
-            initialEndTime={this.initialEndTime}
-            onRangeChange={this.handleRangeChange}
-            compressed
-          />,
-        ]}
-      >
-        {triggers.length > 0 ? (
-          <React.Fragment>
-            <TriggersTimeSeries
-              triggers={triggers}
-              isLoading={isLoading}
-              triggersData={triggersData}
-              domainBounds={prevTimeSeriesWindow || timeSeriesWindow}
-              monitorType={this.props.monitorType}
-            />
-            <POIChart
-              isLoading={isLoading}
-              data={poiData}
-              onDragStart={() => this.setState({ loading: false })}
-              highlightedArea={timeSeriesWindow}
-              onDragEnd={this.handleDragEnd}
-              xDomain={[poiTimeWindow.startTime, poiTimeWindow.endTime]}
-              yDomain={[
-                0,
-                maxAlerts <= HistoryConstants.MIN_POI_Y_SCALE
-                  ? HistoryConstants.MIN_POI_Y_SCALE
-                  : maxAlerts,
-              ]}
-              isDarkMode={this.props.isDarkMode}
-            />
-            <EuiHorizontalRule margin="xs" />
-            <Legend showBucketLegend={isBucketMonitor} />
-          </React.Fragment>
-        ) : (
-          <EmptyHistory onShowTrigger={onShowTrigger} />
-        )}
-      </ContentPanel>
-    );
-  }
-}
+  const handleRangeChange = useCallback((startTime, endTime) => {
+    setPoiTimeWindow({ startTime, endTime });
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (area) => {
+      if ((area && area.left.getTime() === timeSeriesWindow.startTime) || isLoading) return;
+      const newWindow = { startTime: area.left.getTime(), endTime: area.right.getTime() };
+      setPrevTimeSeriesWindow(timeSeriesWindow);
+      setTimeSeriesWindow(newWindow);
+      getAlerts(newWindow);
+    },
+    [timeSeriesWindow, isLoading, getAlerts]
+  );
+
+  const isBucketMonitor = monitorType === MONITOR_TYPE.BUCKET_LEVEL;
+
+  return (
+    <ContentPanel
+      title="History"
+      titleSize="s"
+      bodyStyles={{ minHeight: 200, padding: 0 }}
+      actions={[
+        <DateRangePicker
+          initialStartTime={initialStartTime.current}
+          initialEndTime={initialEndTime.current}
+          onRangeChange={handleRangeChange}
+          compressed
+        />,
+      ]}
+    >
+      {triggers.length > 0 ? (
+        <React.Fragment>
+          <TriggersTimeSeries
+            triggers={triggers}
+            isLoading={isLoading}
+            triggersData={triggersData}
+            domainBounds={prevTimeSeriesWindow || timeSeriesWindow}
+            monitorType={monitorType}
+          />
+          <POIChart
+            isLoading={isLoading}
+            data={poiData}
+            onDragStart={() => setIsLoading(false)}
+            highlightedArea={timeSeriesWindow}
+            onDragEnd={handleDragEnd}
+            xDomain={[poiTimeWindow.startTime, poiTimeWindow.endTime]}
+            yDomain={[
+              0,
+              maxAlerts <= HistoryConstants.MIN_POI_Y_SCALE
+                ? HistoryConstants.MIN_POI_Y_SCALE
+                : maxAlerts,
+            ]}
+            isDarkMode={isDarkMode}
+          />
+          <EuiHorizontalRule margin="xs" />
+          <Legend showBucketLegend={isBucketMonitor} />
+        </React.Fragment>
+      ) : (
+        <EmptyHistory onShowTrigger={onShowTrigger} />
+      )}
+    </ContentPanel>
+  );
+};
 
 MonitorHistory.propTypes = {
   triggers: PropTypes.array.isRequired,
