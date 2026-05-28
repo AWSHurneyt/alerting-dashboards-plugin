@@ -11,7 +11,7 @@ import { hasError, isInvalid, validatePositiveInteger } from '../../../../../uti
 import IconToolTip from '../../../../../components/IconToolTip';
 import { TIME_RANGE_TOOLTIP_TEXT } from '../../../containers/CreateMonitor/utils/constants';
 
-const ForExpression = () => (
+const ForExpression: React.FC = () => (
   <div>
     <EuiText size="xs">
       <strong>Time range for the last </strong>

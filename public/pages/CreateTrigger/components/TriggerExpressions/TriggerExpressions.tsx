@@ -16,7 +16,14 @@ import { THRESHOLD_ENUM_OPTIONS } from '../../utils/constants';
 
 export const Expressions = { THRESHOLD: 'THRESHOLD' };
 
-const TriggerExpressions = ({ label, keyFieldName, valueFieldName, flyoutMode }) => (
+interface TriggerExpressionsProps {
+  label: string;
+  keyFieldName: string;
+  valueFieldName: string;
+  flyoutMode?: string;
+}
+
+const TriggerExpressions: React.FC<TriggerExpressionsProps> = ({ label, keyFieldName, valueFieldName, flyoutMode }) => (
   <EuiCompressedFormRow
     label={label}
     style={flyoutMode ? { maxWidth: '100%' } : { width: '390px' }}
