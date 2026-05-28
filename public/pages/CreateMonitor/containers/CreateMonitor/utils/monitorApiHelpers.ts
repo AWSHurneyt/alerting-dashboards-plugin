@@ -27,29 +27,29 @@ interface History {
 }
 
 interface CreateParams {
-  monitor: any;
+  monitor: Record<string, unknown>;
   formikBag: FormikBag;
   httpClient: HttpClient;
   notifications: Notifications;
   history: History;
-  onSuccess?: (result: { monitor: any }) => void;
+  onSuccess?: (result: { monitor: Record<string, unknown> }) => void;
   baseUrl?: string;
 }
 
 interface UpdateParams {
   history: History;
-  updateMonitor: (monitor: any) => Promise<{ ok: boolean; id: string }>;
+  updateMonitor: (monitor: Record<string, unknown>) => Promise<{ ok: boolean; id: string }>;
   notifications: Notifications;
-  monitor: any;
+  monitor: Record<string, unknown> & { name?: string; workflow_type?: string };
   formikBag: FormikBag;
 }
 
 interface PrepareTriggersParams {
-  trigger: any;
-  triggerMetadata: Record<string, any>;
-  monitor: { ui_metadata?: any; triggers: any[]; monitor_type: string };
+  trigger: Record<string, unknown> | Record<string, unknown>[];
+  triggerMetadata: Record<string, unknown>;
+  monitor: { ui_metadata?: Record<string, unknown>; triggers: unknown[]; monitor_type: string };
   edit: boolean;
-  triggerToEdit?: any;
+  triggerToEdit?: unknown;
 }
 
 /**
