@@ -60,7 +60,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                                 aria-label="Press the down key to open a popover containing a calendar."
                                 class="euiDatePicker euiFieldText euiFieldText--fullWidth euiFieldText--withIcon euiFieldText--compressed"
                                 type="text"
-                                value="05/25/2026 12:00 AM"
+                                value="05/26/2026 12:00 AM"
                               />
                             </div>
                           </div>
@@ -108,7 +108,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                                 aria-label="Press the down key to open a popover containing a calendar."
                                 class="euiDatePicker euiFieldText euiFieldText--fullWidth euiFieldText--compressed"
                                 type="text"
-                                value="05/27/2026 01:35 PM"
+                                value="05/28/2026 10:56 AM"
                               />
                             </div>
                           </div>
@@ -292,52 +292,12 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                       text-anchor="middle"
                       transform="translate(0, 14)"
                     >
-                      Mon 25
-                    </text>
-                  </g>
-                  <g
-                    class="rv-xy-plot__axis__tick"
-                    transform="translate(-8.767578911153022, 0)"
-                  >
-                    <line
-                      class="rv-xy-plot__axis__tick__line"
-                      x1="0"
-                      x2="0"
-                      y1="-6"
-                      y2="6"
-                    />
-                    <text
-                      class="rv-xy-plot__axis__tick__text"
-                      dy="0.72em"
-                      text-anchor="middle"
-                      transform="translate(0, 14)"
-                    >
-                      12 PM
-                    </text>
-                  </g>
-                  <g
-                    class="rv-xy-plot__axis__tick"
-                    transform="translate(-17.535157822306044, 0)"
-                  >
-                    <line
-                      class="rv-xy-plot__axis__tick__line"
-                      x1="0"
-                      x2="0"
-                      y1="-6"
-                      y2="6"
-                    />
-                    <text
-                      class="rv-xy-plot__axis__tick__text"
-                      dy="0.72em"
-                      text-anchor="middle"
-                      transform="translate(0, 14)"
-                    >
                       Tue 26
                     </text>
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-26.302736733459067, 0)"
+                    transform="translate(-9.162531905253443, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -357,7 +317,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-35.07031564461209, 0)"
+                    transform="translate(-18.325063810506887, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -377,7 +337,7 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                   </g>
                   <g
                     class="rv-xy-plot__axis__tick"
-                    transform="translate(-43.83789455576511, 0)"
+                    transform="translate(-27.48759571576033, 0)"
                   >
                     <line
                       class="rv-xy-plot__axis__tick__line"
@@ -393,6 +353,26 @@ exports[`<MonitorHistory/> renders with triggers 1`] = `
                       transform="translate(0, 14)"
                     >
                       12 PM
+                    </text>
+                  </g>
+                  <g
+                    class="rv-xy-plot__axis__tick"
+                    transform="translate(-36.65012762101377, 0)"
+                  >
+                    <line
+                      class="rv-xy-plot__axis__tick__line"
+                      x1="0"
+                      x2="0"
+                      y1="-6"
+                      y2="6"
+                    />
+                    <text
+                      class="rv-xy-plot__axis__tick__text"
+                      dy="0.72em"
+                      text-anchor="middle"
+                      transform="translate(0, 14)"
+                    >
+                      Thu 28
                     </text>
                   </g>
                 </g>

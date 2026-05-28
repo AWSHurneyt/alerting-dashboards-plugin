@@ -816,3 +816,53 @@ Convert components with simple state + basic lifecycle:
 **Goal:** Execute the modernization plan from Phase 9.
 
 *(Steps to be populated after Phase 9 analysis)*
+
+### Phase 11: TypeScript Migration
+
+**Goal:** Add type safety throughout the plugin. Currently 374 JS files with no compile-time type checking.
+
+#### Step 1: Define core domain types
+- [ ] Create `public/types/monitors.ts` — Monitor, PplMonitor, MonitorSchedule, MonitorInput
+- [ ] Create `public/types/triggers.ts` — Trigger, QueryLevelTrigger, BucketLevelTrigger, DocLevelTrigger, PplTrigger
+- [ ] Create `public/types/destinations.ts` — Destination, Webhook, CustomWebhook, Email
+- [ ] Create `public/types/actions.ts` — Action, ActionThrottle, MessageTemplate
+- [ ] Create `public/types/alerts.ts` — extend existing Alert interface
+- [ ] Create `public/types/formik.ts` — MonitorFormikValues, TriggerFormikValues, DestinationFormikValues
+- [ ] Create `public/types/api.ts` — API response types (GetMonitorResponse, CreateMonitorResponse, etc.)
+- [ ] Create `public/types/index.ts` — barrel export
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+#### Step 2: Type API layer
+- [ ] Type httpClient call sites in service files
+- [ ] Type monitorApiHelpers.js → .ts
+- [ ] Type pplAlertingHelpers.js → .ts (exported functions)
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+#### Step 3: Type utility/conversion functions
+- [ ] Type formikToMonitor.js param/return types
+- [ ] Type monitorToFormik.js param/return types
+- [ ] Type pplFormikToMonitor.js param/return types
+- [ ] Type pplAlertingMonitorToFormik.js param/return types
+- [ ] Type formikToTrigger.js param/return types
+- [ ] Type triggerToFormik.js param/return types
+- [ ] Type triggerToFormikPpl.js param/return types
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+#### Step 4: Convert high-value JS → TS (utilities, no JSX)
+- [ ] Rename + type utils/helpers.js → .ts
+- [ ] Rename + type utils/validate.js → .ts
+- [ ] Rename + type pages/utils/helpers.js → .ts
+- [ ] Rename + type Dashboard/utils/helpers.js → .ts
+- [ ] Rename + type MonitorHistory/utils/*.js → .ts
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+#### Step 5: Convert components JS → TSX
+- [ ] Convert expression components (ForExpression, WhenExpression, etc.)
+- [ ] Convert trigger components (TriggerExpressions, TriggerGraphPpl, etc.)
+- [ ] Convert monitor detail components (MonitorOverview, Triggers, etc.)
+- [ ] Replace PropTypes with typed interfaces
+- [ ] **TEST BREAKPOINT**: Run full suite
+
+#### Step 6: Remove `any` annotations
+- [ ] Audit and replace 71 existing `any` annotations in TS files
+- [ ] **TEST BREAKPOINT**: Run full suite
