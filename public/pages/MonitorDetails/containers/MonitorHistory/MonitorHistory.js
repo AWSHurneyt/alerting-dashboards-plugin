@@ -236,7 +236,7 @@ const MonitorHistory = ({
     if (triggers.length > 0) {
       getPOIData();
     }
-  }, [triggers, poiTimeWindow]);
+  }, [triggers, poiTimeWindow, getPOIData]);
 
   const handleRangeChange = useCallback((startTime, endTime) => {
     setPoiTimeWindow({ startTime, endTime });

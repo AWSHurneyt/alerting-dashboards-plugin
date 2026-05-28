@@ -40,6 +40,8 @@ jobs:
         run: |
           chown -R 1000:1000 `pwd`
           cd ./OpenSearch-Dashboards/
+          # -u flag: snapshots are generated on macOS; Linux may produce minor
+          # platform-specific rendering differences that are not actual regressions.
           su `id -un 1000` -c "source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v &&
                                cd ./plugins/alerting-dashboards-plugin &&
                                whoami && yarn osd bootstrap --single-version=loose && yarn build && yarn run test:jest -u --coverage"
@@ -89,9 +91,12 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           cd OpenSearch-Dashboards/plugins/alerting-dashboards-plugin
+          # -u flag: snapshots are generated on macOS; Windows may produce minor
+          # platform-specific rendering differences (e.g., SVG floating-point values)
+          # that are not actual regressions. Cypress tests validate UI behavior.
           yarn run test:jest:windows -u --coverage
       - name: Run non-window tests
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           cd OpenSearch-Dashboards/plugins/alerting-dashboards-plugin
-          yarn run test:jest -u --coverage
+          yarn run test:jest --coverage

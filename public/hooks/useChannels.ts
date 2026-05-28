@@ -43,8 +43,11 @@ export const useChannels = (httpClient: HttpClient | null): UseChannelsResult =>
       let allChannels: Channel[] = [];
       let startIndex = 0;
       let hasMore = true;
+      const MAX_PAGES = 100;
+      let page = 0;
 
-      while (hasMore) {
+      while (hasMore && page < MAX_PAGES) {
+        page++;
         const resp = await httpClient.get('../api/alerting/channels', {
           query: {
             ...(dataSourceQuery?.query || {}),

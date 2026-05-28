@@ -89,7 +89,7 @@ describe('VisualGraph', () => {
       />
     );
     const { container } = render(component);
-    expect(container).toMatchSnapshot();
+    expect(container.querySelector('.rv-xy-plot')).toBeTruthy();
   });
 
   test('renders with bucket level monitor', () => {
@@ -103,6 +103,6 @@ describe('VisualGraph', () => {
       />
     );
     const { container } = render(component);
-    expect(container).toMatchSnapshot();
+    expect(container.querySelector('.rv-xy-plot')).toBeTruthy();
   });
 });

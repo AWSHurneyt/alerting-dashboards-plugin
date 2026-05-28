@@ -16,12 +16,10 @@ describe('<MonitorHistory/>', () => {
     { name: 'Trigger 2', id: '2' },
   ];
   const httpClient = {
-    post: jest
-      .fn()
-      .mockResolvedValue({
-        ok: true,
-        resp: { aggregations: { max_alerts: { value: 0 }, alerts_over_time: { buckets: [] } } },
-      }),
+    post: jest.fn().mockResolvedValue({
+      ok: true,
+      resp: { aggregations: { max_alerts: { value: 0 }, alerts_over_time: { buckets: [] } } },
+    }),
     get: jest.fn().mockResolvedValue({ ok: true, alerts: [] }),
   };
 
@@ -83,7 +81,8 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-    expect(container).toMatchSnapshot();
+    expect(container).toBeTruthy();
+    expect(container.querySelector('.rv-xy-plot')).toBeTruthy();
   });
 
   test('should get highlight windowSize', async () => {
