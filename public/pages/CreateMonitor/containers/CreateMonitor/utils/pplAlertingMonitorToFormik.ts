@@ -14,7 +14,7 @@ import {
 import { conditionToExpressions } from '../../../../CreateTrigger/utils/helper';
 
 // Convert Monitor JSON to Formik values used in UI forms (PPL-aware)
-export default function pplAlertingMonitorToFormik(monitorIn) {
+export default function pplAlertingMonitorToFormik(monitorIn: any) {
   const formikValues = _.cloneDeep(FORMIK_INITIAL_VALUES);
   if (!monitorIn) return formikValues;
 
@@ -165,11 +165,11 @@ export default function pplAlertingMonitorToFormik(monitorIn) {
   return result;
 }
 
-export function indicesToFormik(indices) {
+export function indicesToFormik(indices: string[]) {
   return indices.map((index) => ({ label: index }));
 }
 
-export function docLevelInputToFormik(monitor) {
+export function docLevelInputToFormik(monitor: any) {
   const input = monitor.inputs[0][DOC_LEVEL_INPUT_FIELD];
   const { description, indices, queries } = input;
   return {
@@ -180,7 +180,7 @@ export function docLevelInputToFormik(monitor) {
   };
 }
 
-export function queriesToFormik(queries) {
+export function queriesToFormik(queries: any[]) {
   return queries.map((query) => {
     let querySource;
     try {
@@ -203,7 +203,7 @@ export function queriesToFormik(queries) {
   });
 }
 
-export function getQueryOperator(query = FORMIK_INITIAL_DOCUMENT_LEVEL_QUERY_VALUES.query) {
+export function getQueryOperator(query: string = FORMIK_INITIAL_DOCUMENT_LEVEL_QUERY_VALUES.query) {
   if (_.startsWith(query, 'NOT (') && _.endsWith(query, ')')) return OPERATORS_MAP.IS_NOT.value;
   if (_.includes(query, QUERY_STRING_QUERY_OPERATORS[OPERATORS_MAP.IS_GREATER_EQUAL.value]))
     return OPERATORS_MAP.IS_GREATER_EQUAL.value;

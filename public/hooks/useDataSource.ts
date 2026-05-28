@@ -13,7 +13,7 @@ import { dataSourceEnabled, getDataSourceId, getDataSourceQueryObj } from '../pa
  * @param {string} [fallbackDataSourceId] - Optional fallback data source ID
  * @returns {{ dataSourceId: string|undefined, dataSourceQuery: object|undefined, isDataSourceEnabled: boolean }}
  */
-export const useDataSource = (fallbackDataSourceId) => {
+export const useDataSource = (fallbackDataSourceId?: string) => {
   const isEnabled = dataSourceEnabled();
   const dataSourceId = isEnabled ? getDataSourceId(fallbackDataSourceId) : undefined;
   const dataSourceQuery = useMemo(

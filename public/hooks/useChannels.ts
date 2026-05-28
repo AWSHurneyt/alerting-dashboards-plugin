@@ -7,17 +7,31 @@ import { useState, useEffect, useCallback } from 'react';
 import { MAX_CHANNELS_RESULT_SIZE } from '../utils/constants';
 import { getDataSourceQueryObj } from '../pages/utils/helpers';
 
+interface Channel {
+  config_id: string;
+  name: string;
+  config_type: string;
+  is_enabled: boolean;
+}
+
+interface HttpClient {
+  get: (url: string, options?: any) => Promise<any>;
+}
+
+interface UseChannelsResult {
+  channels: Channel[];
+  loading: boolean;
+  error: string | null;
+  reload: () => Promise<void>;
+}
+
 /**
  * Hook that loads notification channels from the backend.
- * Handles pagination internally to fetch all channels.
- *
- * @param {object} httpClient - The HTTP client for API calls
- * @returns {{ channels: Array, loading: boolean, error: string|null, reload: function }}
  */
-export const useChannels = (httpClient) => {
-  const [channels, setChannels] = useState([]);
+export const useChannels = (httpClient: HttpClient | null): UseChannelsResult => {
+  const [channels, setChannels] = useState<Channel[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const loadChannels = useCallback(async () => {
     if (!httpClient) return;
@@ -26,7 +40,7 @@ export const useChannels = (httpClient) => {
 
     try {
       const dataSourceQuery = getDataSourceQueryObj();
-      let allChannels = [];
+      let allChannels: Channel[] = [];
       let startIndex = 0;
       let hasMore = true;
 
@@ -50,7 +64,7 @@ export const useChannels = (httpClient) => {
       }
 
       setChannels(allChannels);
-    } catch (err) {
+    } catch (err: any) {
       setError(err?.message || 'Failed to load channels');
       setChannels([]);
     } finally {
