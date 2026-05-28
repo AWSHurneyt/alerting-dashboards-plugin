@@ -23,14 +23,14 @@ import { ANALYTICS_ALL_OVERVIEW_CONTENT_AREAS } from '../../../../src/plugins/co
 import { DataSourceAlertsCard } from '../components/DataSourceAlertsCard/DataSourceAlertsCard';
 
 // A helper function that wraps an event handler and filters out ESCAPE keys
-export const ignoreEscape = (eventHandler) => (event) => {
+export const ignoreEscape = (eventHandler: Function) => (event: any) => {
   if (!(event.keyCode === 27)) {
     eventHandler();
   }
 };
 
 // A helper function that shows toast messages for backend errors.
-export const backendErrorNotification = (notifications, actionName, objectName, errorMessage) => {
+export const backendErrorNotification = (notifications: any, actionName: string, objectName: string, errorMessage: any) => {
   notifications.toasts.addDanger({
     title: `Failed to ${actionName} the ${objectName}`,
     text: errorMessage,
@@ -60,7 +60,7 @@ export const inputLimitText = (
   );
 };
 
-export async function deleteMonitor(monitor, httpClient, notifications, dataSourceQuery) {
+export async function deleteMonitor(monitor: any, httpClient: any, notifications: any, dataSourceQuery: any) {
   const { id, version } = monitor;
   const poolType = monitor.item_type === 'composite' ? 'workflows' : 'monitors';
 
@@ -77,13 +77,13 @@ export async function deleteMonitor(monitor, httpClient, notifications, dataSour
     .catch((err) => err);
 }
 
-export const getDigitId = (length = 6) =>
+export const getDigitId = (length: number = 6): string =>
   Math.floor(Date.now() * Math.random())
     .toString()
     .slice(-length);
 
 // Assumes that values is an array of objects with "name" inside
-export const getUniqueName = (values, prefix) => {
+export const getUniqueName = (values: any, prefix: string): string => {
   const lastValue = _.last(values);
   const lastName = lastValue ? lastValue.name : '';
   const lastDigit = Number.parseInt(lastName.match(/\d+$/)?.[0] || 0, 10);
@@ -98,7 +98,7 @@ export const getUniqueName = (values, prefix) => {
   return getUniqueName(lastDigit);
 };
 
-export async function acknowledgeAlerts(httpClient, notifications, alerts) {
+export async function acknowledgeAlerts(httpClient: any, notifications: any, alerts: any[]) {
   const selectedAlerts = filterActiveAlerts(alerts);
 
   const monitorAlerts = selectedAlerts.reduce((monitorAlerts, alert) => {
@@ -152,7 +152,7 @@ export const titleTemplate = (title, subTitle) => (
 export let MANAGE_CHANNELS_URL = undefined;
 // export const manageChannelsRelativePath = `/app/notifications-dashboards#/channels`;
 
-export function initManageChannelsUrl(httpClient) {
+export function initManageChannelsUrl(httpClient: any): void {
   if (!MANAGE_CHANNELS_URL) {
     const relativePath = `/app/${
       getUseUpdatedUx() ? 'channels' : 'notifications-dashboards'
@@ -163,14 +163,14 @@ export function initManageChannelsUrl(httpClient) {
   }
 }
 
-export function getManageChannelsUrl() {
+export function getManageChannelsUrl(): string {
   const relativePath = `/app/${
     getUseUpdatedUx() ? 'channels' : 'notifications-dashboards'
   }#/channels`;
   return MANAGE_CHANNELS_URL || relativePath;
 }
 
-export function dataSourceFilterFn(dataSource) {
+export function dataSourceFilterFn(dataSource: any): boolean {
   const dataSourceVersion = dataSource?.attributes?.dataSourceVersion || '';
   const installedPlugins = dataSource?.attributes?.installedPlugins || [];
   return (
@@ -179,15 +179,15 @@ export function dataSourceFilterFn(dataSource) {
   );
 }
 
-export function getSeverityText(severity) {
+export function getSeverityText(severity: any): string {
   return _.get(_.find(SEVERITY_OPTIONS, { value: severity }), 'text');
 }
 
-export function getSeverityBadgeText(severity) {
+export function getSeverityBadgeText(severity: any): string {
   return _.get(_.find(SEVERITY_OPTIONS, { value: severity }), 'badgeText');
 }
 
-export function getSeverityColor(severity) {
+export function getSeverityColor(severity: any): string {
   return _.get(_.find(SEVERITY_OPTIONS, { value: severity }), 'color');
 }
 

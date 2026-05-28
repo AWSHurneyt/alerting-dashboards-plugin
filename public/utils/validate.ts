@@ -11,12 +11,12 @@ import { getDataSourceQueryObj } from '../pages/utils/helpers';
 
 // TODO: Use a validation framework to clean all of this up or create own.
 
-export const isInvalid = (name, form) =>
+export const isInvalid = (name: string, form: any) =>
   !!_.get(form.touched, name, false) && !!_.get(form.errors, name, false);
 
-export const isInvalidWithoutTouch = (name, form) => !!_.get(form.errors, name, false);
+export const isInvalidWithoutTouch = (name: string, form: any) => !!_.get(form.errors, name, false);
 
-export const hasError = (name, form) => _.get(form.errors, name);
+export const hasError = (name: string, form: any) => _.get(form.errors, name);
 
 export const validateActionName = (monitor, trigger) => (value) => {
   if (!value) return 'Required.';
@@ -127,16 +127,16 @@ export const validateMonitorName = (httpClient, monitorToEdit, isFullText) => as
   }
 };
 
-export const validateTimezone = (value) => {
+export const validateTimezone = (value: any): string | undefined => {
   if (!Array.isArray(value)) return 'Select a timezone.';
   if (!value.length) return 'Select a timezone.';
 };
 
-export const validatePositiveInteger = (value) => {
+export const validatePositiveInteger = (value: any): string | undefined => {
   if (!Number.isInteger(value) || value < 1) return 'Must be a positive integer.';
 };
 
-export const validateUnit = (value) => {
+export const validateUnit = (value: any): string | undefined => {
   if (!['MINUTES', 'HOURS', 'DAYS'].includes(value)) return 'Must be one of minutes, hours, days.';
 };
 
@@ -147,13 +147,13 @@ export const validateMonthlyDay = (value) => {
 
 export const ILLEGAL_CHARACTERS = ['?', '"', ',', ' '];
 
-export const validateDetector = (detectorId, selectedDetector) => {
+export const validateDetector = (detectorId: string, selectedDetector: any): string | undefined => {
   if (!detectorId) return 'Must select detector.';
   if (selectedDetector && selectedDetector.features.length === 0)
     return 'Must choose detector which has features.';
 };
 
-export const validateIndex = (options) => {
+export const validateIndex = (options: any): string | undefined => {
   if (!Array.isArray(options)) return 'Must specify an index.';
   if (!options.length) return 'Must specify an index.';
 

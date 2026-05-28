@@ -104,7 +104,7 @@ export const generateFirstDataPoints = ({
 };
 
 // This generates query for the displaying POI Data from the window with provided duration
-export const getPOISearchQuery = (monitorId, startTime, endTime, intervalDuration) => ({
+export const getPOISearchQuery = (monitorId: string, startTime: number, endTime: number, intervalDuration: any) => ({
   query: {
     bool: {
       filter: [
@@ -185,7 +185,7 @@ export const getPOISearchQuery = (monitorId, startTime, endTime, intervalDuratio
   },
 });
 
-export const parseGroupedData = (triggerData) => {
+export const parseGroupedData = (triggerData: any[]) => {
   let result = [];
   triggerData.map((data) => {
     if (data.state === TIME_SERIES_ALERT_STATE.NO_ALERTS) result.push(data);

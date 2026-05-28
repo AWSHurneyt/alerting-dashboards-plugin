@@ -14,7 +14,7 @@ export const getRangeMaxTime = (currentDate) =>
     This function will find an interval (Moment Duration), Which will be within 30 days.
     Don't use if duration is more than 30 days.
 */
-export const calculateInterval = (duration) => {
+export const calculateInterval = (duration: any) => {
   const bucketWindows = [
     moment.duration(1, 'd'),
     moment.duration(18, 'hour'),
