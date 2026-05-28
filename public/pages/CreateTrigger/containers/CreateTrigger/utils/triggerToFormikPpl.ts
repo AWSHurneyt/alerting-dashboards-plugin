@@ -4,8 +4,29 @@
  */
 
 import _ from 'lodash';
+import { PplTrigger } from '../../../../../types';
 
-const minutesToFormikDuration = (minutes, defaultMinutes = 0) => {
+interface FormikDuration {
+  value: number | string;
+  unit: string;
+}
+
+interface TriggerFormikPpl {
+  id?: string;
+  name: string;
+  severity: string;
+  actions: any[];
+  mode: string;
+  type: string;
+  num_results_condition: string;
+  num_results_value: number;
+  custom_condition: string;
+  throttle_enabled: boolean;
+  suppress: FormikDuration;
+  expires: FormikDuration;
+}
+
+const minutesToFormikDuration = (minutes: number | undefined | null, defaultMinutes: number = 0): FormikDuration => {
   const totalMinutes = minutes || defaultMinutes;
   if (totalMinutes >= 1440 && totalMinutes % 1440 === 0) {
     return { value: totalMinutes / 1440, unit: 'days' };
@@ -16,7 +37,7 @@ const minutesToFormikDuration = (minutes, defaultMinutes = 0) => {
   return { value: totalMinutes, unit: 'minutes' };
 };
 
-export const triggerToFormikPpl = (trigger) => {
+export const triggerToFormikPpl = (trigger: Partial<PplTrigger> | null | undefined): TriggerFormikPpl => {
   const {
     id,
     name,
@@ -27,18 +48,16 @@ export const triggerToFormikPpl = (trigger) => {
     num_results_condition,
     num_results_value,
     custom_condition,
-    throttle,
     throttle_minutes,
-    expires,
     expires_minutes,
-  } = trigger || {};
+  } = trigger || {} as Partial<PplTrigger>;
 
-  const hasThrottle =
-    (throttle_minutes ?? throttle) !== undefined && (throttle_minutes ?? throttle) !== null;
-  const suppress = hasThrottle
-    ? minutesToFormikDuration(throttle_minutes ?? throttle, 0)
+  const throttle = throttle_minutes;
+  const hasThrottle = throttle !== undefined && throttle !== null;
+  const suppress: FormikDuration = hasThrottle
+    ? minutesToFormikDuration(throttle, 0)
     : { value: '', unit: 'minutes' };
-  const expiresDuration = minutesToFormikDuration(expires_minutes ?? expires, 7 * 24 * 60);
+  const expiresDuration = minutesToFormikDuration(expires_minutes, 7 * 24 * 60);
 
   return {
     id: id || undefined,
@@ -50,7 +69,7 @@ export const triggerToFormikPpl = (trigger) => {
     num_results_condition: num_results_condition || '>=',
     num_results_value: num_results_value !== undefined ? num_results_value : 1,
     custom_condition: custom_condition || '',
-    throttle_enabled: hasThrottle && (throttle_minutes ?? throttle) !== 0,
+    throttle_enabled: hasThrottle && throttle !== 0,
     suppress,
     expires: expiresDuration,
   };

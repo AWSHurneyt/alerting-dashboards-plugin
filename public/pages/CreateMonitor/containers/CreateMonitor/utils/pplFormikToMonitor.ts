@@ -4,10 +4,32 @@
  */
 
 import _ from 'lodash';
+import { MonitorSchedule } from '../../../../../types';
+
+interface PplFormikValues {
+  name?: string;
+  description?: string;
+  disabled?: boolean;
+  pplQuery?: string;
+  frequency?: string;
+  period?: { interval: number | string; unit: string };
+  daily?: string;
+  weekly?: Record<string, boolean>;
+  monthly?: { type: string; day: number };
+  cronExpression?: string;
+  timezone?: any;
+  triggerDefinitions?: any[];
+  useLookBackWindow?: boolean;
+  lookBackAmount?: number;
+  lookBackUnit?: string;
+  timestampField?: string;
+  ui_metadata?: Record<string, any>;
+}
+
 /**
  * Normalize timezone coming from formik (can be array/object/string)
  */
-const getTimezoneString = (values) => {
+const getTimezoneString = (values: PplFormikValues): string => {
   const tz = values?.timezone;
   if (Array.isArray(tz) && tz.length) {
     return tz[0]?.label || tz[0]?.value || 'UTC';
@@ -19,7 +41,7 @@ const getTimezoneString = (values) => {
   return 'UTC';
 };
 
-export const pplToV2Schedule = (values) => {
+export const pplToV2Schedule = (values: PplFormikValues): MonitorSchedule => {
   const tz = getTimezoneString(values);
   const freq = values.frequency;
 
@@ -66,7 +88,7 @@ export const pplToV2Schedule = (values) => {
   };
 };
 
-const durationToMinutes = (raw) => {
+const durationToMinutes = (raw: any) => {
   if (!raw) return null;
 
   if (typeof raw === 'number') {
@@ -101,7 +123,7 @@ const durationToMinutes = (raw) => {
   return null;
 };
 
-const normalizeNumCondition = (raw) => {
+const normalizeNumCondition = (raw: any) => {
   const v = String(raw ?? '')
     .trim()
     .toLowerCase();
@@ -134,7 +156,7 @@ const normalizeNumCondition = (raw) => {
   }
 };
 
-const normalizeSeverity = (s) => {
+const normalizeSeverity = (s: any) => {
   const v = String(s ?? '').toLowerCase();
   if (['info', 'low', 'medium', 'high', 'critical', 'error'].includes(v)) return v;
   if (v === '0') return 'info';
@@ -145,7 +167,7 @@ const normalizeSeverity = (s) => {
   return 'info';
 };
 
-const formikPplTriggerToWire = (t, i = 0) => {
+const formikPplTriggerToWire = (t: any, i: number = 0) => {
   const type = (
     t?.uiConditionType ||
     t?.type ||
@@ -194,7 +216,7 @@ const formikPplTriggerToWire = (t, i = 0) => {
   return trigger;
 };
 
-const buildLookBackFromFormik = (values) => {
+const buildLookBackFromFormik = (values: PplFormikValues) => {
   const enabled = values?.useLookBackWindow ?? true;
   if (!enabled) return null;
 
@@ -209,7 +231,7 @@ const buildLookBackFromFormik = (values) => {
   return Math.floor(amt);
 };
 
-export const buildPPLMonitorFromFormik = (values) => {
+export const buildPPLMonitorFromFormik = (values: PplFormikValues) => {
   const schedule = pplToV2Schedule(values);
   const lookBack = buildLookBackFromFormik(values);
 

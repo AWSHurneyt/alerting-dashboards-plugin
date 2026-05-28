@@ -9,17 +9,61 @@ import { backendErrorNotification } from '../../../../../utils/helpers';
 import { TRIGGER_TYPE } from '../../../../CreateTrigger/containers/CreateTrigger/utils/constants';
 import { getDataSourceQueryObj } from '../../../../utils/helpers';
 
+interface HttpClient {
+  get: (url: string, options?: any) => Promise<any>;
+  post: (url: string, options?: any) => Promise<any>;
+}
+
+interface FormikBag {
+  setSubmitting: (isSubmitting: boolean) => void;
+}
+
+interface Notifications {
+  toasts: { addSuccess: (msg: string) => void; addDanger: (msg: any) => void };
+}
+
+interface History {
+  push: (path: string) => void;
+}
+
+interface CreateParams {
+  monitor: any;
+  formikBag: FormikBag;
+  httpClient: HttpClient;
+  notifications: Notifications;
+  history: History;
+  onSuccess?: (result: { monitor: any }) => void;
+  baseUrl?: string;
+}
+
+interface UpdateParams {
+  history: History;
+  updateMonitor: (monitor: any) => Promise<{ ok: boolean; id: string }>;
+  notifications: Notifications;
+  monitor: any;
+  formikBag: FormikBag;
+}
+
+interface PrepareTriggersParams {
+  trigger: any;
+  triggerMetadata: Record<string, any>;
+  monitor: { ui_metadata?: any; triggers: any[]; monitor_type: string };
+  edit: boolean;
+  triggerToEdit?: any;
+}
+
 /**
  * Fetch the list of installed plugins.
- * @param {object} httpClient
- * @param {string} baseUrl - URL prefix, e.g. '../api/alerting' or '/api/alerting'
  */
-export const getPlugins = async (httpClient, baseUrl = '../api/alerting') => {
+export const getPlugins = async (
+  httpClient: HttpClient,
+  baseUrl: string = '../api/alerting'
+): Promise<string[]> => {
   try {
     const dataSourceQuery = getDataSourceQueryObj();
     const pluginsResponse = await httpClient.get(`${baseUrl}/_plugins`, dataSourceQuery);
     if (pluginsResponse.ok) {
-      return pluginsResponse.resp.map((plugin) => plugin.component);
+      return pluginsResponse.resp.map((plugin: { component: string }) => plugin.component);
     } else {
       console.error('There was a problem getting plugins list');
       return [];
@@ -41,7 +85,7 @@ export const create = async ({
   history,
   onSuccess,
   baseUrl = '../api/alerting',
-}) => {
+}: CreateParams): Promise<void> => {
   const { setSubmitting } = formikBag;
 
   try {
@@ -74,7 +118,13 @@ export const create = async ({
 /**
  * Update an existing monitor.
  */
-export const update = async ({ history, updateMonitor, notifications, monitor, formikBag }) => {
+export const update = async ({
+  history,
+  updateMonitor,
+  notifications,
+  monitor,
+  formikBag,
+}: UpdateParams): Promise<void> => {
   const { setSubmitting } = formikBag;
   const updatedMonitor = _.cloneDeep(monitor);
   try {
@@ -103,7 +153,7 @@ export const prepareTriggers = ({
   monitor,
   edit,
   triggerToEdit = [],
-}) => {
+}: PrepareTriggersParams): { triggers: any[]; ui_metadata: any } => {
   const { ui_metadata: uiMetadata = {}, triggers, monitor_type } = monitor;
   let updatedTriggers;
   let updatedUiMetadata;
@@ -117,7 +167,7 @@ export const prepareTriggers = ({
   } else {
     const updatedTriggersMetadata = _.cloneDeep(uiMetadata.triggers || {});
 
-    let triggerType;
+    let triggerType: string;
     switch (monitor_type) {
       case MONITOR_TYPE.BUCKET_LEVEL:
         triggerType = TRIGGER_TYPE.BUCKET_LEVEL;
@@ -134,14 +184,14 @@ export const prepareTriggers = ({
     }
 
     if (_.isArray(triggerToEdit)) {
-      const names = triggerToEdit.map((entry) => _.get(entry, `${triggerType}.name`));
-      names.forEach((name) => delete updatedTriggersMetadata[name]);
+      const names = triggerToEdit.map((entry: any) => _.get(entry, `${triggerType}.name`));
+      names.forEach((name: string) => delete updatedTriggersMetadata[name]);
       updatedTriggers = _.cloneDeep(trigger);
     } else {
       const { name } = _.get(triggerToEdit, `${triggerType}`);
       delete updatedTriggersMetadata[name];
 
-      const findTriggerName = (element) => {
+      const findTriggerName = (element: any) => {
         return name === _.get(element, `${triggerType}.name`);
       };
 
