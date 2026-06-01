@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Formik } from 'formik';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { FORMIK_INITIAL_VALUES } from '../../../containers/CreateMonitor/utils/constants';
 import ForExpression from './ForExpression';
@@ -26,6 +26,7 @@ describe('ForExpression', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { Formik } from 'formik';
 import { FORMIK_INITIAL_VALUES } from '../../../CreateMonitor/containers/CreateMonitor/utils/constants';
@@ -15,15 +15,16 @@ describe('TriggerNotifications', () => {
     const component = (
       <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
         <TriggerNotifications
-          httpClient={{}}
+          httpClient={{ get: jest.fn().mockResolvedValue({ ok: true }) }}
           triggerActions={[]}
-          plugins={{}}
-          notifications={{}}
+          plugins={[]}
+          notifications={{ toasts: { addDanger: jest.fn() } }}
           notificationService={{}}
           triggerValues={FORMIK_INITIAL_VALUES}
         />
       </Formik>
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -2,11 +2,13 @@
 
 exports[`FindingFlyout renders 1`] = `
 <div>
-  <button
-    class="euiLink euiLink--primary"
-    type="button"
-  >
-    No document ID
-  </button>
+  <div>
+    <button
+      class="euiLink euiLink--primary"
+      type="button"
+    >
+      No document ID
+    </button>
+  </div>
 </div>
 `;

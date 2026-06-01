@@ -1,54 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EnhancedAccordion renders 1`] = `
-<div
-  className="euiPanel euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPanel--hasBorder euiPanel--flexGrowZero euiSplitPanel euiSplitPanel--row euiCheckableCard"
->
+<div>
   <div
-    className="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusNone euiPanel--subdued euiPanel--noShadow euiPanel--noBorder euiPanel--flexGrowZero euiSplitPanel__inner"
+    class="euiPanel euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow euiPanel--hasBorder euiPanel--flexGrowZero euiSplitPanel euiSplitPanel--row euiCheckableCard"
   >
-    <EuiSmallButtonIcon
-      aria-label="Expand"
-      className="enhanced-accordion__arrow  "
-      color="text"
-      iconType="arrowRight"
-    />
-  </div>
-  <div
-    className="enhanced-accordion__title-panel euiPanel euiPanel--borderRadiusNone euiPanel--transparent euiPanel--noShadow euiPanel--noBorder euiSplitPanel__inner"
-  >
-    <EuiAccordion
-      arrowDisplay="none"
-      buttonContent={
-        <div
-          className="enhanced-accordion__title"
-        >
-          <EuiTitle
-            aria-expanded="false"
-            aria-pressed="false"
-            role="button"
-            size="s"
-          >
-            <h3 />
-          </EuiTitle>
-        </div>
-      }
-      extraAction={
-        <div
-          className="enhanced-accordion__extra"
-        />
-      }
-      forceState="closed"
-      initialIsOpen={false}
-      isLoading={false}
-      isLoadingMessage={false}
-      paddingSize="none"
+    <div
+      class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusNone euiPanel--subdued euiPanel--noShadow euiPanel--noBorder euiPanel--flexGrowZero euiSplitPanel__inner"
     >
-      <EuiPanel
-        hasBorder={false}
-        hasShadow={false}
-      />
-    </EuiAccordion>
+      <button
+        aria-label="Expand"
+        class="euiButtonIcon euiButtonIcon--text euiButtonIcon--empty euiButtonIcon--small enhanced-accordion__arrow  "
+        type="button"
+      >
+        <div>
+          EuiIconMock
+        </div>
+      </button>
+    </div>
+    <div
+      class="enhanced-accordion__title-panel euiPanel euiPanel--borderRadiusNone euiPanel--transparent euiPanel--noShadow euiPanel--noBorder euiSplitPanel__inner"
+    >
+      <div
+        class="euiAccordion"
+      >
+        <div
+          class="euiAccordion__triggerWrapper"
+        >
+          <button
+            aria-expanded="false"
+            class="euiAccordion__button"
+            id="generated-id"
+            type="button"
+          >
+            <span
+              class="euiIEFlexWrapFix"
+            >
+              <div
+                class="enhanced-accordion__title"
+              >
+                <h3
+                  aria-expanded="false"
+                  aria-pressed="false"
+                  class="euiTitle euiTitle--small"
+                  role="button"
+                />
+              </div>
+            </span>
+          </button>
+          <div
+            class="euiAccordion__optionalAction"
+          >
+            <div
+              class="enhanced-accordion__extra"
+            />
+          </div>
+        </div>
+        <div
+          aria-labelledby="generated-id"
+          class="euiAccordion__childWrapper"
+          role="region"
+          tabindex="-1"
+        >
+          <div>
+            <div
+              class=""
+            >
+              <div
+                class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--noShadow euiPanel--noBorder"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

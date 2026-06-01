@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Formik } from 'formik';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { FORMIK_INITIAL_VALUES } from '../../../containers/CreateMonitor/utils/constants';
 import Frequency from './Frequency';
@@ -18,19 +18,22 @@ describe('Frequencies', () => {
   test('renders Frequency', () => {
     const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Frequency />} />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('renders Interval', () => {
     const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Interval />} />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
-  test.skip('renders Monthly', () => {
+  test('renders Monthly', () => {
     const component = <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <Monthly />} />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('renders CustomCron', () => {
@@ -38,7 +41,8 @@ describe('Frequencies', () => {
       <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <CustomCron />} />
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('renders FrequencyPicker', () => {
@@ -46,6 +50,7 @@ describe('Frequencies', () => {
       <Formik initialValues={FORMIK_INITIAL_VALUES} render={() => <FrequencyPicker />} />
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

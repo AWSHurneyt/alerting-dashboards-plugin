@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import MinimalAccordion from './MinimalAccordion';
 
 describe('MinimalAccordion', () => {
   test('renders', () => {
-    const wrapper = shallow(<MinimalAccordion />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<MinimalAccordion />);
+    expect(container).toMatchSnapshot();
   });
 });

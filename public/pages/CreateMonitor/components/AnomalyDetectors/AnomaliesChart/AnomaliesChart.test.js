@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import moment from 'moment';
 import { AnomaliesChart, MAX_DATA_POINTS, prepareDataForChart } from './AnomaliesChart';
 
@@ -97,7 +97,8 @@ describe('AnomaliesChart', () => {
         showTitle
       />
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('hc detector trigger definition', () => {

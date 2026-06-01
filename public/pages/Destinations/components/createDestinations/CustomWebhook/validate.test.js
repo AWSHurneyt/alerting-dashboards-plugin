@@ -93,13 +93,13 @@ describe('validateHost', () => {
     expect(validateHost('org.example', typeAttributeUrl)).toBeUndefined();
   });
 
-  // test('returns error string if invalid', () => {
-  //   const invalidText = 'Invalid Host';
-  //   expect(
-  //     validateHost(
-  //       'org.exampleexampleexampleexampleexampleexampleexampleexampleexampleexampleexampleexample',
-  //       typeAttributeUrl
-  //     )
-  //   ).toBe(invalidText);
-  // });
+  test('returns error string if invalid', () => {
+    const invalidText = 'Invalid Host';
+    expect(
+      validateHost(
+        'org.exampleexampleexampleexampleexampleexampleexampleexampleexampleexampleexampleexample',
+        typeAttributeUrl
+      )
+    ).toBe(invalidText);
+  });
 });

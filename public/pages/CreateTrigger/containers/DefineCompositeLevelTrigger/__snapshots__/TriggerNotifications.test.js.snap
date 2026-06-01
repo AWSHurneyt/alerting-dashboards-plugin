@@ -1,15 +1,195 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TriggerNotifications renders 1`] = `
-Array [
+<div>
   <h4
     class="euiTitle euiTitle--xsmall"
   >
     Notifications
-  </h4>,
+  </h4>
   <div
     class="euiSpacer euiSpacer--m"
-  />,
+  />
+  <div
+    class="euiAccordion euiAccordion-isOpen"
+    title="Notification 1"
+  >
+    <div
+      class="euiAccordion__triggerWrapper"
+    >
+      <button
+        aria-controls="notification-accordion-undefined-0"
+        aria-expanded="true"
+        class="euiAccordion__button"
+        id="generated-id"
+        type="button"
+      >
+        <span
+          class="euiAccordion__iconWrapper"
+        >
+          <div>
+            EuiIconMock
+          </div>
+        </span>
+        <span
+          class="euiIEFlexWrapFix"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            Notification 1
+          </div>
+        </span>
+      </button>
+      <div
+        class="euiAccordion__optionalAction"
+      >
+        <span
+          class="euiToolTipAnchor"
+        >
+          <button
+            aria-label="Delete notification"
+            class="euiButtonIcon euiButtonIcon--danger euiButtonIcon--empty euiButtonIcon--small"
+            type="button"
+          >
+            <div>
+              EuiIconMock
+            </div>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div
+      aria-labelledby="generated-id"
+      class="euiAccordion__childWrapper"
+      id="notification-accordion-undefined-0"
+      role="region"
+      tabindex="-1"
+    >
+      <div>
+        <div
+          class="euiAccordion__padding--s"
+        >
+          <div
+            class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--noShadow euiPanel--noBorder"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+            >
+              <div
+                class="euiFlexItem"
+                style="max-width: 400px;"
+              >
+                <div
+                  class="euiFormRow euiFormRow--compressed"
+                  id="channel_name_undefined_0-form-row-row"
+                >
+                  <div
+                    class="euiFormRow__labelWrapper"
+                  >
+                    <label
+                      class="euiFormLabel euiFormRow__label"
+                      for="channel_name_undefined_0-form-row"
+                    >
+                      Notification channel
+                    </label>
+                  </div>
+                  <div
+                    class="euiFormRow__fieldWrapper"
+                  >
+                    <div
+                      aria-expanded="false"
+                      aria-haspopup="listbox"
+                      class="euiComboBox euiComboBox--compressed"
+                      name="channel_name_undefined_0"
+                      role="combobox"
+                    >
+                      <div
+                        class="euiFormControlLayout euiFormControlLayout--compressed"
+                      >
+                        <div
+                          class="euiFormControlLayout__childrenWrapper"
+                        >
+                          <div
+                            class="euiComboBox__inputWrap euiComboBox__inputWrap--compressed euiComboBox__inputWrap--noWrap euiComboBox__inputWrap-isClearable"
+                            data-test-subj="comboBoxInput"
+                            tabindex="-1"
+                          >
+                            <p
+                              class="euiComboBoxPlaceholder"
+                            >
+                              Select a channel to get notified
+                            </p>
+                            <div
+                              class="euiComboBox__input"
+                              style="font-size: 14px; display: inline-block;"
+                            >
+                              <input
+                                aria-controls=""
+                                data-test-subj="comboBoxSearchInput"
+                                id="channel_name_undefined_0"
+                                role="textbox"
+                                style="box-sizing: content-box; width: 2px;"
+                                value=""
+                              />
+                              <div
+                                style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                          >
+                            <button
+                              aria-label="Open list of options"
+                              class="euiFormControlLayoutCustomIcon euiFormControlLayoutCustomIcon--clickable"
+                              data-test-subj="comboBoxToggleListButton"
+                              type="button"
+                            >
+                              <div>
+                                EuiIconMock
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+                style="padding-left: 0px; margin-left: 0px;"
+              >
+                <button
+                  class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--small euiButtonEmpty-isDisabled"
+                  disabled=""
+                  style="margin-top: 22px;"
+                  type="button"
+                >
+                  <span
+                    class="euiButtonContent euiButtonEmpty__content"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                    <span
+                      class="euiButtonEmpty__text"
+                    >
+                      Manage channels
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr
+    class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginSmall"
+  />
   <button
     class="euiButton euiButton--primary euiButton--small"
     type="button"
@@ -23,6 +203,6 @@ Array [
         Add notification
       </span>
     </span>
-  </button>,
-]
+  </button>
+</div>
 `;

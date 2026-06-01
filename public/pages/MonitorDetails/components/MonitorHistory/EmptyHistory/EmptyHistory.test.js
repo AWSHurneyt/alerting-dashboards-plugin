@@ -4,12 +4,13 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import EmptyHistory from './EmptyHistory';
 
 describe('<EmptyHistory/>', () => {
   test('renders', () => {
-    expect(render(<EmptyHistory onShowTrigger={jest.fn()} />)).toMatchSnapshot();
+    const { container } = render(<EmptyHistory onShowTrigger={jest.fn()} />);
+    expect(container).toMatchSnapshot();
   });
 });

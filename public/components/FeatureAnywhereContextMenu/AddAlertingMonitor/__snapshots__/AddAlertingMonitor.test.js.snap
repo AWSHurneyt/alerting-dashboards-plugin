@@ -1,94 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddAlertingMonitor renders 1`] = `
-<div
-  className="add-alerting-monitor"
->
-  <Formik
-    initialValues={
-      Object {
-        "adResultIndex": undefined,
-        "aggregationType": "count",
-        "aggregations": Array [],
-        "associatedMonitors": Object {
-          "sequence": Object {
-            "delegates": Array [],
-          },
-        },
-        "associatedMonitorsEditor": "",
-        "associatedMonitorsList": Array [],
-        "bucketUnitOfTime": "h",
-        "bucketValue": 1,
-        "clusterNames": Array [],
-        "cronExpression": "0 */1 * * *",
-        "daily": 0,
-        "description": "",
-        "detectorId": "",
-        "disabled": false,
-        "fieldName": Array [],
-        "filters": Array [],
-        "frequency": "interval",
-        "groupBy": Array [],
-        "groupByField": Array [
-          Object {
-            "label": "",
-          },
-        ],
-        "groupedOverFieldName": "bytes",
-        "groupedOverTop": 5,
-        "index": Array [],
-        "lookBackAmount": 1,
-        "lookBackUnit": "hours",
-        "monitor_mode": "ppl",
-        "monitor_type": "query_level_monitor",
-        "monthly": Object {
-          "day": 1,
-          "type": "day",
-        },
-        "name": "",
-        "overDocuments": "all documents",
-        "period": Object {
-          "interval": 1,
-          "unit": "MINUTES",
-        },
-        "pplPreviewError": null,
-        "pplPreviewResult": null,
-        "pplQuery": "",
-        "preventVisualEditor": false,
-        "queries": Array [],
-        "query": "{
-    \\"size\\": 0,
-    \\"query\\": {
-        \\"match_all\\": {}
-    }
-}",
-        "searchType": "graph",
-        "timeField": "",
-        "timestampField": "@timestamp",
-        "timezone": Array [],
-        "uri": Object {
-          "api_type": "",
-          "clusters": Array [],
-          "path": "",
-          "path_params": "",
-          "url": "",
-        },
-        "useLookBackWindow": true,
-        "weekly": Object {
-          "fri": false,
-          "mon": false,
-          "sat": false,
-          "sun": false,
-          "thur": false,
-          "tue": false,
-          "wed": false,
-        },
-      }
-    }
-    onSubmit={[Function]}
-    validateOnChange={false}
+<div>
+  <div
+    class="add-alerting-monitor"
   >
-    <Component />
-  </Formik>
+    <div
+      class="euiFlyoutHeader euiFlyoutHeader--hasBorder"
+    >
+      <div
+        class="euiText euiText--small"
+      >
+        <h2
+          id="add-alerting-monitor__title"
+        >
+          Add alerting monitor
+        </h2>
+      </div>
+    </div>
+    <div
+      class="euiFlyoutBody"
+    >
+      <div
+        class="euiFlyoutBody__overflow"
+        tabindex="0"
+      >
+        <div
+          class="euiFlyoutBody__overflowContent"
+        >
+          <div>
+            <div
+              class="euiSpacer euiSpacer--m"
+            />
+          </div>
+          <div
+            class="add-alerting-monitor__scroll"
+          >
+            <div
+              class="euiSpacer euiSpacer--l"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiFlyoutFooter"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <button
+            class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--small"
+            type="button"
+          >
+            <span
+              class="euiButtonContent euiButtonEmpty__content"
+            >
+              <span
+                class="euiButtonEmpty__text"
+              >
+                Cancel
+              </span>
+            </span>
+          </button>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <button
+            class="euiButton euiButton--primary euiButton--small euiButton--fill euiButton-isDisabled"
+            disabled=""
+            type="button"
+          >
+            <span
+              class="euiButtonContent euiButton__content"
+            >
+              <span
+                class="euiButton__text"
+              >
+                Create
+                 monitor
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

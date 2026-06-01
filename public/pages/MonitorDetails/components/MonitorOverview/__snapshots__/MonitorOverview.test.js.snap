@@ -1,177 +1,179 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonitorOverview renders 1`] = `
-<div
-  class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-  style="padding:16px"
->
+<div>
   <div
-    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="padding:0px 10px"
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px;"
   >
     <div
-      class="euiFlexItem"
-    >
-      <div
-        class="euiText euiText--small"
-      >
-        <h2>
-          Overview
-        </h2>
-      </div>
-    </div>
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    >
-      <div
-        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
-      >
-        <div
-          class="euiFlexItem"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    class="euiText euiText--extraSmall"
-    style="padding:0px 10px"
-  >
-    <div
-      class="euiTextColor euiTextColor--subdued"
-    />
-  </div>
-  <hr
-    class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
-  />
-  <div
-    style="padding:0px 10px"
-  >
-    <div
-      class="euiFlexGrid euiFlexGrid--gutterLarge euiFlexGrid--fourths euiFlexGrid--responsive"
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
     >
       <div
         class="euiFlexItem"
       >
         <div
-          class="euiText euiText--extraSmall"
+          class="euiText euiText--small"
         >
-          <strong>
-            Monitor type
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            Per query monitor
-          </div>
+          <h2>
+            Overview
+          </h2>
         </div>
       </div>
       <div
-        class="euiFlexItem"
+        class="euiFlexItem euiFlexItem--flexGrowZero"
       >
         <div
-          class="euiText euiText--extraSmall"
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
         >
-          <strong>
-            Monitor definition type
-          </strong>
           <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            Extraction Query
-          </div>
-        </div>
-      </div>
-      <div
-        class="euiFlexItem"
-      >
-        <div
-          class="euiText euiText--extraSmall"
-        >
-          <strong>
-            Index
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            -
-          </div>
-        </div>
-      </div>
-      <div
-        class="euiFlexItem"
-      >
-        <div
-          class="euiText euiText--extraSmall"
-        >
-          <strong>
-            Total active alerts
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            17
-          </div>
-        </div>
-      </div>
-      <div
-        class="euiFlexItem"
-      >
-        <div
-          class="euiText euiText--extraSmall"
-        >
-          <strong>
-            Schedule
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            -
-          </div>
-        </div>
-      </div>
-      <div
-        class="euiFlexItem"
-      >
-        <div
-          class="euiText euiText--extraSmall"
-        >
-          <strong>
-            Last updated
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
-          >
-            -
-          </div>
-        </div>
-      </div>
-      <div
-        class="euiFlexItem"
-      >
-        <div
-          class="euiText euiText--extraSmall"
-        >
-          <strong>
-            Monitor ID
-          </strong>
-          <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
+            class="euiFlexItem"
           />
         </div>
       </div>
+    </div>
+    <div
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
       <div
-        class="euiFlexItem"
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+    />
+    <div
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiFlexGrid euiFlexGrid--gutterLarge euiFlexGrid--fourths euiFlexGrid--responsive"
       >
         <div
-          class="euiText euiText--extraSmall"
+          class="euiFlexItem"
         >
-          <strong>
-            Monitor version number
-          </strong>
           <div
-            style="word-wrap:break-word;overflow-wrap:break-word"
+            class="euiText euiText--extraSmall"
           >
-            3
+            <strong>
+              Monitor type
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              Per query monitor
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Monitor definition type
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              Extraction Query
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Index
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              -
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Total active alerts
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              17
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Schedule
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              -
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Last updated
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              -
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Monitor ID
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            />
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--extraSmall"
+          >
+            <strong>
+              Monitor version number
+            </strong>
+            <div
+              style="word-wrap: break-word; overflow-wrap: break-word;"
+            >
+              3
+            </div>
           </div>
         </div>
       </div>

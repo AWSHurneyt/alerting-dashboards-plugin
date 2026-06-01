@@ -1,23 +1,128 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TriggerGraph renders 1`] = `
-<div
-  style={
-    Object {
-      "padding": "0px 10px",
-    }
-  }
->
-  <TriggerExpressions
-    keyFieldName="undefinedthresholdEnum"
-    label="Trigger condition"
-    valueFieldName="undefinedthresholdValue"
-  />
-  <EuiSpacer
-    size="m"
-  />
-  <VisualGraph
-    annotation={true}
-  />
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      class="euiFormRow euiFormRow--compressed"
+      id="generated-id-row"
+      style="width: 390px;"
+    >
+      <div
+        class="euiFormRow__labelWrapper"
+      >
+        <label
+          class="euiFormLabel euiFormRow__label"
+          for="generated-id"
+        >
+          Trigger condition
+        </label>
+      </div>
+      <div
+        class="euiFormRow__fieldWrapper"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+          id="generated-id"
+        >
+          <div
+            class="euiFlexItem euiFlexItem--flexGrow1"
+          >
+            <div
+              class="euiFormRow euiFormRow--compressed"
+              id="generated-id-row"
+            >
+              <div
+                class="euiFormRow__fieldWrapper"
+              >
+                <div
+                  class="euiFormControlLayout euiFormControlLayout--compressed"
+                >
+                  <div
+                    class="euiFormControlLayout__childrenWrapper"
+                  >
+                    <select
+                      class="euiSelect euiSelect--compressed"
+                      data-test-subj="thresholdEnum_conditionEnumField"
+                      id="generated-id"
+                      name="thresholdEnum"
+                    >
+                      <option
+                        value="ABOVE"
+                      >
+                        IS ABOVE
+                      </option>
+                      <option
+                        value="BELOW"
+                      >
+                        IS BELOW
+                      </option>
+                      <option
+                        value="EXACTLY"
+                      >
+                        IS EXACTLY
+                      </option>
+                    </select>
+                    <div
+                      class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                    >
+                      <span
+                        class="euiFormControlLayoutCustomIcon"
+                      >
+                        <div>
+                          EuiIconMock
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrow1"
+          >
+            <div
+              class="euiFormRow euiFormRow--compressed"
+              id="generated-id-row"
+            >
+              <div
+                class="euiFormRow__fieldWrapper"
+              >
+                <div
+                  class="euiFormControlLayout euiFormControlLayout--compressed"
+                >
+                  <div
+                    class="euiFormControlLayout__childrenWrapper"
+                  >
+                    <input
+                      class="euiFieldNumber euiFieldNumber--compressed"
+                      data-test-subj="thresholdValue_conditionValueField"
+                      id="generated-id"
+                      name="thresholdValue"
+                      type="number"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--m"
+    />
+    <div
+      style="display: flex; align-items: center; justify-content: center; height: 450px;"
+    >
+      <div>
+        There is no data for the current selections.
+      </div>
+    </div>
+  </div>
 </div>
 `;

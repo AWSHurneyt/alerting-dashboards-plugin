@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DestinationsControls from './DestinationsControls';
 import { DESTINATION_TYPE } from '../../../utils/constants';
 
@@ -18,37 +18,29 @@ describe('<DestinationsControls />', () => {
     allowList: Object.values(DESTINATION_TYPE),
   };
   beforeEach(() => jest.resetAllMocks());
+
   test('should render DestinationsControls', () => {
-    const wrapper = render(<DestinationsControls {...mockedProps} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<DestinationsControls {...mockedProps} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('should invoke handlers with expected values', () => {
-    const wrapper = mount(<DestinationsControls {...mockedProps} />);
+    const { container } = render(<DestinationsControls {...mockedProps} />);
 
-    // Validate search field SearchText Changes
-    const searchText = 'search destination';
-    wrapper
-      .find('input')
-      .at(0)
-      .simulate('change', { target: { value: searchText } });
+    // Validate search field changes
+    const searchInput = container.querySelector('input');
+    fireEvent.change(searchInput, { target: { value: 'search destination' } });
     expect(mockedProps.onSearchChange).toHaveBeenCalledTimes(1);
-    const {
-      target: { value: searchValue },
-    } = mockedProps.onSearchChange.mock.calls[0][0];
-    expect(searchValue).toBe(searchText);
 
-    // Validate destination Type Change
-    const typeOptionValue = 'chime';
-    wrapper.find('select').simulate('change', { target: { value: typeOptionValue } });
-    const {
-      target: { value: typeValue },
-    } = mockedProps.onTypeChange.mock.calls[0][0];
-    expect(typeValue).toBe(typeOptionValue);
+    // Validate destination type change
+    const select = container.querySelector('select');
+    fireEvent.change(select, { target: { value: 'chime' } });
+    expect(mockedProps.onTypeChange).toHaveBeenCalledTimes(1);
 
-    // Validate page navigation, Simulate page Click 3
-    wrapper.find('button[data-test-subj="pagination-button-3"]').at(0).simulate('click');
+    // Validate page navigation
+    const page4Button = container.querySelector('[data-test-subj="pagination-button-3"]');
+    fireEvent.click(page4Button);
     expect(mockedProps.onPageClick).toHaveBeenCalledTimes(1);
-    expect(mockedProps.onPageClick.mock.calls[0][0]).toBe(3);
+    expect(mockedProps.onPageClick).toHaveBeenCalledWith(3);
   });
 });

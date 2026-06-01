@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import DestinationsActions from './DestinationsActions';
 
 describe('<DestinationsActions />', () => {

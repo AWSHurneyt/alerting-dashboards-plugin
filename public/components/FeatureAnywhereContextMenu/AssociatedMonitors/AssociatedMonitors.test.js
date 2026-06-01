@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { notificationServiceMock } from '../../../../../../src/core/public/mocks';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AssociatedMonitors from './AssociatedMonitors';
 import { setNotifications } from '../../../services';
 
@@ -13,7 +13,9 @@ describe('AssociatedMonitors', () => {
   test('renders', () => {
     const notificationsMock = notificationServiceMock.createSetupContract();
     setNotifications(notificationsMock);
-    const wrapper = shallow(<AssociatedMonitors {...{ embeddable: { vis: { title: '' } } }} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <AssociatedMonitors {...{ embeddable: { vis: { title: '' } } }} />
+    );
+    expect(container).toMatchSnapshot();
   });
 });

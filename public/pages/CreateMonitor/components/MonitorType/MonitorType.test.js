@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import MonitorType from './MonitorType';
 import { Formik } from 'formik';
@@ -21,6 +21,7 @@ describe('MonitorType', () => {
       <Formik initialValues={FORMIK_INITIAL_VALUES}>{() => <MonitorType values={{}} />}</Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

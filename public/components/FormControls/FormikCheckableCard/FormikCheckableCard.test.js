@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
 import FormikCheckableCard from './FormikCheckableCard';
@@ -17,7 +17,8 @@ describe('FormikCheckableCard', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('render', () => {
@@ -27,6 +28,7 @@ describe('FormikCheckableCard', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

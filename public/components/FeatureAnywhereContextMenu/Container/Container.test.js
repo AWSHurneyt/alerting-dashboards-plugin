@@ -4,24 +4,41 @@
  */
 
 import React from 'react';
-import { uiSettingsServiceMock } from '../../../../../../src/core/public/mocks';
-import { shallow } from 'enzyme';
+import {
+  uiSettingsServiceMock,
+  httpServiceMock,
+  notificationServiceMock,
+} from '../../../../../../src/core/public/mocks';
+import { render } from '@testing-library/react';
+import { setUISettings, setClient, setNotifications } from '../../../services';
+import { setupCoreStart } from '../../../../test/utils/helpers';
+
+// Mock heavy child components to prevent OOM
+jest.mock('../AddAlertingMonitor', () => () => <div data-test-subj="mockAddAlertingMonitor" />);
+jest.mock('../AssociatedMonitors', () => () => <div data-test-subj="mockAssociatedMonitors" />);
+
 import Container from './Container';
-import { setUISettings } from '../../../services';
+
+beforeAll(() => {
+  setupCoreStart();
+  setClient(httpServiceMock.createStartContract());
+  setNotifications(notificationServiceMock.createStartContract());
+});
 
 describe('Container', () => {
-  const uiSettingsMock = uiSettingsServiceMock.createStartContract();
-  setUISettings(uiSettingsMock);
-  test('renders add', () => {
-    const wrapper = shallow(
-      <Container {...{ startingPanel: 'add', embeddable: { vis: { title: '' } } }} />
+  setUISettings(uiSettingsServiceMock.createStartContract());
+
+  test('renders create', () => {
+    const { container } = render(
+      <Container defaultFlyoutMode="create" embeddable={{ vis: { title: '' } }} />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
+
   test('renders associated', () => {
-    const wrapper = shallow(
-      <Container {...{ startingPanel: 'associated', embeddable: { vis: { title: '' } } }} />
+    const { container } = render(
+      <Container defaultFlyoutMode="associated" embeddable={{ vis: { title: '' } }} />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

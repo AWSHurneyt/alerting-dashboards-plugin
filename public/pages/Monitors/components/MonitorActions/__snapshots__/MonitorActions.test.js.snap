@@ -1,62 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonitorActions renders 1`] = `
-<div
-  class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
->
+<div>
   <div
-    class="euiFlexItem euiFlexItem--flexGrowZero"
+    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsCenter euiFlexGroup--directionRow"
   >
     <div
-      class="euiPopover euiPopover--anchorDownLeft"
-      id="actionsPopover"
+      class="euiFlexItem euiFlexItem--flexGrowZero"
     >
       <div
-        class="euiPopover__anchor"
+        class="euiPopover euiPopover--anchorDownLeft"
+        id="actionsPopover"
       >
-        <button
-          class="euiButton euiButton--primary euiButton--small"
-          data-test-subj="actionsButton"
-          type="button"
+        <div
+          class="euiPopover__anchor"
         >
-          <span
-            class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+          <button
+            class="euiButton euiButton--primary euiButton--small"
+            data-test-subj="actionsButton"
+            type="button"
           >
-            <div>
-              EuiIconMock
-            </div>
             <span
-              class="euiButton__text"
+              class="euiButtonContent euiButtonContent--iconRight euiButton__content"
             >
-              Actions
+              <div>
+                EuiIconMock
+              </div>
+              <span
+                class="euiButton__text"
+              >
+                Actions
+              </span>
             </span>
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    class="euiFlexItem euiFlexItem--flexGrowZero"
-  >
-    <a
-      class="euiButton euiButton--primary euiButton--small euiButton--fill"
-      data-test-subj="createButton"
-      href="#/create-monitor"
-      rel="noreferrer"
+    <div
+      class="euiFlexItem euiFlexItem--flexGrowZero"
     >
-      <span
-        class="euiButtonContent euiButtonContent--smallIconGap euiButton__content"
+      <a
+        class="euiButton euiButton--primary euiButton--small euiButton--fill"
+        data-test-subj="createButton"
+        href="#/create-monitor"
+        rel="noreferrer"
       >
-        <div>
-          EuiIconMock
-        </div>
         <span
-          class="euiButton__text"
+          class="euiButtonContent euiButtonContent--smallIconGap euiButton__content"
         >
-          Create monitor
+          <div>
+            EuiIconMock
+          </div>
+          <span
+            class="euiButton__text"
+          >
+            Create monitor
+          </span>
         </span>
-      </span>
-    </a>
+      </a>
+    </div>
   </div>
 </div>
 `;

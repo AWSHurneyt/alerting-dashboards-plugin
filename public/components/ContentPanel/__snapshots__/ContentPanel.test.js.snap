@@ -1,53 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContentPanel renders 1`] = `
-<div
-  class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
-  style="padding:16px"
->
+<div>
   <div
-    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="padding:0px 10px"
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px;"
   >
     <div
-      class="euiFlexItem"
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
     >
       <div
-        class="euiText euiText--small"
-      >
-        <h2>
-          Test Content Panel
-        </h2>
-      </div>
-    </div>
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-    >
-      <div
-        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        class="euiFlexItem"
       >
         <div
-          class="euiFlexItem"
-        />
+          class="euiText euiText--small"
+        >
+          <h2>
+            Test Content Panel
+          </h2>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem"
+          />
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    class="euiText euiText--extraSmall"
-    style="padding:0px 10px"
-  >
     <div
-      class="euiTextColor euiTextColor--subdued"
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
     />
-  </div>
-  <hr
-    class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
-  />
-  <div
-    style="padding:0px 10px"
-  >
-    <div>
-      Test
+    <div
+      style="padding: 0px 10px;"
+    >
+      <div>
+        Test
+      </div>
     </div>
   </div>
 </div>

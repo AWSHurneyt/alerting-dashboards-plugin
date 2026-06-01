@@ -1,20 +1,203 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BucketLevelTriggerGraph renders 1`] = `
-<div
-  style={
-    Object {
-      "padding": "0px 10px",
-    }
-  }
->
-  <BucketLevelTriggerExpression
-    andOrConditionFieldName="undefinedtriggerConditions[undefined].andOrCondition"
-    enumFieldName="undefinedtriggerConditions[undefined].thresholdEnum"
-    label="Trigger conditions"
-    queryMetric="_count"
-    queryMetricFieldName="undefinedtriggerConditions[undefined].queryMetric"
-    valueFieldName="undefinedtriggerConditions[undefined].thresholdValue"
-  />
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="max-width: 1200px; padding-left: 10px; padding-top: 10px; white-space: nowrap;"
+    >
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="width: 90px;"
+      >
+        <div
+          class="euiFormRow euiFormRow--compressed"
+          id="generated-id-row"
+        >
+          <div
+            class="euiFormRow__fieldWrapper"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <select
+                  class="euiSelect euiSelect--compressed"
+                  id="generated-id"
+                  name="undefinedtriggerConditions[undefined].andOrCondition"
+                >
+                  <option
+                    value="AND"
+                  >
+                    AND
+                  </option>
+                  <option
+                    value="OR"
+                  >
+                    OR
+                  </option>
+                </select>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <span
+                    class="euiFormControlLayoutCustomIcon"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="min-width: 300px;"
+      >
+        <div
+          class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+          id="generated-id-row"
+        >
+          <div
+            class="euiFormRow__fieldWrapper"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <select
+                  class="euiSelect euiSelect--fullWidth euiSelect--compressed"
+                  id="generated-id"
+                  name="undefinedtriggerConditions[undefined].queryMetric"
+                />
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <span
+                    class="euiFormControlLayoutCustomIcon"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="width: 200px;"
+      >
+        <div
+          class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+          id="generated-id-row"
+        >
+          <div
+            class="euiFormRow__fieldWrapper"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <select
+                  class="euiSelect euiSelect--compressed"
+                  id="generated-id"
+                  name="undefinedtriggerConditions[undefined].thresholdEnum"
+                >
+                  <option
+                    value="ABOVE"
+                  >
+                    IS ABOVE
+                  </option>
+                  <option
+                    value="BELOW"
+                  >
+                    IS BELOW
+                  </option>
+                  <option
+                    value="EXACTLY"
+                  >
+                    IS EXACTLY
+                  </option>
+                </select>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <span
+                    class="euiFormControlLayoutCustomIcon"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="width: 200px;"
+      >
+        <div
+          class="euiFormRow euiFormRow--compressed"
+          id="generated-id-row"
+        >
+          <div
+            class="euiFormRow__fieldWrapper"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <input
+                  class="euiFieldNumber euiFieldNumber--compressed"
+                  id="generated-id"
+                  name="undefinedtriggerConditions[undefined].thresholdValue"
+                  type="number"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <button
+          class="euiButton euiButton--danger euiButton--small"
+          type="button"
+        >
+          <span
+            class="euiButtonContent euiButton__content"
+          >
+            <span
+              class="euiButton__text"
+            >
+              Remove condition
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;

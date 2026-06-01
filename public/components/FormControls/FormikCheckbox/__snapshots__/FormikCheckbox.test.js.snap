@@ -1,41 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormikCheckbox render 1`] = `
-<div
-  class="euiCheckbox euiCheckbox--noLabel euiCheckbox--compressed"
->
-  <input
-    class="euiCheckbox__input"
-    id="testing"
-    name="testing"
-    type="checkbox"
-  />
+<div>
   <div
-    class="euiCheckbox__square"
-  />
+    class="euiCheckbox euiCheckbox--noLabel euiCheckbox--compressed"
+  >
+    <input
+      class="euiCheckbox__input"
+      id="testing"
+      name="testing"
+      type="checkbox"
+    />
+    <div
+      class="euiCheckbox__square"
+    />
+  </div>
 </div>
 `;
 
 exports[`FormikCheckbox render formRow 1`] = `
-<div
-  class="euiFormRow euiFormRow--compressed"
-  id="testing-form-row-row"
->
+<div>
   <div
-    class="euiFormRow__fieldWrapper"
+    class="euiFormRow euiFormRow--compressed"
+    id="testing-form-row-row"
   >
     <div
-      class="euiCheckbox euiCheckbox--noLabel euiCheckbox--compressed"
+      class="euiFormRow__fieldWrapper"
     >
-      <input
-        class="euiCheckbox__input"
-        id="testing"
-        name="testing"
-        type="checkbox"
-      />
       <div
-        class="euiCheckbox__square"
-      />
+        class="euiCheckbox euiCheckbox--noLabel euiCheckbox--compressed"
+      >
+        <input
+          class="euiCheckbox__input"
+          id="testing"
+          name="testing"
+          type="checkbox"
+        />
+        <div
+          class="euiCheckbox__square"
+        />
+      </div>
     </div>
   </div>
 </div>

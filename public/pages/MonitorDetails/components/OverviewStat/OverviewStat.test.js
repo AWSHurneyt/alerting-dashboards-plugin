@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import OverviewStat from './OverviewStat';
 
@@ -12,6 +12,7 @@ describe('OverviewStat', () => {
   test('renders', () => {
     const component = <OverviewStat header="Test Header" value="Test Value" />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

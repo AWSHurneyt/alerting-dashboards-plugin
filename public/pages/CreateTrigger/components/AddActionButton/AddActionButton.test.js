@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AddActionButton from './AddActionButton';
 
 describe('AddActionButton', () => {
   test('renders', () => {
-    const wrapper = shallow(<AddActionButton />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<AddActionButton />);
+    expect(container).toMatchSnapshot();
   });
 });

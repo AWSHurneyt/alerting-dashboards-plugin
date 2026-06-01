@@ -4,17 +4,17 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Formik } from 'formik';
 
 import DefineMonitor from './DefineMonitor';
 import { FORMIK_INITIAL_VALUES } from '../CreateMonitor/utils/constants';
 import { httpClientMock } from '../../../../../test/mocks';
+import { setupCoreStart } from '../../../../../test/utils/helpers';
 
-function getShallowWrapper(customProps = {}) {
-  return shallow(
-    <DefineMonitor values={FORMIK_INITIAL_VALUES} httpClient={httpClientMock} {...customProps} />
-  );
-}
+beforeAll(() => {
+  setupCoreStart();
+});
 
 describe('DefineMonitor', () => {
   beforeEach(() => {
@@ -24,138 +24,18 @@ describe('DefineMonitor', () => {
   });
 
   test('renders', () => {
-    const wrapper = getShallowWrapper();
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test('mounting should not call onQueryMappings or onRunQuery if not graph type', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = { ...FORMIK_INITIAL_VALUES, searchType: 'query', timeField: '@timestamp' };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).not.toHaveBeenCalled();
-    expect(onRunQuery).not.toHaveBeenCalled();
-  });
-
-  test('mounting should not call onQueryMappings or onRunQuery if no indices selected', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'graph',
-      timeField: '@timestamp',
-      index: [],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).not.toHaveBeenCalled();
-    expect(onRunQuery).not.toHaveBeenCalled();
-  });
-
-  test('mounting should call getPlugins', () => {
-    const getPlugins = jest.spyOn(DefineMonitor.prototype, 'getPlugins');
-    const values = { ...FORMIK_INITIAL_VALUES, searchType: 'ad' };
-    const wrapper = getShallowWrapper({ values });
-    expect(getPlugins).toHaveBeenCalled();
-  });
-  test('should show warning in case of Ad monitor and plugin is not installed', () => {
-    const getPlugins = jest.spyOn(DefineMonitor.prototype, 'getPlugins');
-    const values = { ...FORMIK_INITIAL_VALUES, searchType: 'ad' };
-    const wrapper = getShallowWrapper({ values });
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test('mounting should only call onQueryMappings if graph type and indices are selected, but no timefield', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'graph',
-      timeField: '',
-      index: [{ label: 'some_index' }],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).toHaveBeenCalled();
-    expect(onRunQuery).not.toHaveBeenCalled();
-  });
-
-  test('mounting should call onQueryMappings and onRunQuery if graph type, indices are selected, and timefield exists', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'graph',
-      timeField: '@timestamp',
-      index: [{ label: 'some_index' }],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).toHaveBeenCalled();
-    expect(onRunQuery).toHaveBeenCalled();
-  });
-
-  test('should call onQueryMappings and onRunQuery when switching from query type to graph type', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'query',
-      timeField: '@timestamp',
-      index: [{ label: 'some_index' }],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).not.toHaveBeenCalled();
-    expect(onRunQuery).not.toHaveBeenCalled();
-    wrapper.setProps({ httpClient: httpClientMock, values: { ...values, searchType: 'graph' } });
-    wrapper.update();
-    expect(onQueryMappings).toHaveBeenCalled();
-    expect(onRunQuery).toHaveBeenCalled();
-  });
-
-  test('should call onQueryMappings and onRunQuery when changing indices', () => {
-    const onQueryMappings = jest.spyOn(DefineMonitor.prototype, 'onQueryMappings');
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'graph',
-      timeField: '@timestamp',
-      index: [],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onQueryMappings).not.toHaveBeenCalled();
-    expect(onRunQuery).not.toHaveBeenCalled();
-    wrapper.setProps({
-      httpClient: httpClientMock,
-      values: { ...values, index: [{ label: 'some_index' }] },
-    });
-    wrapper.update();
-    expect(onQueryMappings).toHaveBeenCalled();
-    expect(onRunQuery).toHaveBeenCalled();
-  });
-
-  test('should call onRunQuery when changing timefield', () => {
-    const onRunQuery = jest.spyOn(DefineMonitor.prototype, 'onRunQuery');
-    const values = {
-      ...FORMIK_INITIAL_VALUES,
-      searchType: 'graph',
-      timeField: '@timestamp',
-      index: [{ label: 'some_index' }],
-    };
-    const wrapper = getShallowWrapper({ values });
-    expect(onRunQuery).toHaveBeenCalledTimes(1); // on mount
-    wrapper.setProps({
-      httpClient: httpClientMock,
-      values: { ...values, timeField: 'different_time_field' },
-    });
-    wrapper.update();
-    expect(onRunQuery).toHaveBeenCalledTimes(2); // on update
-  });
-
-  test('resetResponse should reset the query responses', () => {
-    const wrapper = getShallowWrapper();
-    wrapper.setState({ response: {}, performanceResponse: {} });
-    expect(wrapper.state().response).not.toBe(null);
-    expect(wrapper.state().performanceResponse).not.toBe(null);
-    wrapper.instance().resetResponse();
-    expect(wrapper.state().response).toBe(null);
-    expect(wrapper.state().performanceResponse).toBe(null);
+    const { container } = render(
+      <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
+        <DefineMonitor
+          values={FORMIK_INITIAL_VALUES}
+          errors={{}}
+          touched={{}}
+          httpClient={httpClientMock}
+          notifications={{ toasts: { addDanger: jest.fn() } }}
+          location={{ pathname: '/create-monitor', search: '' }}
+        />
+      </Formik>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

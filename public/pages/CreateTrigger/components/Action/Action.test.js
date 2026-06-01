@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import Action from './Action';
 import { Formik } from 'formik';
@@ -36,7 +36,8 @@ describe('Action', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 
   test('renders without Notifications plugin installed', () => {
@@ -65,6 +66,7 @@ describe('Action', () => {
       </Formik>
     );
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import NotificationsInfoCallOut from './NotificationsInfoCallOut';
 import { setupCoreStart } from '../../../../../test/utils/helpers';
@@ -17,11 +17,13 @@ describe('NotificationsInfoCallOut', () => {
   test('renders when Notifications plugin is installed', () => {
     const component = <NotificationsInfoCallOut hasNotificationPlugin={true} />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
   test('renders when Notifications plugin is not installed', () => {
     const component = <NotificationsInfoCallOut hasNotificationPlugin={false} />;
 
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

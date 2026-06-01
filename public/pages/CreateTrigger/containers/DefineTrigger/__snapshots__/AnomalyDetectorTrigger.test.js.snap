@@ -1,86 +1,285 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnomalyDetectorTrigger renders no detector id 1`] = `
-<div
-  style="padding:0px 10px"
->
+exports[`AnomalyDetectorTrigger feature has priority over preview error 1`] = `
+<div>
   <div
-    style="border-radius:5px;padding:10px;border:1px solid #D9D9D9;height:250px;width:100%;display:flex;align-items:center;justify-content:center"
+    style="padding: 0px 10px;"
   >
     <div
-      class="euiEmptyPrompt"
-      style="max-width:45em"
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%;"
     >
-      <span
-        class="euiTextColor euiTextColor--subdued"
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
       >
-        <div
-          class="euiText euiText--medium"
+        <span
+          class="euiTextColor euiTextColor--subdued"
         >
           <div
             class="euiText euiText--medium"
           >
-            You must specify a detector.
+            <span
+              class="euiLoadingContent"
+            >
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+            </span>
           </div>
-        </div>
-      </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AnomalyDetectorTrigger renders error 1`] = `
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%;"
+    >
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
+      >
+        <span
+          class="euiTextColor euiTextColor--subdued"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <span
+              class="euiLoadingContent"
+            >
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+            </span>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AnomalyDetectorTrigger renders no detector id 1`] = `
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%; display: flex; align-items: center; justify-content: center;"
+    >
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
+      >
+        <span
+          class="euiTextColor euiTextColor--subdued"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <div
+              class="euiText euiText--medium"
+            >
+              You must specify a detector.
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AnomalyDetectorTrigger renders no enabled feature 1`] = `
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%;"
+    >
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
+      >
+        <span
+          class="euiTextColor euiTextColor--subdued"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <span
+              class="euiLoadingContent"
+            >
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+            </span>
+          </div>
+        </span>
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`AnomalyDetectorTrigger renders no feature 1`] = `
-<div
-  style="padding:0px 10px"
->
+<div>
   <div
-    style="border-radius:5px;padding:10px;border:1px solid #D9D9D9;height:250px;width:100%"
+    style="padding: 0px 10px;"
   >
     <div
-      class="euiEmptyPrompt"
-      data-test-subj="empty-prompt"
-      style="max-width:45em"
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%;"
     >
-      <span
-        class="euiTextColor euiTextColor--subdued"
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
       >
-        <div
-          class="euiText euiText--medium"
+        <span
+          class="euiTextColor euiTextColor--subdued"
         >
           <div
             class="euiText euiText--medium"
           >
-            No features have been added to this anomaly detector. A feature is a metric that is used for anomaly detection. A detector can discover anomalies across one or more features.
-          </div>
-        </div>
-      </span>
-      <div
-        class="euiSpacer euiSpacer--l"
-      />
-      <div
-        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentCenter euiFlexGroup--directionColumn euiFlexGroup--responsive"
-      >
-        <div
-          class="euiFlexItem euiFlexItem--flexGrowZero"
-        >
-          <a
-            class="euiButton euiButton--primary euiButton--small"
-            data-test-subj="createButton"
-            href="anomaly-detection-dashboards#/detectors/tempId/features"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
             <span
-              class="euiButtonContent euiButton__content"
+              class="euiLoadingContent"
             >
               <span
-                class="euiButton__text"
+                class="euiLoadingContent__singleLine"
               >
-                Add Feature
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
               </span>
             </span>
-          </a>
-        </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AnomalyDetectorTrigger renders preview sparse data 1`] = `
+<div>
+  <div
+    style="padding: 0px 10px;"
+  >
+    <div
+      style="border-radius: 5px; padding: 10px; border: 1px solid #d9d9d9; height: 250px; width: 100%;"
+    >
+      <div
+        class="euiEmptyPrompt"
+        style="max-width: 45em;"
+      >
+        <span
+          class="euiTextColor euiTextColor--subdued"
+        >
+          <div
+            class="euiText euiText--medium"
+          >
+            <span
+              class="euiLoadingContent"
+            >
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+              <span
+                class="euiLoadingContent__singleLine"
+              >
+                <span
+                  class="euiLoadingContent__singleLineBackground"
+                />
+              </span>
+            </span>
+          </div>
+        </span>
       </div>
     </div>
   </div>

@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<MonitorHistory/> should create appropriate alerts data 1`] = `Object {}`;
-
-exports[`<MonitorHistory/> should fetch new data on timeSeriesWindow change  1`] = `Object {}`;

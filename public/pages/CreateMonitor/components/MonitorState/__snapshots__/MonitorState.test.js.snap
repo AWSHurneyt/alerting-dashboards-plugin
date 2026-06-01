@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonitorState renders 1`] = `
-Array [
+<div>
   <h4
     class="euiTitle euiTitle--xsmall"
-    style="padding-left:10px"
+    style="padding-left: 10px;"
   >
     Monitor state
-  </h4>,
+  </h4>
   <hr
     class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
-  />,
+  />
   <div
     class="euiText euiText--extraSmall"
-    style="padding-left:10px"
+    style="padding-left: 10px;"
   >
     <span>
       Disabled monitors do not run.
     </span>
-  </div>,
+  </div>
   <div
     class="euiSpacer euiSpacer--s"
-  />,
+  />
   <div
     class="euiFormRow euiFormRow--compressed"
     id="disabled-form-row-row"
-    style="padding-left:10px"
+    style="padding-left: 10px;"
   >
     <div
       class="euiFormRow__fieldWrapper"
@@ -50,6 +50,6 @@ Array [
         </label>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

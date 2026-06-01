@@ -5,7 +5,6 @@
 
 import React from 'react';
 import { Router, Route, HashRouter } from 'react-router-dom';
-import { render as enzymeRender } from 'enzyme';
 import { render, waitFor } from '@testing-library/react';
 import * as Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import { createMemoryHistory } from 'history';
@@ -19,13 +18,12 @@ beforeAll(() => {
 
 describe('Main', () => {
   test('renders', () => {
-    const component = (
+    const { container } = render(
       <HashRouter>
         <Route render={(props) => <Main httpClient={{}} {...props} />} />
       </HashRouter>
     );
-
-    expect(enzymeRender(component)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('updates breadcrumbs when location updates', async () => {
@@ -43,7 +41,6 @@ describe('Main', () => {
 
     history.push('/monitors');
 
-    // Force re-render to trigger route change
     rerender(
       <Router history={history}>
         <Route render={(props) => <Main httpClient={{}} {...props} />} />

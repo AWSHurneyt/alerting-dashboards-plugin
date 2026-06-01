@@ -2,88 +2,342 @@
 
 exports[`TriggerQuery renders 1`] = `
 <div>
-  <EuiFlexGroup
-    direction="column"
-  >
-    <EuiFlexItem
-      style={
-        Object {
-          "paddingLeft": "10px",
-          "paddingRight": "10px",
-        }
-      }
+  <div>
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionColumn euiFlexGroup--responsive"
     >
-      <EuiFlexGroup
-        alignItems="stretch"
-        gutterSize="m"
+      <div
+        class="euiFlexItem"
+        style="padding-left: 10px; padding-right: 10px;"
       >
-        <EuiFlexItem
-          grow={1}
-          style={
-            Object {
-              "marginBottom": "20px",
-            }
-          }
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--directionRow euiFlexGroup--responsive"
         >
-          <div>
-            <Field
-              name="undefinedscript.source"
-            >
-              <Component />
-            </Field>
-          </div>
-        </EuiFlexItem>
-        <EuiFlexItem
-          grow={1}
-          style={
-            Object {
-              "marginBottom": "0px",
-              "paddingTop": "6px",
-            }
-          }
-        >
-          <EuiCompressedFormRow
-            describedByIds={Array []}
-            display="rowCompressed"
-            fullWidth={true}
-            hasChildLabel={true}
-            hasEmptyLabelSpace={false}
-            label={
-              <EuiText
-                size="xs"
-              >
-                <strong>
-                  Trigger condition response
-                </strong>
-              </EuiText>
-            }
-            labelType="label"
+          <div
+            class="euiFlexItem euiFlexItem--flexGrow1"
+            style="margin-bottom: 20px;"
           >
-            <EuiCodeEditor
-              grow={true}
-              height="200px"
-              mode="plain_text"
-              readOnly={true}
-              setOptions={Object {}}
-              theme="github"
-              value="No response"
-              width="100%"
-            />
-          </EuiCompressedFormRow>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiFlexItem>
-  </EuiFlexGroup>
-  <EuiButton
-    onClick={[Function]}
-    size="s"
-    style={
-      Object {
-        "marginLeft": "10px",
-      }
-    }
-  >
-    Preview condition response
-  </EuiButton>
+            <div>
+              <div
+                class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+                id="generated-id-row"
+              >
+                <div
+                  class="euiFormRow__labelWrapper"
+                >
+                  <label
+                    aria-invalid="false"
+                    class="euiFormLabel euiFormRow__label"
+                    for="generated-id"
+                  >
+                    <div
+                      class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--alignItemsFlexEnd euiFlexGroup--directionRow euiFlexGroup--responsive"
+                    >
+                      <div
+                        class="euiFlexItem euiFlexItem--flexGrowZero"
+                      >
+                        <div
+                          class="euiText euiText--extraSmall"
+                        >
+                          <strong>
+                            Trigger condition
+                          </strong>
+                        </div>
+                      </div>
+                      <div
+                        class="euiFlexItem"
+                      >
+                        <div
+                          class="euiText euiText--medium"
+                        >
+                          <button
+                            class="euiLink euiLink--primary"
+                            type="button"
+                          >
+                            Info
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div
+                  class="euiFormRow__fieldWrapper"
+                >
+                  <div
+                    class="euiCodeEditorWrapper"
+                    data-test-subj="triggerQueryCodeEditor"
+                    style="width: 100%; height: 200px;"
+                  >
+                    <button
+                      class="euiCodeEditorKeyboardHint"
+                      data-test-subj="codeEditorHint"
+                      id="generated-id"
+                    >
+                      <p
+                        class="euiText"
+                      >
+                        Press Enter to start editing.
+                      </p>
+                      <p
+                        class="euiText"
+                      >
+                        When you're done, press Escape to stop editing.
+                      </p>
+                    </button>
+                    <div
+                      class=" ace_editor ace-tm"
+                      id="generated-id"
+                      style="width: 100%; height: 200px;"
+                    >
+                      <textarea
+                        autocapitalize="off"
+                        autocorrect="off"
+                        class="ace_text-input"
+                        spellcheck="false"
+                        style="opacity: 0;"
+                        tabindex="-1"
+                        wrap="off"
+                      />
+                      <div
+                        aria-hidden="true"
+                        class="ace_gutter"
+                      >
+                        <div
+                          class="ace_layer ace_gutter-layer ace_folding-enabled"
+                        />
+                        <div
+                          class="ace_gutter-active-line"
+                        />
+                      </div>
+                      <div
+                        class="ace_scroller"
+                      >
+                        <div
+                          class="ace_content"
+                        >
+                          <div
+                            class="ace_layer ace_print-margin-layer"
+                          >
+                            <div
+                              class="ace_print-margin"
+                              style="left: 4px; visibility: visible;"
+                            />
+                          </div>
+                          <div
+                            class="ace_layer ace_marker-layer"
+                          />
+                          <div
+                            class="ace_layer ace_text-layer"
+                            style="padding: 0px 4px;"
+                          />
+                          <div
+                            class="ace_layer ace_marker-layer"
+                          />
+                          <div
+                            class="ace_layer ace_cursor-layer ace_hidden-cursors"
+                          >
+                            <div
+                              class="ace_cursor"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="ace_scrollbar ace_scrollbar-v"
+                        style="display: none; width: 20px;"
+                      >
+                        <div
+                          class="ace_scrollbar-inner"
+                          style="width: 20px;"
+                        />
+                      </div>
+                      <div
+                        class="ace_scrollbar ace_scrollbar-h"
+                        style="display: none; height: 20px;"
+                      >
+                        <div
+                          class="ace_scrollbar-inner"
+                          style="height: 20px;"
+                        />
+                      </div>
+                      <div
+                        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+                      >
+                        <div
+                          style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+                        />
+                        <div
+                          style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+                        >
+                          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrow1"
+            style="margin-bottom: 0px; padding-top: 6px;"
+          >
+            <div
+              class="euiFormRow euiFormRow--fullWidth euiFormRow--compressed"
+              id="generated-id-row"
+            >
+              <div
+                class="euiFormRow__labelWrapper"
+              >
+                <label
+                  class="euiFormLabel euiFormRow__label"
+                  for="generated-id"
+                >
+                  <div
+                    class="euiText euiText--extraSmall"
+                  >
+                    <strong>
+                      Trigger condition response
+                    </strong>
+                  </div>
+                </label>
+              </div>
+              <div
+                class="euiFormRow__fieldWrapper"
+              >
+                <div
+                  class="euiCodeEditorWrapper"
+                  data-test-subj="codeEditorContainer"
+                  style="width: 100%; height: 200px;"
+                >
+                  <button
+                    class="euiCodeEditorKeyboardHint"
+                    data-test-subj="codeEditorHint"
+                    id="generated-id"
+                  >
+                    <p
+                      class="euiText"
+                    >
+                      Press Enter to start editing.
+                    </p>
+                    <p
+                      class="euiText"
+                    >
+                      When you're done, press Escape to stop editing.
+                    </p>
+                  </button>
+                  <div
+                    class=" ace_editor ace-tm"
+                    id="generated-id"
+                    style="width: 100%; height: 200px;"
+                  >
+                    <textarea
+                      autocapitalize="off"
+                      autocorrect="off"
+                      class="ace_text-input"
+                      spellcheck="false"
+                      style="opacity: 0;"
+                      tabindex="-1"
+                      wrap="off"
+                    />
+                    <div
+                      aria-hidden="true"
+                      class="ace_gutter"
+                    >
+                      <div
+                        class="ace_layer ace_gutter-layer ace_folding-enabled"
+                      />
+                      <div
+                        class="ace_gutter-active-line"
+                      />
+                    </div>
+                    <div
+                      class="ace_scroller"
+                    >
+                      <div
+                        class="ace_content"
+                      >
+                        <div
+                          class="ace_layer ace_print-margin-layer"
+                        >
+                          <div
+                            class="ace_print-margin"
+                            style="left: 4px; visibility: visible;"
+                          />
+                        </div>
+                        <div
+                          class="ace_layer ace_marker-layer"
+                        />
+                        <div
+                          class="ace_layer ace_text-layer"
+                          style="padding: 0px 4px;"
+                        />
+                        <div
+                          class="ace_layer ace_marker-layer"
+                        />
+                        <div
+                          class="ace_layer ace_cursor-layer ace_hidden-cursors"
+                        >
+                          <div
+                            class="ace_cursor"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="ace_scrollbar ace_scrollbar-v"
+                      style="display: none; width: 20px;"
+                    >
+                      <div
+                        class="ace_scrollbar-inner"
+                        style="width: 20px;"
+                      />
+                    </div>
+                    <div
+                      class="ace_scrollbar ace_scrollbar-h"
+                      style="display: none; height: 20px;"
+                    >
+                      <div
+                        class="ace_scrollbar-inner"
+                        style="height: 20px;"
+                      />
+                    </div>
+                    <div
+                      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+                    >
+                      <div
+                        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+                      />
+                      <div
+                        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+                      >
+                        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="euiButton euiButton--primary euiButton--small"
+      style="margin-left: 10px;"
+      type="button"
+    >
+      <span
+        class="euiButtonContent euiButton__content"
+      >
+        <span
+          class="euiButton__text"
+        >
+          Preview condition response
+        </span>
+      </span>
+    </button>
+  </div>
 </div>
 `;

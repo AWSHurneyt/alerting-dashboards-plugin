@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 
 import DestinationsList from './DestinationsList';
 import { historyMock, httpClientMock } from '../../../../../test/mocks';
@@ -18,152 +18,83 @@ const location = {
   state: undefined,
 };
 
-const runAllPromises = () => new Promise(setImmediate);
-
 beforeAll(() => {
   setupCoreStart();
 });
+
+const mockSettings = {
+  defaults: {
+    plugins: {
+      alerting: {
+        destination: {
+          allow_list: Object.values(DESTINATION_TYPE),
+        },
+      },
+    },
+  },
+};
 
 describe('DestinationsList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test.skip('renders when Notification plugin is installed', async () => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const mockSettings = {
+  test('renders when Notification plugin is installed', async () => {
+    httpClientMock.get
+      .mockResolvedValueOnce({ ok: true, resp: { component: OS_NOTIFICATION_PLUGIN } })
+      .mockResolvedValueOnce({ ok: true, resp: mockSettings })
+      .mockResolvedValue({ ok: true, destinations: [], totalDestinations: 0 });
+
+    const { container } = render(
+      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
+    );
+
+    await waitFor(() => {
+      expect(httpClientMock.get).toHaveBeenCalled();
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders when Notification plugin is not installed', async () => {
+    httpClientMock.get
+      .mockResolvedValueOnce({ ok: true, resp: mockSettings })
+      .mockResolvedValue({ ok: true, destinations: [], totalDestinations: 0 });
+
+    const { container } = render(
+      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
+    );
+
+    await waitFor(() => {
+      expect(httpClientMock.get).toHaveBeenCalled();
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders when email is disallowed', async () => {
+    const noEmailSettings = {
       defaults: {
         plugins: {
-          alerting: {
-            destination: {
-              allow_list: Object.values(DESTINATION_TYPE),
-            },
-          },
+          alerting: { destination: { allow_list: ['chime', 'slack', 'custom_webhook'] } },
         },
       },
     };
 
     httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getPlugins
-        ok: true,
-        resp: { component: OS_NOTIFICATION_PLUGIN },
-      })
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [],
-        totalDestinations: 0,
-      });
+      .mockResolvedValueOnce({ ok: true, resp: { component: OS_NOTIFICATION_PLUGIN } })
+      .mockResolvedValueOnce({ ok: true, resp: noEmailSettings })
+      .mockResolvedValue({ ok: true, destinations: [], totalDestinations: 0 });
 
-    const wrapper = mount(
+    const { container } = render(
       <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
     );
 
-    await runAllPromises();
-    wrapper.update();
-    expect(wrapper).toMatchSnapshot();
+    await waitFor(() => {
+      expect(httpClientMock.get).toHaveBeenCalled();
+    });
+    expect(container).toMatchSnapshot();
   });
 
-  test.skip('renders when Notification plugin is not installed', async () => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const mockSettings = {
-      defaults: {
-        plugins: {
-          alerting: {
-            destination: {
-              allow_list: Object.values(DESTINATION_TYPE),
-            },
-          },
-        },
-      },
-    };
-
-    httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [],
-        totalDestinations: 0,
-      });
-
-    const wrapper = mount(
-      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
-    );
-
-    await runAllPromises();
-    wrapper.update();
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test.skip('renders when email is disallowed', async () => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const mockAllowList = ['chime', 'slack', 'custom_webhook'];
-    const mockSettings = {
-      defaults: {
-        plugins: {
-          alerting: {
-            destination: {
-              allow_list: mockAllowList,
-            },
-          },
-        },
-      },
-    };
-
-    httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getPlugins
-        ok: true,
-        resp: { component: OS_NOTIFICATION_PLUGIN },
-      })
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [],
-        totalDestinations: 0,
-      });
-
-    const wrapper = mount(
-      <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
-    );
-
-    await runAllPromises();
-    wrapper.update();
-
-    expect(wrapper.instance().state.allowList).toEqual(mockAllowList);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  test.skip('getDestinations', async () => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const mockSettings = {
-      defaults: {
-        plugins: {
-          alerting: {
-            destination: {
-              allow_list: Object.values(DESTINATION_TYPE),
-            },
-          },
-        },
-      },
-    };
-
+  test('getDestinations', async () => {
     const mockDestination = {
       id: 'id',
       type: 'test_action',
@@ -175,37 +106,16 @@ describe('DestinationsList', () => {
     };
 
     httpClientMock.get
-      .mockResolvedValueOnce({
-        // Mock getPlugins
-        ok: true,
-        resp: { component: OS_NOTIFICATION_PLUGIN },
-      })
-      .mockResolvedValueOnce({
-        // Mock getAllowList
-        ok: true,
-        resp: mockSettings,
-      })
-      .mockResolvedValue({
-        // Mock return in getDestinations function
-        ok: true,
-        destinations: [mockDestination],
-        totalDestinations: 1,
-      });
+      .mockResolvedValueOnce({ ok: true, resp: { component: OS_NOTIFICATION_PLUGIN } })
+      .mockResolvedValueOnce({ ok: true, resp: mockSettings })
+      .mockResolvedValue({ ok: true, destinations: [mockDestination], totalDestinations: 1 });
 
-    const wrapper = mount(
+    const { container } = render(
       <DestinationsList httpClient={httpClientMock} history={historyMock} location={location} />
     );
 
-    await runAllPromises();
-
-    expect(wrapper.instance().state.totalDestinations).toBe(1);
-    expect(wrapper.instance().state.destinations.length).toBe(1);
-    expect(wrapper.instance().state.destinations[0].id).toBe('id');
-    expect(wrapper.instance().state.destinations[0].type).toBe('test_action');
-    expect(wrapper.instance().state.destinations[0].name).toBe('destName');
-    expect(wrapper.instance().state.destinations[0].schema_version).toBe(1);
-    expect(wrapper.instance().state.destinations[0].seq_no).toBe(2);
-    expect(wrapper.instance().state.destinations[0].primary_term).toBe(3);
-    expect(wrapper.instance().state.destinations[0].test_action).toBe('dummy');
+    await waitFor(() => {
+      expect(container.textContent).toContain('destName');
+    });
   });
 });

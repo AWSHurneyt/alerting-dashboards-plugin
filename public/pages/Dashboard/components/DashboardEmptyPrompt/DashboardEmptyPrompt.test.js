@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import DashboardEmptyPrompt from './DashboardEmptyPrompt';
 import { setupCoreStart } from '../../../../../test/utils/helpers';
@@ -16,6 +16,7 @@ beforeAll(() => {
 describe('DashboardEmptyPrompt', () => {
   test('renders', () => {
     const component = <DashboardEmptyPrompt monitorDetails={false} onShowTrigger={() => {}} />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

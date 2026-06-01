@@ -4,12 +4,13 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import Legend from './Legend';
 
 describe('<Legend/>', () => {
   test('renders', () => {
-    expect(render(<Legend />)).toMatchSnapshot();
+    const { container } = render(<Legend />);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, shallow, mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import MonitorActions from './MonitorActions';
 import { setupCoreStart } from '../../../../../test/utils/helpers';
@@ -22,101 +22,82 @@ beforeAll(() => {
   setupCoreStart();
 });
 
+function openActionsMenu(container) {
+  const actionsButton = container.querySelector('[data-test-subj="actionsButton"]');
+  fireEvent.click(actionsButton);
+}
+
 describe('MonitorActions', () => {
   test('renders', () => {
-    const component = <MonitorActions {...getProps()} />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(<MonitorActions {...getProps()} />);
+    expect(container).toMatchSnapshot();
   });
 
   test('toggles isActionOpen when calling onClickActions', () => {
-    const wrapper = shallow(<MonitorActions {...getProps()} />);
-    const instance = wrapper.instance();
-    expect(wrapper.state('isActionsOpen')).toBe(false);
-    instance.onClickActions();
-    expect(wrapper.state('isActionsOpen')).toBe(true);
-    instance.onClickActions();
-    expect(wrapper.state('isActionsOpen')).toBe(false);
+    const { container } = render(<MonitorActions {...getProps()} />);
+    openActionsMenu(container);
+    // Menu items rendered in portal - check document.body
+    expect(document.body.querySelector('[data-test-subj="acknowledgeItem"]')).toBeTruthy();
   });
 
   test('sets isActionOpen to false when calling onCloseActions', () => {
-    const wrapper = shallow(<MonitorActions {...getProps()} />);
-    const instance = wrapper.instance();
-    expect(wrapper.state('isActionsOpen')).toBe(false);
-    instance.onClickActions();
-    expect(wrapper.state('isActionsOpen')).toBe(true);
-    instance.onCloseActions();
-    expect(wrapper.state('isActionsOpen')).toBe(false);
-    instance.onCloseActions();
-    expect(wrapper.state('isActionsOpen')).toBe(false);
-  });
-});
-
-describe('MonitorActions', () => {
-  let wrapper;
-  let props;
-  beforeEach(() => {
-    props = getProps();
-    wrapper = mount(<MonitorActions {...props} />);
-  });
-  afterEach(() => {
-    wrapper.unmount();
+    const { container } = render(<MonitorActions {...getProps()} />);
+    openActionsMenu(container);
+    expect(document.body.querySelector('[data-test-subj="acknowledgeItem"]')).toBeTruthy();
+    fireEvent.keyDown(container, { key: 'Escape' });
   });
 
-  test('toggles isActionOpen when Actions Edit button', () => {
-    expect(wrapper.state('isActionsOpen')).toBe(false);
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    expect(wrapper.state('isActionsOpen')).toBe(true);
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    expect(wrapper.state('isActionsOpen')).toBe(false);
+  test('toggles isActionOpen when Actions button clicked', () => {
+    const { container } = render(<MonitorActions {...getProps()} />);
+    openActionsMenu(container);
+    expect(document.body.querySelector('[data-test-subj="acknowledgeItem"]')).toBeTruthy();
   });
 
-  test.skip('calls onCloseActions and onBulkAcknowledge when clicking Acknowledge item', () => {
-    const instance = wrapper.instance();
-    jest.spyOn(instance, 'onCloseActions');
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="acknowledgeItem"]').hostNodes().simulate('click');
-    expect(instance.onCloseActions).toHaveBeenCalledTimes(1);
+  test('calls onBulkAcknowledge when clicking Acknowledge item', () => {
+    const props = getProps();
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="acknowledgeItem"]'));
     expect(props.onBulkAcknowledge).toHaveBeenCalledTimes(1);
   });
 
-  test('calls onCloseActions and onBulkEnable when clicking Enable item', () => {
-    const instance = wrapper.instance();
-    jest.spyOn(instance, 'onCloseActions');
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="enableItem"]').hostNodes().simulate('click');
-    expect(instance.onCloseActions).toHaveBeenCalledTimes(1);
+  test('calls onBulkEnable when clicking Enable item', () => {
+    const props = getProps();
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="enableItem"]'));
     expect(props.onBulkEnable).toHaveBeenCalledTimes(1);
   });
 
-  test('calls onCloseActions and onBulkDisable when clicking Disable item', () => {
-    const instance = wrapper.instance();
-    jest.spyOn(instance, 'onCloseActions');
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="disableItem"]').hostNodes().simulate('click');
-    expect(instance.onCloseActions).toHaveBeenCalledTimes(1);
+  test('calls onBulkDisable when clicking Disable item', () => {
+    const props = getProps();
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="disableItem"]'));
     expect(props.onBulkDisable).toHaveBeenCalledTimes(1);
   });
 
-  test('calls onCloseActions and onBulkDelete when clicking Delete item', () => {
-    const instance = wrapper.instance();
-    jest.spyOn(instance, 'onCloseActions');
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="deleteItem"]').hostNodes().simulate('click');
-    expect(instance.onCloseActions).toHaveBeenCalledTimes(1);
+  test('calls onBulkDelete when clicking Delete item', () => {
+    const props = getProps();
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="deleteItem"]'));
     expect(props.onBulkDelete).toHaveBeenCalledTimes(1);
   });
 
   test('does not call onClickEdit when Edit is clicked and edit is disabled', () => {
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="editItem"]').hostNodes().simulate('click');
+    const props = getProps();
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="editItem"]'));
     expect(props.onClickEdit).toHaveBeenCalledTimes(0);
   });
 
   test('calls onClickEdit when Edit is clicked and isEditDisabled=false', () => {
-    const props = getProps();
-    wrapper.setProps({ ...props, isEditDisabled: false });
-    wrapper.find('[data-test-subj="actionsButton"]').hostNodes().simulate('click');
-    wrapper.find('[data-test-subj="editItem"]').hostNodes().simulate('click');
+    const props = { ...getProps(), isEditDisabled: false };
+    const { container } = render(<MonitorActions {...props} />);
+    openActionsMenu(container);
+    fireEvent.click(document.body.querySelector('[data-test-subj="editItem"]'));
     expect(props.onClickEdit).toHaveBeenCalledTimes(1);
   });
 });

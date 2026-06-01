@@ -1,38 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DestinationsActions /> should render DestinationsActions 1`] = `
-<div
-  class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
->
-  <div
-    class="euiFlexItem"
-  >
-    <div
-      class="euiPopover euiPopover--anchorDownLeft"
-      id="destinationActionsPopover"
-    >
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
       <div
-        class="euiPopover__anchor"
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
       >
-        <button
-          class="euiButton euiButton--primary euiButton--small"
-          type="button"
+        <div
+          class="euiFlexItem"
         >
-          <span
-            class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+          <div
+            class="euiPopover euiPopover--anchorDownLeft"
+            id="destinationActionsPopover"
           >
-            <div>
-              EuiIconMock
-            </div>
-            <span
-              class="euiButton__text"
+            <div
+              class="euiPopover__anchor"
             >
-              Actions
-            </span>
-          </span>
-        </button>
+              <button
+                class="euiButton euiButton--primary euiButton--small"
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+                >
+                  <div>
+                    EuiIconMock
+                  </div>
+                  <span
+                    class="euiButton__text"
+                  >
+                    Actions
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </body>,
+  "container": <div>
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiPopover euiPopover--anchorDownLeft"
+          id="destinationActionsPopover"
+        >
+          <div
+            class="euiPopover__anchor"
+          >
+            <button
+              class="euiButton euiButton--primary euiButton--small"
+              type="button"
+            >
+              <span
+                class="euiButtonContent euiButtonContent--iconRight euiButton__content"
+              >
+                <div>
+                  EuiIconMock
+                </div>
+                <span
+                  class="euiButton__text"
+                >
+                  Actions
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;

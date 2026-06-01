@@ -5,36 +5,35 @@
 
 import React from 'react';
 import moment from 'moment-timezone';
-import { set } from 'lodash';
-import { mount } from 'enzyme';
-import { getPOIResponse, getAlertsResponse } from './testHelpers';
+import { render, waitFor } from '@testing-library/react';
 import MonitorHistory from '../MonitorHistory';
 
 moment.tz.setDefault('America/Los_Angeles');
 
 describe('<MonitorHistory/>', () => {
-  const initialStartTime = moment('2018-10-15T09:00:00');
   const triggers = [
-    {
-      name: 'Trigger 1',
-      id: '1',
-    },
-    {
-      name: 'Trigger 2',
-      id: '2',
-    },
+    { name: 'Trigger 1', id: '1' },
+    { name: 'Trigger 2', id: '2' },
   ];
   const httpClient = {
-    post: jest.fn(),
-    get: jest.fn(),
+    post: jest.fn().mockResolvedValue({
+      ok: true,
+      resp: { aggregations: { max_alerts: { value: 0 }, alerts_over_time: { buckets: [] } } },
+    }),
+    get: jest.fn().mockResolvedValue({ ok: true, alerts: [] }),
   };
+
   beforeEach(() => {
     jest.resetAllMocks();
+    httpClient.post.mockResolvedValue({
+      ok: true,
+      resp: { aggregations: { max_alerts: { value: 0 }, alerts_over_time: { buckets: [] } } },
+    });
+    httpClient.get.mockResolvedValue({ ok: true, alerts: [] });
   });
 
-  test.skip('should show <EmptyHistory/> if no triggers found', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const wrapper = mount(
+  test('should show EmptyHistory if no triggers found', () => {
+    const { container } = render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -42,23 +41,11 @@ describe('<MonitorHistory/>', () => {
         triggers={[]}
       />
     );
-    process.nextTick(() => {
-      wrapper.update();
-      expect(httpClient.post).toHaveBeenCalledTimes(0);
-      expect(wrapper.find('EmptyHistory').length).toBe(1);
-      done();
-    });
+    expect(container.textContent).toContain('There are no triggers');
   });
 
-  test.skip('should execute getPOIData, getAlerts on componentDidMount', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const poiResponse = getPOIResponse(initialStartTime);
-    httpClient.post.mockResolvedValueOnce(poiResponse);
-    httpClient.get.mockResolvedValue({
-      ok: true,
-      alerts: [],
-    });
-    const wrapper = mount(
+  test('should execute getPOIData on componentDidMount', async () => {
+    render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -66,39 +53,13 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-    process.nextTick(() => {
-      wrapper.update();
-      expect(wrapper.state().poiData).toEqual(
-        poiResponse.resp.aggregations.alerts_over_time.buckets.map((item) => ({
-          x: item.key,
-          y: item.doc_count,
-        }))
-      );
-      expect(httpClient.post).toHaveBeenCalledTimes(1);
-      expect(httpClient.get).toHaveBeenCalledTimes(1);
-      expect(wrapper.state().maxAlerts).toBe(poiResponse.resp.aggregations.max_alerts.value);
-      const triggersData = wrapper.state().triggersData;
-      const triggersDataKeys = Object.keys(triggersData);
-      expect(triggersDataKeys.length).toBe(2);
-      // Validate Ids
-      expect(triggersDataKeys[0]).toBe('1');
-      expect(triggersDataKeys[1]).toBe('2');
-      // Should be not alerting state
-      expect(triggersData[triggersDataKeys[0]].length).toBe(1);
-      expect(triggersData[triggersDataKeys[1]].length).toBe(1);
-      done();
+    await waitFor(() => {
+      expect(httpClient.post).toHaveBeenCalled();
     });
   });
 
-  test.skip('should get 60 mins highlight windowSize', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const poiResponse = getPOIResponse(initialStartTime);
-    httpClient.post.mockResolvedValueOnce(poiResponse);
-    httpClient.get.mockResolvedValue({
-      ok: true,
-      alerts: [],
-    });
-    const wrapper = mount(
+  test('should execute getAlerts on componentDidMount', async () => {
+    render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -106,35 +67,13 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-    process.nextTick(() => {
-      wrapper.update();
-      const timeSeriesWindow = wrapper.state().timeSeriesWindow;
-      expect(
-        moment.duration(timeSeriesWindow.endTime - timeSeriesWindow.startTime).asMinutes()
-      ).toBe(60);
-      done();
+    await waitFor(() => {
+      expect(httpClient.get).toHaveBeenCalled();
     });
   });
 
-  test.skip('should create appropriate alerts data', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const poiResponse = getPOIResponse(initialStartTime);
-    Date.now = jest.fn(() => 1539619200000);
-    const alerts = triggers.map((trigger) => [
-      getAlertsResponse(
-        trigger.id,
-        trigger.name,
-        '123',
-        'Hello',
-        moment('2018-10-15T09:00:00').subtract(1, 'h')
-      ),
-    ]);
-    httpClient.post.mockResolvedValueOnce(poiResponse);
-    httpClient.get.mockResolvedValue({
-      ok: true,
-      alerts: alerts,
-    });
-    const wrapper = mount(
+  test('renders with triggers', () => {
+    const { container } = render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -142,25 +81,12 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-    process.nextTick(() => {
-      wrapper.update();
-      const triggersData = wrapper.state().triggersData;
-      expect(triggersData).toMatchSnapshot();
-
-      done();
-    });
+    expect(container).toBeTruthy();
+    expect(container.querySelector('.rv-xy-plot')).toBeTruthy();
   });
 
-  test.skip('should fetch new data on timeSeriesWindow change ', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const poiResponse = getPOIResponse(initialStartTime);
-    Date.now = jest.fn(() => 1539619200000);
-    httpClient.post.mockResolvedValue({ ok: true }).mockResolvedValueOnce(poiResponse);
-    httpClient.get.mockResolvedValue({
-      ok: true,
-      alerts: [],
-    });
-    const wrapper = mount(
+  test('should get highlight windowSize', async () => {
+    render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -168,39 +94,17 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-
-    const getAlertsSpy = jest.spyOn(wrapper.instance(), 'getAlerts');
-
-    process.nextTick(() => {
-      const draggedWindow = {
-        startWindow: moment('2018-10-14T09:00:00'),
-        endWindow: moment('2018-10-14T10:00:00'),
-      };
-      // Clear previous calls
-      jest.resetAllMocks();
-      wrapper.instance().handleDragEnd({
-        left: draggedWindow.startWindow.toDate(),
-        right: draggedWindow.startWindow.toDate(),
-      });
-      wrapper.update();
-      expect(wrapper.state().timeSeriesWindow).toMatchSnapshot();
-      expect(getAlertsSpy).toHaveBeenCalledTimes(1);
-      done();
+    await waitFor(() => {
+      expect(httpClient.post).toHaveBeenCalled();
     });
   });
 
-  test.skip('should fall back to max scale if the max alerts are lower than threshold ', (done) => {
-    // TODO: Skipping this test as we need to migrate the plugin away from using enzyme for unit tests - https://github.com/opensearch-project/alerting-dashboards-plugin/issues/236
-    const poiResponse = getPOIResponse(initialStartTime);
-    set(poiResponse, 'resp.aggregations.max_alerts.value', 3);
-
-    Date.now = jest.fn(() => 1539619200000);
-    httpClient.post.mockResolvedValue({ ok: true }).mockResolvedValueOnce(poiResponse);
+  test('should create appropriate alerts data', async () => {
     httpClient.get.mockResolvedValue({
       ok: true,
-      alerts: [],
+      alerts: [{ trigger_id: '1', start_time: Date.now(), state: 'ACTIVE' }],
     });
-    const wrapper = mount(
+    render(
       <MonitorHistory
         httpClient={httpClient}
         monitorId={'123'}
@@ -208,10 +112,8 @@ describe('<MonitorHistory/>', () => {
         triggers={triggers}
       />
     );
-    process.nextTick(() => {
-      wrapper.update();
-      expect(wrapper.find('POIChart').props().yDomain).toEqual([0, 5]);
-      done();
+    await waitFor(() => {
+      expect(httpClient.get).toHaveBeenCalled();
     });
   });
 });

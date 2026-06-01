@@ -101,6 +101,11 @@ export default class Triggers extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.monitor !== prevProps.monitor) {
       this.updateMonitorState();
+      // In the React version OpenSearch Dashboards uses there is a bug regarding getDerivedStateFromProps
+      // which EuiInMemoryTable uses which causes items to not be updated correctly.
+      // Whenever the monitor is updated we'll generate a new key for the table
+      // which will cause the table component to remount
+      this.setState({ tableKey: `table-${Date.now()}-${Math.random()}` });
     }
 
     if (this.props.delegateMonitors !== prevProps.delegateMonitors) {
@@ -112,16 +117,6 @@ export default class Triggers extends Component {
     const { monitor } = this.props;
     const triggers = getUnwrappedTriggers(monitor);
     this.setState({ items: triggers });
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.monitor !== nextProps.monitor) {
-      // In the React version OpenSearch Dashboards uses there is a bug regarding getDerivedStateFromProps
-      // which EuiInMemoryTable uses which causes items to not be updated correctly.
-      // Whenever the monitor is updated we'll generate a new key for the table
-      // which will cause the table component to remount
-      this.setState({ tableKey: `table-${Date.now()}-${Math.random()}` });
-    }
   }
 
   formatTriggerCondtions() {

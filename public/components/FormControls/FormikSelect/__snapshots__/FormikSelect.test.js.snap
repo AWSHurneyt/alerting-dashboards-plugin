@@ -1,33 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormikSelect renders 1`] = `
-<div
-  class="euiFormControlLayout euiFormControlLayout--compressed"
->
+<div>
   <div
-    class="euiFormControlLayout__childrenWrapper"
+    class="euiFormControlLayout euiFormControlLayout--compressed"
   >
-    <select
-      class="euiSelect euiSelect--compressed"
-      id="testing"
-      name="testing"
-    >
-      <option
-        value="test"
-      >
-        test
-      </option>
-    </select>
     <div
-      class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+      class="euiFormControlLayout__childrenWrapper"
     >
-      <span
-        class="euiFormControlLayoutCustomIcon"
+      <select
+        class="euiSelect euiSelect--compressed"
+        id="testing"
+        name="testing"
       >
-        <div>
-          EuiIconMock
-        </div>
-      </span>
+        <option
+          value="test"
+        >
+          test
+        </option>
+      </select>
+      <div
+        class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+      >
+        <span
+          class="euiFormControlLayoutCustomIcon"
+        >
+          <div>
+            EuiIconMock
+          </div>
+        </span>
+      </div>
     </div>
   </div>
 </div>

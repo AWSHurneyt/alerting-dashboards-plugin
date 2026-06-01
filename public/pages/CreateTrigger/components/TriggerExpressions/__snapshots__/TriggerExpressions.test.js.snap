@@ -1,37 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TriggerExpressions renders 1`] = `
-<EuiCompressedFormRow
-  describedByIds={Array []}
-  display="rowCompressed"
-  fullWidth={false}
-  hasChildLabel={true}
-  hasEmptyLabelSpace={false}
-  labelType="label"
-  style={
-    Object {
-      "width": "390px",
-    }
-  }
->
-  <EuiFlexGroup
-    alignItems="flexStart"
-    gutterSize="m"
+<div>
+  <div
+    class="euiFormRow euiFormRow--compressed"
+    id="generated-id-row"
+    style="width: 390px;"
   >
-    <EuiFlexItem
-      grow={1}
+    <div
+      class="euiFormRow__fieldWrapper"
     >
-      <Field>
-        <Component />
-      </Field>
-    </EuiFlexItem>
-    <EuiFlexItem
-      grow={1}
-    >
-      <Field>
-        <Component />
-      </Field>
-    </EuiFlexItem>
-  </EuiFlexGroup>
-</EuiCompressedFormRow>
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterMedium euiFlexGroup--alignItemsFlexStart euiFlexGroup--directionRow euiFlexGroup--responsive"
+        id="generated-id"
+      >
+        <div
+          class="euiFlexItem euiFlexItem--flexGrow1"
+        >
+          <div
+            class="euiFormRow euiFormRow--compressed"
+            id="generated-id-row"
+          >
+            <div
+              class="euiFormRow__fieldWrapper"
+            >
+              <div
+                class="euiFormControlLayout euiFormControlLayout--compressed"
+              >
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <select
+                    class="euiSelect euiSelect--compressed"
+                    data-test-subj="undefined_conditionEnumField"
+                    id="generated-id"
+                  >
+                    <option
+                      value="ABOVE"
+                    >
+                      IS ABOVE
+                    </option>
+                    <option
+                      value="BELOW"
+                    >
+                      IS BELOW
+                    </option>
+                    <option
+                      value="EXACTLY"
+                    >
+                      IS EXACTLY
+                    </option>
+                  </select>
+                  <div
+                    class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                  >
+                    <span
+                      class="euiFormControlLayoutCustomIcon"
+                    >
+                      <div>
+                        EuiIconMock
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrow1"
+        >
+          <div
+            class="euiFormRow euiFormRow--compressed"
+            id="generated-id-row"
+          >
+            <div
+              class="euiFormRow__fieldWrapper"
+            >
+              <div
+                class="euiFormControlLayout euiFormControlLayout--compressed"
+              >
+                <div
+                  class="euiFormControlLayout__childrenWrapper"
+                >
+                  <input
+                    class="euiFieldNumber euiFieldNumber--compressed"
+                    data-test-subj="undefined_conditionValueField"
+                    id="generated-id"
+                    type="number"
+                    value="[object Object]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

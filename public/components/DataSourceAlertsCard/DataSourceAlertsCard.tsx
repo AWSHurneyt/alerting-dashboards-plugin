@@ -11,7 +11,7 @@ import { dataSourceFilterFn, getSeverityColor, getSeverityBadgeText, getTruncate
 import { renderTime } from "../../pages/Dashboard/utils/tableUtils";
 import { ALERTS_NAV_ID, MONITORS_NAV_ID } from "../../../utils/constants";
 import { APP_PATH, DEFAULT_EMPTY_DATA } from "../../utils/constants";
-import { dataSourceEnabled, getIsAgentConfigured, getURL } from "../../pages/utils/helpers.js";
+import { dataSourceEnabled, getIsAgentConfigured, getURL } from "../../pages/utils/helpers";
 import { AlertInsight } from '../AlertInsight';
 
 export interface DataSourceAlertsCardProps {

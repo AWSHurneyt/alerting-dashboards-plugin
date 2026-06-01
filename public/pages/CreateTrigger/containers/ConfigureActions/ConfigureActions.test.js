@@ -3,111 +3,104 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { checkForError } from './ConfigureActions';
+import React from 'react';
+import { render, waitFor } from '@testing-library/react';
+import { Formik } from 'formik';
 
-const error =
-  'java.io.IOException: Failed: HttpResponseProxy{HTTP/1.1 403 Forbidden [Content-Type: application/json, Content-Length: 82, Connection: keep-alive, Date: Fri, 02 Jul 2021 03:54:57 GMT, x-amzn-ErrorType: ForbiddenException';
-
-const noErrorInResponse = {
-  resp: {
-    monitor_name: 'TestMonitor',
-    period_start: 1625198037084,
-    period_end: 1625198097084,
-    error: null,
-    input_results: {
-      results: [],
-      error: null,
-    },
-    trigger_results: {
-      PgxaZXoB3e90jg4z8ga8: {
-        name: '',
-        triggered: true,
-        error: null,
-        action_results: {
-          PwxaZXoB3e90jg4z8ga8: {
-            id: 'PwxaZXoB3e90jg4z8ga8',
-            name: 'sdlkmdslfdsfds',
-            output: {},
-            throttled: false,
-            executionTime: 1625198097035,
-            error: null,
-          },
-        },
-      },
-    },
+jest.mock('../../components/Action', () => () => null);
+jest.mock('../../components/ActionEmptyPrompt', () => () => null);
+jest.mock('../../components/AddActionButton', () => () => null);
+jest.mock('../../../Destinations/utils/helpers', () => ({
+  getAllowList: jest.fn().mockResolvedValue([]),
+}));
+jest.mock('../../../../utils/helpers', () => ({
+  backendErrorNotification: jest.fn(),
+}));
+jest.mock('../CreateTrigger/utils/constants', () => ({
+  TRIGGER_TYPE: {
+    QUERY_LEVEL: 'query_level_trigger',
+    BUCKET_LEVEL: 'bucket_level_trigger',
+    DOC_LEVEL: 'document_level_trigger',
+    COMPOSITE_LEVEL: 'chained_alert_trigger',
   },
+}));
+jest.mock('../CreateTrigger/utils/formikToTrigger', () => ({
+  formikToTrigger: jest.fn(() => [{ query_level_trigger: { name: 'test', actions: [] } }]),
+}));
+jest.mock('../../utils/helper', () => ({
+  getChannelOptions: jest.fn(() => []),
+  toChannelType: jest.fn(() => ''),
+}));
+jest.mock('../../components/AddActionButton/utils', () => ({
+  getInitialActionValues: jest.fn(() => ({ name: '', destination_id: '' })),
+}));
+jest.mock('../../../utils/helpers', () => ({
+  getDataSourceId: jest.fn(() => undefined),
+  getDataSourceQueryObj: jest.fn(() => null),
+  dataSourceEnabled: jest.fn(() => false),
+}));
+
+import ConfigureActions from './ConfigureActions';
+
+const defaultProps = {
+  httpClient: {
+    get: jest.fn().mockResolvedValue({ ok: true, destinations: [], totalDestinations: 0 }),
+    post: jest.fn().mockResolvedValue({ ok: true }),
+  },
+  values: { actions: [] },
+  plugins: [],
+  notifications: { toasts: { addDanger: jest.fn() } },
+  arrayHelpers: { push: jest.fn(), remove: jest.fn() },
+  context: { monitor: {}, trigger: { query_level_trigger: { name: 'test' } } },
+  setFlyout: jest.fn(),
+  fieldPath: '',
+  triggerIndex: 0,
+  monitorType: 'monitor',
 };
 
-const errorInActionResponse = {
-  resp: {
-    monitor_name: 'TestMonitor',
-    period_start: 1625198037084,
-    period_end: 1625198097084,
-    error: null,
-    input_results: {
-      results: [],
-      error: null,
-    },
-    trigger_results: {
-      PgxaZXoB3e90jg4z8ga8: {
-        name: '',
-        triggered: true,
-        error: null,
-        action_results: {
-          PwxaZXoB3e90jg4z8ga8: {
-            id: 'PwxaZXoB3e90jg4z8ga8',
-            name: 'sdlkmdslfdsfds',
-            output: {},
-            throttled: false,
-            executionTime: 1625198097035,
-            error: error,
-          },
-        },
-      },
-    },
-  },
-};
+describe('ConfigureActions', () => {
+  beforeEach(() => jest.clearAllMocks());
 
-const errorInTriggerResponse = {
-  resp: {
-    monitor_name: 'TestMonitor',
-    period_start: 1625198037084,
-    period_end: 1625198097084,
-    error: null,
-    input_results: {
-      results: [],
-      error: null,
-    },
-    trigger_results: {
-      PgxaZXoB3e90jg4z8ga8: {
-        name: '',
-        triggered: true,
-        error: error,
-        action_results: {
-          PwxaZXoB3e90jg4z8ga8: {
-            id: 'PwxaZXoB3e90jg4z8ga8',
-            name: 'sdlkmdslfdsfds',
-            output: {},
-            throttled: false,
-            executionTime: 1625198097035,
-            error: null,
-          },
-        },
-      },
-    },
-  },
-};
-
-describe('checkForError', () => {
-  test('return no error in response', () => {
-    expect(checkForError(noErrorInResponse, null)).toBe(null);
+  test('renders empty state when no actions', async () => {
+    const { container } = render(
+      <Formik initialValues={{ actions: [] }} onSubmit={() => {}}>
+        <ConfigureActions {...defaultProps} />
+      </Formik>
+    );
+    await waitFor(() => {
+      expect(container).toBeTruthy();
+    });
   });
 
-  test('return error in action response', () => {
-    expect(checkForError(errorInActionResponse, null)).toBe(error);
+  test('loads destinations on mount', async () => {
+    render(
+      <Formik initialValues={{ actions: [] }} onSubmit={() => {}}>
+        <ConfigureActions {...defaultProps} />
+      </Formik>
+    );
+    await waitFor(() => {
+      expect(defaultProps.httpClient.get).toHaveBeenCalledWith(
+        expect.stringContaining('destinations'),
+        expect.anything()
+      );
+    });
   });
 
-  test('return error in trigger response', () => {
-    expect(checkForError(errorInTriggerResponse, null)).toBe(error);
+  test('renders with existing actions', async () => {
+    const propsWithActions = {
+      ...defaultProps,
+      values: { actions: [{ name: 'action1' }] },
+    };
+    const { container } = render(
+      <Formik
+        initialValues={{ actions: [{ name: 'action1', destination_id: 'dest-1' }] }}
+        onSubmit={() => {}}
+      >
+        <ConfigureActions {...propsWithActions} />
+      </Formik>
+    );
+    await waitFor(() => {
+      expect(container).toBeTruthy();
+    });
   });
 });

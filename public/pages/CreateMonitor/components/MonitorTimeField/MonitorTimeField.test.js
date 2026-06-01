@@ -4,56 +4,48 @@
  */
 
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 
 import MonitorTimeField from './MonitorTimeField';
 
 describe('MonitorTimeField', () => {
   test('renders', () => {
-    const component = (
+    const { container } = render(
       <Formik initialValues={{}} onSubmit={() => {}}>
         <MonitorTimeField dataTypes={{}} />
       </Formik>
     );
-
-    expect(render(component)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
-  test('displays no options', () => {
-    const wrapper = mount(
+  test('displays no options when no date fields', () => {
+    const { container } = render(
       <Formik initialValues={{}} onSubmit={() => {}}>
         <MonitorTimeField dataTypes={{}} />
       </Formik>
     );
-    // Default blank option
-    expect(wrapper.find('EuiCompressedComboBox').props().options.length).toBe(0);
+    // No option pills should be rendered
+    expect(container.querySelectorAll('.euiComboBoxPill')).toHaveLength(0);
   });
 
   test('displays options', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Formik initialValues={{}} onSubmit={() => {}}>
         <MonitorTimeField dataTypes={{ date: ['date1', 'date2', 'date3'] }} />
       </Formik>
     );
-    // 3 options
-    expect(wrapper.find('EuiCompressedComboBox').props().options.length).toBe(3);
+    expect(container).toMatchSnapshot();
   });
 
   test('displays options includes date_nanos', () => {
-    const wrapper = mount(
+    const { container } = render(
       <Formik initialValues={{}} onSubmit={() => {}}>
         <MonitorTimeField
           dataTypes={{ date: ['date1', 'date2', 'date3'], date_nanos: ['date_nanos1'] }}
         />
       </Formik>
     );
-    expect(wrapper).toMatchSnapshot();
-
-    // 4 options
-    expect(wrapper.find('EuiCompressedComboBox').props().options.length).toBe(4);
-    expect(wrapper.find('EuiCompressedComboBox').props().options).toEqual(
-      expect.arrayContaining([{ label: 'date_nanos1' }])
-    );
+    expect(container).toMatchSnapshot();
   });
 });

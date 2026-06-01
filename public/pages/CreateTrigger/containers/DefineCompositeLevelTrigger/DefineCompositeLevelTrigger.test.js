@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { Formik } from 'formik';
 import { FORMIK_INITIAL_VALUES } from '../../../CreateMonitor/containers/CreateMonitor/utils/constants';
@@ -16,15 +16,16 @@ describe('DefineCompositeLevelTrigger', () => {
       <Formik initialValues={FORMIK_INITIAL_VALUES} onSubmit={() => {}}>
         <DefineCompositeLevelTrigger
           isDarkMode={false}
-          httpClient={{}}
-          notifications={{}}
+          httpClient={{ get: jest.fn().mockResolvedValue({ ok: true, monitors: [] }) }}
+          notifications={{ toasts: { addDanger: jest.fn() } }}
           notificationService={{}}
-          plugins={{}}
+          plugins={[]}
           values={{}}
           touched={{}}
         />
       </Formik>
     );
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(component);
+    expect(container).toMatchSnapshot();
   });
 });

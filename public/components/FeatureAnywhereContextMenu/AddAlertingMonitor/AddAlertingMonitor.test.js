@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { httpServiceMock, notificationServiceMock } from '../../../../../../src/core/public/mocks';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AddAlertingMonitor from './AddAlertingMonitor';
 import { setClient, setNotifications } from '../../../services';
 import { setupCoreStart } from '../../../../test/utils/helpers';
@@ -20,7 +20,9 @@ describe('AddAlertingMonitor', () => {
   const notifications = notificationServiceMock.createStartContract();
   setNotifications(notifications);
   test('renders', () => {
-    const wrapper = shallow(<AddAlertingMonitor {...{ embeddable: { vis: { title: '' } } }} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(
+      <AddAlertingMonitor {...{ embeddable: { vis: { title: '' } } }} />
+    );
+    expect(container).toMatchSnapshot();
   });
 });

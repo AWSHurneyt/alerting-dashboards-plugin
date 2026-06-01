@@ -1,32 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormikSwitch renders 1`] = `
-<div
-  class="euiSwitch euiSwitch--primary euiSwitch--compressed"
->
-  <button
-    aria-checked="false"
-    aria-labelledby="generated-id"
-    class="euiSwitch__button"
-    id="testing"
-    name="testing"
-    role="switch"
-    type="button"
+<div>
+  <div
+    class="euiSwitch euiSwitch--primary euiSwitch--compressed"
   >
-    <span
-      class="euiSwitch__body"
+    <button
+      aria-checked="false"
+      aria-labelledby="generated-id"
+      class="euiSwitch__button"
+      id="testing"
+      name="testing"
+      role="switch"
+      type="button"
     >
       <span
-        class="euiSwitch__thumb"
-      />
-      <span
-        class="euiSwitch__track"
-      />
-    </span>
-  </button>
-  <span
-    class="euiSwitch__label"
-    id="generated-id"
-  />
+        class="euiSwitch__body"
+      >
+        <span
+          class="euiSwitch__thumb"
+        />
+        <span
+          class="euiSwitch__track"
+        />
+      </span>
+    </button>
+    <span
+      class="euiSwitch__label"
+      id="generated-id"
+    />
+  </div>
 </div>
 `;

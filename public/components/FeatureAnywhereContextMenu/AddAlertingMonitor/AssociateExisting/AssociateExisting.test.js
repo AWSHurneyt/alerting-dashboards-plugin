@@ -4,12 +4,12 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AssociateExisting from './AssociateExisting';
 
 describe('AssociateExisting', () => {
   test('renders', () => {
-    const wrapper = shallow(<AssociateExisting {...{ embeddable: { getTitle: () => '' } }} />);
-    expect(wrapper).toMatchSnapshot();
+    const { container } = render(<AssociateExisting {...{ embeddable: { getTitle: () => '' } }} />);
+    expect(container).toMatchSnapshot();
   });
 });

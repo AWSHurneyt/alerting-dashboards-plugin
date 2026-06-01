@@ -1,41 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<EmptyHistory/> renders 1`] = `
-<div
-  class="euiEmptyPrompt"
-  style="max-width:45em"
->
-  <span
-    class="euiTextColor euiTextColor--subdued"
-  >
-    <div
-      class="euiText euiText--medium"
-    >
-      <div
-        class="euiText euiText--small"
-      >
-        <p>
-          There are no triggers. Create a trigger to start alerting. Once an alarm is triggered, the state will be displayed in time series.
-        </p>
-      </div>
-    </div>
-  </span>
+<div>
   <div
-    class="euiSpacer euiSpacer--l"
-  />
-  <button
-    class="euiButton euiButton--primary euiButton--small euiButton--fill"
-    type="button"
+    class="euiEmptyPrompt"
+    style="max-width: 45em;"
   >
     <span
-      class="euiButtonContent euiButton__content"
+      class="euiTextColor euiTextColor--subdued"
+    >
+      <div
+        class="euiText euiText--medium"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <p>
+            There are no triggers. Create a trigger to start alerting. Once an alarm is triggered, the state will be displayed in time series.
+          </p>
+        </div>
+      </div>
+    </span>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
+    <button
+      class="euiButton euiButton--primary euiButton--small euiButton--fill"
+      type="button"
     >
       <span
-        class="euiButton__text"
+        class="euiButtonContent euiButton__content"
       >
-        Edit monitor
+        <span
+          class="euiButton__text"
+        >
+          Edit monitor
+        </span>
       </span>
-    </span>
-  </button>
+    </button>
+  </div>
 </div>
 `;

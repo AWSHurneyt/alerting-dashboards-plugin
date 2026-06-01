@@ -1,11 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddTriggerConditionButton renders 1`] = `
-<EuiButtonEmpty
-  data-test-subj="addTriggerConditionButton"
-  onClick={[Function]}
-  size="xs"
->
-  + Add condition
-</EuiButtonEmpty>
+<div>
+  <button
+    class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall"
+    data-test-subj="addTriggerConditionButton"
+    type="button"
+  >
+    <span
+      class="euiButtonContent euiButtonEmpty__content"
+    >
+      <span
+        class="euiButtonEmpty__text"
+      >
+        + Add condition
+      </span>
+    </span>
+  </button>
+</div>
 `;

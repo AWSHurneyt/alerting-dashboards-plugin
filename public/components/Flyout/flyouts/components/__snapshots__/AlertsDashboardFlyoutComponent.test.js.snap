@@ -2,294 +2,586 @@
 
 exports[`AlertsDashboardFlyoutComponent renders 1`] = `
 <div>
-  <EuiFlexGroup>
-    <EuiFlexItem>
-      <EuiText
-        data-test-subj="alertsDashboardFlyout_triggerName_undefined"
-        size="s"
-      >
-        <strong>
-          Trigger name
-        </strong>
-        <p />
-      </EuiText>
-    </EuiFlexItem>
-    <EuiFlexItem>
-      <EuiText
-        data-test-subj="alertsDashboardFlyout_severity_undefined"
-        size="s"
-      >
-        <strong>
-          Severity
-        </strong>
-        <p>
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-  </EuiFlexGroup>
-  <EuiSpacer
-    size="xxl"
-  />
-  <EuiFlexGroup>
-    <EuiFlexItem>
-      <EuiText
-        size="s"
-      >
-        <strong>
-          Trigger start time
-        </strong>
-        <p>
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-    <EuiFlexItem>
-      <EuiText
-        size="s"
-      >
-        <strong>
-          Trigger last updated
-        </strong>
-        <p>
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-  </EuiFlexGroup>
-  <EuiSpacer
-    size="xxl"
-  />
-  <EuiFlexGroup>
-    <EuiFlexItem>
-      <EuiText
-        data-test-subj="alertsDashboardFlyout_monitor_undefined"
-        size="s"
-      >
-        <strong>
-          Monitor
-        </strong>
-        <p>
-          <EuiLink
-            href="#/monitors/undefined"
-          />
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-    <EuiFlexItem>
-      <EuiText
-        size="s"
-      >
-        <strong>
-          Monitor data sources
-        </strong>
-        <p
-          style={
-            Object {
-              "whiteSpace": "pre-wrap",
-            }
-          }
-        >
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-  </EuiFlexGroup>
-  <EuiHorizontalRule
-    margin="xxl"
-  />
-  <EuiFlexGroup>
-    <EuiFlexItem>
-      <EuiText
-        data-test-subj="alertsDashboardFlyout_conditions_undefined"
-        size="s"
-      >
-        <strong>
-          Condition
-        </strong>
-        <p
-          style={
-            Object {
-              "whiteSpace": "pre-wrap",
-            }
-          }
-        >
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-    <EuiFlexItem>
-      <EuiText
-        data-test-subj="alertsDashboardFlyout_timeRange_undefined"
-        size="s"
-      >
-        <strong>
-          Time range for the last
-        </strong>
-        <p>
-          -
-        </p>
-      </EuiText>
-    </EuiFlexItem>
-  </EuiFlexGroup>
   <div>
-    <EuiSpacer
-      size="xxl"
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+          data-test-subj="alertsDashboardFlyout_triggerName_undefined"
+        >
+          <strong>
+            Trigger name
+          </strong>
+          <p />
+        </div>
+      </div>
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+          data-test-subj="alertsDashboardFlyout_severity_undefined"
+        >
+          <strong>
+            Severity
+          </strong>
+          <p>
+            -
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--xxl"
     />
-    <EuiFlexGroup>
-      <EuiFlexItem>
-        <EuiText
-          data-test-subj="alertsDashboardFlyout_filters_undefined"
-          size="s"
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
         >
           <strong>
-            Filters
+            Trigger start time
           </strong>
           <p>
             -
           </p>
-        </EuiText>
-      </EuiFlexItem>
-      <EuiFlexItem>
-        <EuiText
-          data-test-subj="alertsDashboardFlyout_groupBy_undefined"
-          size="s"
+        </div>
+      </div>
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
         >
           <strong>
-            Group by
+            Trigger last updated
           </strong>
           <p>
             -
           </p>
-        </EuiText>
-      </EuiFlexItem>
-    </EuiFlexGroup>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--xxl"
+    />
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+          data-test-subj="alertsDashboardFlyout_monitor_undefined"
+        >
+          <strong>
+            Monitor
+          </strong>
+          <p>
+            <a
+              class="euiLink euiLink--primary"
+              href="#/monitors/undefined"
+              rel="noreferrer"
+            />
+          </p>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <strong>
+            Monitor data sources
+          </strong>
+          <p
+            style="white-space: pre-wrap;"
+          >
+            -
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXXLarge"
+    />
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+          data-test-subj="alertsDashboardFlyout_conditions_undefined"
+        >
+          <strong>
+            Condition
+          </strong>
+          <p
+            style="white-space: pre-wrap;"
+          >
+            -
+          </p>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+          data-test-subj="alertsDashboardFlyout_timeRange_undefined"
+        >
+          <strong>
+            Time range for the last
+          </strong>
+          <p>
+            -
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="euiSpacer euiSpacer--xxl"
+      />
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--small"
+            data-test-subj="alertsDashboardFlyout_filters_undefined"
+          >
+            <strong>
+              Filters
+            </strong>
+            <p>
+              -
+            </p>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--small"
+            data-test-subj="alertsDashboardFlyout_groupBy_undefined"
+          >
+            <strong>
+              Group by
+            </strong>
+            <p>
+              -
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--xxl"
+    />
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full"
+    />
+    <div
+      class="euiSpacer euiSpacer--xxl"
+    />
+    <div
+      class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+      style="padding: 16px;"
+    >
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        style="padding: 0px 10px;"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <div
+            class="euiText euiText--small"
+          >
+            <h2>
+              Alerts
+            </h2>
+          </div>
+        </div>
+        <div
+          class="euiFlexItem euiFlexItem--flexGrowZero"
+        >
+          <div
+            class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+          >
+            <div
+              class="euiFlexItem"
+            >
+              <button
+                class="euiButton euiButton--primary euiButton--small euiButton-isDisabled"
+                data-test-subj="flyoutAcknowledgeAlertsButton"
+                disabled=""
+                type="button"
+              >
+                <span
+                  class="euiButtonContent euiButton__content"
+                >
+                  <span
+                    class="euiButton__text"
+                  >
+                    Acknowledge
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="euiText euiText--extraSmall"
+        style="padding: 0px 10px;"
+      >
+        <div
+          class="euiTextColor euiTextColor--subdued"
+        />
+      </div>
+      <hr
+        class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+      />
+      <div
+        style="padding: initial;"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+          style="padding: 8px 0px 16px;"
+        >
+          <div
+            class="euiFlexItem"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <input
+                  class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
+                  placeholder="Search"
+                  type="search"
+                  value=""
+                />
+                <div
+                  class="euiFormControlLayoutIcons"
+                >
+                  <span
+                    class="euiFormControlLayoutCustomIcon"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="euiFlexItem euiFlexItem--flexGrowZero"
+          >
+            <div
+              class="euiFormControlLayout euiFormControlLayout--compressed"
+            >
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <select
+                  class="euiSelect euiSelect--compressed"
+                  data-test-subj="dashboardAlertStateFilter"
+                >
+                  <option
+                    value="ALL"
+                  >
+                    All alerts
+                  </option>
+                  <option
+                    value="ACTIVE"
+                  >
+                    Active
+                  </option>
+                  <option
+                    value="ACKNOWLEDGED"
+                  >
+                    Acknowledged
+                  </option>
+                  <option
+                    value="COMPLETED"
+                  >
+                    Completed
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    Error
+                  </option>
+                  <option
+                    value="DELETED"
+                  >
+                    Deleted
+                  </option>
+                </select>
+                <div
+                  class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+                >
+                  <span
+                    class="euiFormControlLayoutCustomIcon"
+                  >
+                    <div>
+                      EuiIconMock
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="euiBasicTable"
+          data-test-subj="alertsDashboardFlyout_table_undefined"
+        >
+          <div>
+            <div
+              class="euiTableHeaderMobile"
+            >
+              <div
+                class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+              >
+                <div
+                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <div
+                    class="euiCheckbox"
+                  >
+                    <input
+                      aria-label="Select all rows"
+                      class="euiCheckbox__input"
+                      disabled=""
+                      id="_selection_column-checkbox_generated-id"
+                      type="checkbox"
+                    />
+                    <div
+                      class="euiCheckbox__square"
+                    />
+                    <label
+                      class="euiCheckbox__label"
+                      for="_selection_column-checkbox_generated-id"
+                    >
+                      Select all rows
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="euiFlexItem euiFlexItem--flexGrowZero"
+                >
+                  <div
+                    class="euiTableSortMobile"
+                  >
+                    <div
+                      class="euiPopover euiPopover--anchorDownRight"
+                    >
+                      <div
+                        class="euiPopover__anchor"
+                      >
+                        <button
+                          class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                          type="button"
+                        >
+                          <span
+                            class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                          >
+                            <div>
+                              EuiIconMock
+                            </div>
+                            <span
+                              class="euiButtonEmpty__text"
+                            >
+                              Sorting
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <table
+              class="euiTable euiTable--responsive"
+              id="generated-id"
+              tabindex="-1"
+            >
+              <caption
+                class="euiScreenReaderOnly euiTableCaption"
+              />
+              <thead>
+                <tr>
+                  <th
+                    class="euiTableHeaderCellCheckbox"
+                    scope="col"
+                  >
+                    <div
+                      class="euiTableCellContent"
+                    >
+                      <div
+                        class="euiCheckbox euiCheckbox--inList euiCheckbox--noLabel"
+                      >
+                        <input
+                          aria-label="Select all rows"
+                          class="euiCheckbox__input"
+                          data-test-subj="checkboxSelectAll"
+                          disabled=""
+                          id="_selection_column-checkbox_generated-id"
+                          type="checkbox"
+                        />
+                        <div
+                          class="euiCheckbox__square"
+                        />
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="descending"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_start_time_0"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Alert start time"
+                        >
+                          Alert start time
+                        </span>
+                        <div>
+                          EuiIconMock
+                        </div>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_end_time_1"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Alert end time"
+                        >
+                          Alert end time
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_state_2"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="State"
+                      >
+                        State
+                      </span>
+                    </span>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_acknowledged_time_3"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Time acknowledged"
+                        >
+                          Time acknowledged
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="euiTableRow"
+                >
+                  <td
+                    class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
+                    colspan="5"
+                  >
+                    <div
+                      class="euiTableCellContent euiTableCellContent--alignCenter"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                      >
+                        No alerts.
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
   </div>
-  <EuiSpacer
-    size="xxl"
-  />
-  <EuiHorizontalRule
-    margin="none"
-  />
-  <EuiSpacer
-    size="xxl"
-  />
-  <ContentPanel
-    actions={
-      Array [
-        <EuiSmallButton
-          data-test-subj="flyoutAcknowledgeAlertsButton"
-          disabled={true}
-          onClick={[Function]}
-        >
-          Acknowledge
-        </EuiSmallButton>,
-      ]
-    }
-    bodyStyles={
-      Object {
-        "padding": "initial",
-      }
-    }
-    title="Alerts"
-    titleSize="s"
-  >
-    <DashboardControls
-      activePage={0}
-      isAlertsFlyout={true}
-      monitorType="query_level_monitor"
-      onPageChange={[Function]}
-      onSearchChange={[Function]}
-      onStateChange={[Function]}
-      pageCount={1}
-      panelStyles={
-        Object {
-          "padding": "8px 0px 16px",
-        }
-      }
-      search=""
-      severity="ALL"
-      state="ALL"
-    />
-    <EuiBasicTable
-      columns={
-        Array [
-          Object {
-            "dataType": "date",
-            "field": "start_time",
-            "name": "Alert start time",
-            "render": [Function],
-            "sortable": true,
-            "truncateText": false,
-          },
-          Object {
-            "dataType": "date",
-            "field": "end_time",
-            "name": "Alert end time",
-            "render": [Function],
-            "sortable": true,
-            "truncateText": false,
-          },
-          Object {
-            "field": "state",
-            "name": "State",
-            "render": [Function],
-            "sortable": false,
-            "truncateText": false,
-          },
-          Object {
-            "dataType": "date",
-            "field": "acknowledged_time",
-            "name": "Time acknowledged",
-            "render": [Function],
-            "sortable": true,
-            "truncateText": false,
-          },
-        ]
-      }
-      data-test-subj="alertsDashboardFlyout_table_undefined"
-      hasActions={true}
-      isSelectable={true}
-      itemId={[Function]}
-      items={Array []}
-      loading={false}
-      noItemsMessage="No alerts."
-      onChange={[Function]}
-      pagination={
-        Object {
-          "pageIndex": 0,
-          "pageSize": 10,
-          "pageSizeOptions": Array [
-            5,
-            10,
-            20,
-            50,
-          ],
-          "totalItemCount": 0,
-        }
-      }
-      responsive={true}
-      selection={
-        Object {
-          "initialSelected": Array [],
-          "onSelectionChange": [Function],
-          "selectable": [Function],
-          "selectableMessage": [Function],
-        }
-      }
-      sorting={
-        Object {
-          "sort": Object {
-            "direction": "desc",
-            "field": "start_time",
-          },
-        }
-      }
-      tableLayout="fixed"
-    />
-  </ContentPanel>
-  <EuiSpacer
-    size="l"
-  />
 </div>
 `;

@@ -2,98 +2,99 @@
 
 exports[`ForExpression renders 1`] = `
 <div>
-  <div
-    class="euiText euiText--extraSmall"
-  >
-    <strong>
-      Time range for the last 
-    </strong>
-    <span
-      class="euiToolTipAnchor"
-    >
-      <div>
-        EuiIconMock
-      </div>
-    </span>
-  </div>
-  <div
-    class="euiSpacer euiSpacer--s"
-  />
-  <div
-    class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
-    style="max-width:600px"
-  >
+  <div>
     <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-      style="width:150px"
+      class="euiText euiText--extraSmall"
+    >
+      <strong>
+        Time range for the last 
+      </strong>
+      <span
+        class="euiToolTipAnchor"
+      >
+        <div>
+          EuiIconMock
+        </div>
+      </span>
+    </div>
+    <div
+      class="euiSpacer euiSpacer--s"
+    />
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="max-width: 600px;"
     >
       <div
-        class="euiFormRow euiFormRow--compressed"
-        id="bucketValue-form-row-row"
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="width: 150px;"
       >
         <div
-          class="euiFormRow__fieldWrapper"
+          class="euiFormRow euiFormRow--compressed"
+          id="bucketValue-form-row-row"
         >
           <div
-            class="euiFormControlLayout euiFormControlLayout--compressed"
+            class="euiFormRow__fieldWrapper"
           >
             <div
-              class="euiFormControlLayout__childrenWrapper"
+              class="euiFormControlLayout euiFormControlLayout--compressed"
             >
-              <input
-                class="euiFieldNumber euiFieldNumber--compressed"
-                min="1"
-                name="bucketValue"
-                type="number"
-                value="1"
-              />
+              <div
+                class="euiFormControlLayout__childrenWrapper"
+              >
+                <input
+                  class="euiFieldNumber euiFieldNumber--compressed"
+                  min="1"
+                  name="bucketValue"
+                  type="number"
+                  value="1"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="euiFlexItem euiFlexItem--flexGrowZero"
-      style="width:150px"
-    >
       <div
-        class="euiFormControlLayout euiFormControlLayout--compressed"
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+        style="width: 150px;"
       >
         <div
-          class="euiFormControlLayout__childrenWrapper"
+          class="euiFormControlLayout euiFormControlLayout--compressed"
         >
-          <select
-            class="euiSelect euiSelect--compressed"
-            id="bucketUnitOfTime"
-            name="bucketUnitOfTime"
-          >
-            <option
-              value="m"
-            >
-              minute(s)
-            </option>
-            <option
-              selected=""
-              value="h"
-            >
-              hour(s)
-            </option>
-            <option
-              value="d"
-            >
-              day(s)
-            </option>
-          </select>
           <div
-            class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+            class="euiFormControlLayout__childrenWrapper"
           >
-            <span
-              class="euiFormControlLayoutCustomIcon"
+            <select
+              class="euiSelect euiSelect--compressed"
+              id="bucketUnitOfTime"
+              name="bucketUnitOfTime"
             >
-              <div>
-                EuiIconMock
-              </div>
-            </span>
+              <option
+                value="m"
+              >
+                minute(s)
+              </option>
+              <option
+                value="h"
+              >
+                hour(s)
+              </option>
+              <option
+                value="d"
+              >
+                day(s)
+              </option>
+            </select>
+            <div
+              class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+            >
+              <span
+                class="euiFormControlLayoutCustomIcon"
+              >
+                <div>
+                  EuiIconMock
+                </div>
+              </span>
+            </div>
           </div>
         </div>
       </div>

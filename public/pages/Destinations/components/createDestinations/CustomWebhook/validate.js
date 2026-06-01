@@ -37,7 +37,8 @@ export const validateHost = (value, allValues) => {
   const type = allValues.type;
   if (allValues[type].urlType !== URL_TYPE.ATTRIBUTE_URL) return;
   if (!value) return 'Required';
-  const regexHost = `^${fqdn}|${ipv4}|${ipv6}$`;
+  const bareIpv6 = '([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:)*:[0-9a-fA-F:]*';
+  const regexHost = `^(${fqdn}|${ipv4}|${bareIpv6})$`;
   const isValidUrl = new RegExp(regexHost).test(value);
   if (!isValidUrl) return 'Invalid Host';
 };

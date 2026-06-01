@@ -1,17 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormikFieldNumber renders 1`] = `
-<div
-  class="euiFormControlLayout euiFormControlLayout--compressed"
->
+<div>
   <div
-    class="euiFormControlLayout__childrenWrapper"
+    class="euiFormControlLayout euiFormControlLayout--compressed"
   >
-    <input
-      class="euiFieldNumber euiFieldNumber--compressed"
-      name="testing"
-      type="number"
-    />
+    <div
+      class="euiFormControlLayout__childrenWrapper"
+    >
+      <input
+        class="euiFieldNumber euiFieldNumber--compressed"
+        name="testing"
+        type="number"
+        value=""
+      />
+    </div>
   </div>
 </div>
 `;

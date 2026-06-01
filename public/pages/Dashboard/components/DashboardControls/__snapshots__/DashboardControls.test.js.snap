@@ -1,152 +1,152 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DashboardControls renders 1`] = `
-<div
-  class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
-  style="padding:0px 0px 16px"
->
+<div>
   <div
-    class="euiFlexItem"
+    class="euiFlexGroup euiFlexGroup--gutterSmall euiFlexGroup--directionRow euiFlexGroup--responsive"
+    style="padding: 0px 0px 16px;"
   >
     <div
-      class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
+      class="euiFlexItem"
     >
       <div
-        class="euiFormControlLayout__childrenWrapper"
+        class="euiFormControlLayout euiFormControlLayout--fullWidth euiFormControlLayout--compressed"
       >
-        <input
-          class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
-          placeholder="Search"
-          type="search"
-          value=""
-        />
         <div
-          class="euiFormControlLayoutIcons"
+          class="euiFormControlLayout__childrenWrapper"
         >
-          <span
-            class="euiFormControlLayoutCustomIcon"
+          <input
+            class="euiFieldSearch euiFieldSearch--fullWidth euiFieldSearch--compressed"
+            placeholder="Search"
+            type="search"
+            value=""
+          />
+          <div
+            class="euiFormControlLayoutIcons"
           >
-            <div>
-              EuiIconMock
-            </div>
-          </span>
+            <span
+              class="euiFormControlLayoutCustomIcon"
+            >
+              <div>
+                EuiIconMock
+              </div>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="euiFlexItem euiFlexItem--flexGrowZero"
-  >
     <div
-      class="euiFormControlLayout euiFormControlLayout--compressed"
+      class="euiFlexItem euiFlexItem--flexGrowZero"
     >
       <div
-        class="euiFormControlLayout__childrenWrapper"
+        class="euiFormControlLayout euiFormControlLayout--compressed"
       >
-        <select
-          class="euiSelect euiSelect--compressed"
-        >
-          <option
-            selected=""
-            value="ALL"
-          >
-            All severity levels
-          </option>
-          <option
-            value="1"
-          >
-            1 (Highest)
-          </option>
-          <option
-            value="2"
-          >
-            2 (High)
-          </option>
-          <option
-            value="3"
-          >
-            3 (Medium)
-          </option>
-          <option
-            value="4"
-          >
-            4 (Low)
-          </option>
-          <option
-            value="5"
-          >
-            5 (Lowest)
-          </option>
-        </select>
         <div
-          class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+          class="euiFormControlLayout__childrenWrapper"
         >
-          <span
-            class="euiFormControlLayoutCustomIcon"
+          <select
+            class="euiSelect euiSelect--compressed"
           >
-            <div>
-              EuiIconMock
-            </div>
-          </span>
+            <option
+              value="ALL"
+            >
+              All severity levels
+            </option>
+            <option
+              value="1"
+            >
+              1 (Highest)
+            </option>
+            <option
+              value="2"
+            >
+              2 (High)
+            </option>
+            <option
+              value="3"
+            >
+              3 (Medium)
+            </option>
+            <option
+              value="4"
+            >
+              4 (Low)
+            </option>
+            <option
+              value="5"
+            >
+              5 (Lowest)
+            </option>
+          </select>
+          <div
+            class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+          >
+            <span
+              class="euiFormControlLayoutCustomIcon"
+            >
+              <div>
+                EuiIconMock
+              </div>
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="euiFlexItem euiFlexItem--flexGrowZero"
-  >
     <div
-      class="euiFormControlLayout euiFormControlLayout--compressed"
+      class="euiFlexItem euiFlexItem--flexGrowZero"
     >
       <div
-        class="euiFormControlLayout__childrenWrapper"
+        class="euiFormControlLayout euiFormControlLayout--compressed"
       >
-        <select
-          class="euiSelect euiSelect--compressed"
-          data-test-subj="dashboardAlertStateFilter"
-        >
-          <option
-            selected=""
-            value="ALL"
-          >
-            All alerts
-          </option>
-          <option
-            value="ACTIVE"
-          >
-            Active
-          </option>
-          <option
-            value="ACKNOWLEDGED"
-          >
-            Acknowledged
-          </option>
-          <option
-            value="COMPLETED"
-          >
-            Completed
-          </option>
-          <option
-            value="ERROR"
-          >
-            Error
-          </option>
-          <option
-            value="DELETED"
-          >
-            Deleted
-          </option>
-        </select>
         <div
-          class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+          class="euiFormControlLayout__childrenWrapper"
         >
-          <span
-            class="euiFormControlLayoutCustomIcon"
+          <select
+            class="euiSelect euiSelect--compressed"
+            data-test-subj="dashboardAlertStateFilter"
           >
-            <div>
-              EuiIconMock
-            </div>
-          </span>
+            <option
+              value="ALL"
+            >
+              All alerts
+            </option>
+            <option
+              value="ACTIVE"
+            >
+              Active
+            </option>
+            <option
+              value="ACKNOWLEDGED"
+            >
+              Acknowledged
+            </option>
+            <option
+              value="COMPLETED"
+            >
+              Completed
+            </option>
+            <option
+              value="ERROR"
+            >
+              Error
+            </option>
+            <option
+              value="DELETED"
+            >
+              Deleted
+            </option>
+          </select>
+          <div
+            class="euiFormControlLayoutIcons euiFormControlLayoutIcons--right"
+          >
+            <span
+              class="euiFormControlLayoutCustomIcon"
+            >
+              <div>
+                EuiIconMock
+              </div>
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -2,50 +2,56 @@
 
 exports[`Home renders 1`] = `
 <div>
-  <div
-    class="euiTabs euiTabs--small"
-    role="tablist"
-    style="padding:16px 16px 0px"
-  >
-    <button
-      aria-selected="true"
-      class="euiTab euiTab-isSelected"
-      role="tab"
-      type="button"
+  <div>
+    <div
+      class="euiTabs euiTabs--small"
+      role="tablist"
+      style="padding: 16px 16px 0px;"
     >
-      <span
-        class="euiTab__content"
+      <button
+        aria-selected="true"
+        class="euiTab euiTab-isSelected"
+        role="tab"
+        type="button"
       >
-        Alerts
-      </span>
-    </button>
-    <button
-      aria-selected="false"
-      class="euiTab"
-      role="tab"
-      type="button"
+        <span
+          class="euiTab__content"
+        >
+          Alerts
+        </span>
+      </button>
+      <button
+        aria-selected="false"
+        class="euiTab"
+        role="tab"
+        type="button"
+      >
+        <span
+          class="euiTab__content"
+        >
+          Monitors
+        </span>
+      </button>
+      <button
+        aria-selected="false"
+        class="euiTab"
+        role="tab"
+        type="button"
+      >
+        <span
+          class="euiTab__content"
+        >
+          Destinations
+        </span>
+      </button>
+    </div>
+    <div
+      style="padding: 16px;"
     >
-      <span
-        class="euiTab__content"
-      >
-        Monitors
-      </span>
-    </button>
-    <button
-      aria-selected="false"
-      class="euiTab"
-      role="tab"
-      type="button"
-    >
-      <span
-        class="euiTab__content"
-      >
-        Destinations
-      </span>
-    </button>
+      <div
+        data-test-subj="mockDashboard"
+      />
+    </div>
   </div>
-  <div
-    style="padding:16px"
-  />
 </div>
 `;

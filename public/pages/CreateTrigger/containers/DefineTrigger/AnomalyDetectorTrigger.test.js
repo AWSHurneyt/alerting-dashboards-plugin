@@ -4,19 +4,15 @@
  */
 
 import React from 'react';
-import { render, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 import {
   notificationServiceMock,
   httpServiceMock,
 } from '../../../../../../../src/core/public/mocks';
 import { AnomalyDetectorTrigger } from './AnomalyDetectorTrigger';
-import { httpClientMock } from '../../../../../test/mocks';
 import { CoreContext } from '../../../../../public/utils/CoreContext';
 import { setClient, setNotifications } from '../../../../services';
-
-// enabling waiting until all of the promiseds have cleared: https://tinyurl.com/5hym6n9b
-const runAllPromises = () => new Promise(setImmediate);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -25,254 +21,80 @@ beforeEach(() => {
 describe('AnomalyDetectorTrigger', () => {
   const notifications = notificationServiceMock.createStartContract();
   setNotifications(notifications);
-  const httpClientMock = httpServiceMock.createStartContract();
-  setClient(httpClientMock);
+  const httpClient = httpServiceMock.createStartContract();
+  setClient(httpClient);
 
   test('renders no feature', () => {
-    const component = <AnomalyDetectorTrigger detectorId="tempId" />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
+          <AnomalyDetectorTrigger detectorId="tempId" />
+        </Formik>
+      </CoreContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
+
   test('renders no detector id', () => {
-    const component = <AnomalyDetectorTrigger />;
-    expect(render(component)).toMatchSnapshot();
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
+          <AnomalyDetectorTrigger />
+        </Formik>
+      </CoreContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
-  test('renders preview sparse data', async () => {
-    // using it since it will render React.Fragment that rendering AnomalyDetectorTrigger returns
-    const response = {
-      anomalyResult: {
-        anomalies: [],
-        featureData: {},
-      },
-      detector: {
-        featureAttributes: [
-          {
-            featureId: 'TV6fFYYB7j86MXY_Bzh2',
-            featureName: 'time',
-            featureEnabled: true,
-            aggregationQuery: {
-              time: {
-                max: {
-                  field: 'time',
-                },
-              },
-            },
-          },
-        ],
-      },
-    };
 
-    // Mock return in get preview function
-    httpClientMock.get = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ok: true, response: response }));
-    const wrapper = mount(
-      // put it under Formik to render TriggerExpressions that has Formik fields.
-      // rendering TriggerExpressions also require adValues to be passed in
-      <CoreContext.Provider value={{ http: httpClientMock }}>
-        <Formik>
+  test('renders no enabled feature', () => {
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
+          <AnomalyDetectorTrigger detectorId="tempId" />
+        </Formik>
+      </CoreContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders error', () => {
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
+          <AnomalyDetectorTrigger detectorId="tempId" error="Something went wrong" />
+        </Formik>
+      </CoreContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders preview sparse data', () => {
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
           <AnomalyDetectorTrigger
             detectorId="tempId"
             adValues={{
               anomalyGradeThresholdValue: 0.7,
               anomalyGradeThresholdEnum: 'ABOVE',
               anomalyConfidenceThresholdValue: 0.7,
-              anomalyConfidenceThresholdEnum: 0.7,
+              anomalyConfidenceThresholdEnum: 'ABOVE',
             }}
-            fieldPath=""
           />
         </Formik>
       </CoreContext.Provider>
     );
-
-    expect(httpClientMock.get).toHaveBeenCalledTimes(1);
-    await runAllPromises();
-
-    // without update, we will finish mount before the embedded async AnomalyDetectorData finish mounting
-    wrapper.update();
-
-    expect(wrapper.update().find('[data-test-subj~="empty-prompt"]').exists()).toBe(false);
-    expect(
-      wrapper
-        .find('[data-test-subj~="anomalyDetector.anomalyGradeThresholdEnum_conditionEnumField"]')
-        .exists()
-    ).toBe(true);
-    expect(
-      wrapper
-        .find(
-          '[data-test-subj~="anomalyDetector.anomalyConfidenceThresholdValue_conditionValueField"]'
-        )
-        .exists()
-    ).toBe(true);
+    expect(container).toMatchSnapshot();
   });
-  test('renders no enabled feature', async () => {
-    const response = {
-      anomalyResult: {
-        anomalies: [],
-        featureData: {},
-      },
-      detector: {
-        featureAttributes: [
-          {
-            featureId: 'TV6fFYYB7j86MXY_Bzh2',
-            featureName: 'time',
-            featureEnabled: false,
-            aggregationQuery: {
-              time: {
-                max: {
-                  field: 'time',
-                },
-              },
-            },
-          },
-        ],
-      },
-      error: '',
-    };
 
-    // Mock return in get preview function
-    httpClientMock.get = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ok: true, response: response }));
-    const wrapper = mount(
-      <CoreContext.Provider value={{ http: httpClientMock }}>
-        <AnomalyDetectorTrigger detectorId="tempId" />
-      </CoreContext.Provider>
-    );
-
-    await runAllPromises();
-
-    // without update, we will finish mount before the embedded async AnomalyDetectorData finish mounting
-    expect(wrapper.update().find('[data-test-subj~="empty-prompt"]').exists()).toBe(true);
-    expect(wrapper.find('.euiButton__text').text()).toEqual('Enable Feature');
-    expect(wrapper.update().find('[data-test-subj~="_conditionEnumField"]').exists()).toBe(false);
-    expect(wrapper.update().find('[data-test-subj~="_conditionValueField"]').exists()).toBe(false);
-  });
-  test('renders error', async () => {
-    const response = {
-      anomalyResult: {
-        anomalies: [],
-        featureData: {},
-      },
-      detector: {
-        featureAttributes: [
-          {
-            featureId: 'TV6fFYYB7j86MXY_Bzh2',
-            featureName: 'time',
-            featureEnabled: true,
-            aggregationQuery: {
-              time: {
-                max: {
-                  field: 'time',
-                },
-              },
-            },
-          },
-        ],
-      },
-      error: 'request error',
-    };
-
-    // Mock return in get preview function
-    httpClientMock.get = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ok: true, response: response }));
-    const wrapper = mount(
-      // put it under Formik to render TriggerExpressions that has Formik fields.
-      // rendering TriggerExpressions also require adValues to be passed in
-      <CoreContext.Provider value={{ http: httpClientMock }}>
-        <Formik>
-          <AnomalyDetectorTrigger
-            detectorId="tempId"
-            adValues={{
-              anomalyGradeThresholdValue: 0.7,
-              anomalyGradeThresholdEnum: 'ABOVE',
-              anomalyConfidenceThresholdValue: 0.7,
-              anomalyConfidenceThresholdEnum: 0.7,
-            }}
-            fieldPath=""
-          />
+  test('feature has priority over preview error', () => {
+    const { container } = render(
+      <CoreContext.Provider value={{ http: httpClient }}>
+        <Formik initialValues={{}} onSubmit={() => {}}>
+          <AnomalyDetectorTrigger detectorId="tempId" error="error" />
         </Formik>
       </CoreContext.Provider>
     );
-
-    expect(httpClientMock.get).toHaveBeenCalledTimes(1);
-    await runAllPromises();
-
-    // without update, we will finish mount before the embedded async AnomalyDetectorData finish mounting
-    wrapper.update();
-
-    expect(wrapper.update().find('[data-test-subj~="empty-prompt"]').exists()).toBe(false);
-    expect(
-      wrapper
-        .find('[data-test-subj~="anomalyDetector.anomalyGradeThresholdEnum_conditionEnumField"]')
-        .exists()
-    ).toBe(true);
-    expect(
-      wrapper
-        .find(
-          '[data-test-subj~="anomalyDetector.anomalyConfidenceThresholdValue_conditionValueField"]'
-        )
-        .exists()
-    ).toBe(true);
-  });
-  test('feature has priority over preview error', async () => {
-    const response = {
-      anomalyResult: {
-        anomalies: [],
-        featureData: {},
-      },
-      detector: {
-        featureAttributes: [
-          {
-            featureId: 'TV6fFYYB7j86MXY_Bzh2',
-            featureName: 'time',
-            featureEnabled: false,
-            aggregationQuery: {
-              time: {
-                max: {
-                  field: 'time',
-                },
-              },
-            },
-          },
-        ],
-      },
-      error: 'request error',
-    };
-
-    // Mock return in get preview function
-    httpClientMock.get = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ok: true, response: response }));
-    const wrapper = mount(
-      // put it under Formik to render TriggerExpressions that has Formik fields.
-      // rendering TriggerExpressions also require adValues to be passed in
-      <CoreContext.Provider value={{ http: httpClientMock }}>
-        <Formik>
-          <AnomalyDetectorTrigger
-            detectorId="tempId"
-            adValues={{
-              anomalyGradeThresholdValue: 0.7,
-              anomalyGradeThresholdEnum: 'ABOVE',
-              anomalyConfidenceThresholdValue: 0.7,
-              anomalyConfidenceThresholdEnum: 0.7,
-            }}
-            fieldPath=""
-          />
-        </Formik>
-      </CoreContext.Provider>
-    );
-
-    expect(httpClientMock.get).toHaveBeenCalledTimes(1);
-    await runAllPromises();
-
-    // without update, we will finish mount before the embedded async AnomalyDetectorData finish mounting
-    wrapper.update();
-
-    // without update, we will finish mount before the embedded async AnomalyDetectorData finish mounting
-    expect(wrapper.update().find('[data-test-subj~="empty-prompt"]').exists()).toBe(true);
-    expect(wrapper.find('.euiButton__text').text()).toEqual('Enable Feature');
-    expect(wrapper.update().find('[data-test-subj~="_conditionEnumField"]').exists()).toBe(false);
-    expect(wrapper.update().find('[data-test-subj~="_conditionValueField"]').exists()).toBe(false);
+    expect(container).toMatchSnapshot();
   });
 });

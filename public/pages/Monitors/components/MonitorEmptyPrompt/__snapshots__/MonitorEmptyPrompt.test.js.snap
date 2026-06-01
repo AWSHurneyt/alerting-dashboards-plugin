@@ -1,42 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonitorEmptyPrompt renders 1`] = `
-<div
-  class="euiEmptyPrompt"
-  style="max-width:45em"
->
-  <span
-    class="euiTextColor euiTextColor--subdued"
-  >
-    <div
-      class="euiText euiText--medium"
-    >
-      <div
-        class="euiText euiText--small"
-      >
-        <p>
-          There are no existing monitors. Create a monitor to add triggers and actions.
-        </p>
-      </div>
-    </div>
-  </span>
+<div>
   <div
-    class="euiSpacer euiSpacer--l"
-  />
-  <a
-    class="euiButton euiButton--primary euiButton--small euiButton--fill"
-    href="#/create-monitor"
-    rel="noreferrer"
+    class="euiEmptyPrompt"
+    style="max-width: 45em;"
   >
     <span
-      class="euiButtonContent euiButton__content"
+      class="euiTextColor euiTextColor--subdued"
+    >
+      <div
+        class="euiText euiText--medium"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <p>
+            There are no existing monitors. Create a monitor to add triggers and actions.
+          </p>
+        </div>
+      </div>
+    </span>
+    <div
+      class="euiSpacer euiSpacer--l"
+    />
+    <a
+      class="euiButton euiButton--primary euiButton--small euiButton--fill"
+      href="#/create-monitor"
+      rel="noreferrer"
     >
       <span
-        class="euiButton__text"
+        class="euiButtonContent euiButton__content"
       >
-        Create monitor
+        <span
+          class="euiButton__text"
+        >
+          Create monitor
+        </span>
       </span>
-    </span>
-  </a>
+    </a>
+  </div>
 </div>
 `;

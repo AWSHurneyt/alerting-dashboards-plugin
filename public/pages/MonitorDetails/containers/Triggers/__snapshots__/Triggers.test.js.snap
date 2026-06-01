@@ -1,69 +1,256 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Triggers renders 1`] = `
-<ContentPanel
-  bodyStyles={
-    Object {
-      "padding": "initial",
-    }
-  }
-  title="Triggers (1)"
-  titleSize="s"
->
-  <EuiInMemoryTable
-    columns={
-      Array [
-        Object {
-          "field": "name",
-          "name": "Name",
-          "sortable": true,
-          "truncateText": true,
-          "width": "15%",
-        },
-        Object {
-          "field": "actions",
-          "name": "Number of actions",
-          "render": [Function],
-          "sortable": true,
-          "truncateText": false,
-          "width": "15%",
-        },
-        Object {
-          "field": "severity",
-          "name": "Severity",
-          "sortable": true,
-          "truncateText": false,
-          "width": "10%",
-        },
-      ]
-    }
-    itemId="id"
-    items={
-      Array [
-        Object {
-          "actions": Array [
-            Object {
-              "name": "Random Action",
-            },
-          ],
-          "name": "Random Trigger",
-          "severity": 1,
-        },
-      ]
-    }
-    key="table-1700000000000-0.123456789"
-    noItemsMessage="There are no triggers."
-    onTableChange={[Function]}
-    responsive={true}
-    sorting={
-      Object {
-        "sort": Object {
-          "direction": "asc",
-          "field": "name",
-        },
-      }
-    }
-    tableLayout="fixed"
-  />
-</ContentPanel>
+<div>
+  <div
+    class="euiPanel euiPanel--paddingMedium euiPanel--borderRadiusMedium euiPanel--plain euiPanel--hasShadow"
+    style="padding: 16px;"
+  >
+    <div
+      class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiFlexItem"
+      >
+        <div
+          class="euiText euiText--small"
+        >
+          <h2>
+            Triggers (1)
+          </h2>
+        </div>
+      </div>
+      <div
+        class="euiFlexItem euiFlexItem--flexGrowZero"
+      >
+        <div
+          class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsCenter euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow euiFlexGroup--responsive"
+        >
+          <div
+            class="euiFlexItem"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="euiText euiText--extraSmall"
+      style="padding: 0px 10px;"
+    >
+      <div
+        class="euiTextColor euiTextColor--subdued"
+      />
+    </div>
+    <hr
+      class="euiHorizontalRule euiHorizontalRule--full euiHorizontalRule--marginXSmall"
+    />
+    <div
+      style="padding: initial;"
+    >
+      <div
+        class="euiBasicTable"
+      >
+        <div>
+          <div
+            class="euiTableHeaderMobile"
+          >
+            <div
+              class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--alignItemsBaseline euiFlexGroup--justifyContentSpaceBetween euiFlexGroup--directionRow"
+            >
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              />
+              <div
+                class="euiFlexItem euiFlexItem--flexGrowZero"
+              >
+                <div
+                  class="euiTableSortMobile"
+                >
+                  <div
+                    class="euiPopover euiPopover--anchorDownRight"
+                  >
+                    <div
+                      class="euiPopover__anchor"
+                    >
+                      <button
+                        class="euiButtonEmpty euiButtonEmpty--primary euiButtonEmpty--xSmall euiButtonEmpty--flushRight"
+                        type="button"
+                      >
+                        <span
+                          class="euiButtonContent euiButtonContent--iconRight euiButtonEmpty__content"
+                        >
+                          <div>
+                            EuiIconMock
+                          </div>
+                          <span
+                            class="euiButtonEmpty__text"
+                          >
+                            Sorting
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table
+            class="euiTable euiTable--responsive"
+            id="generated-id"
+            tabindex="-1"
+          >
+            <caption
+              class="euiScreenReaderOnly euiTableCaption"
+            />
+            <thead>
+              <tr>
+                <th
+                  aria-live="polite"
+                  aria-sort="ascending"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_name_0"
+                  role="columnheader"
+                  scope="col"
+                  style="width: 15%;"
+                >
+                  <button
+                    class="euiTableHeaderButton euiTableHeaderButton-isSorted"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Name"
+                      >
+                        Name
+                      </span>
+                      <div>
+                        EuiIconMock
+                      </div>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_actions_1"
+                  role="columnheader"
+                  scope="col"
+                  style="width: 15%;"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Number of actions"
+                      >
+                        Number of actions
+                      </span>
+                    </span>
+                  </button>
+                </th>
+                <th
+                  aria-live="polite"
+                  aria-sort="none"
+                  class="euiTableHeaderCell"
+                  data-test-subj="tableHeaderCell_severity_2"
+                  role="columnheader"
+                  scope="col"
+                  style="width: 10%;"
+                >
+                  <button
+                    class="euiTableHeaderButton"
+                    data-test-subj="tableHeaderSortButton"
+                    type="button"
+                  >
+                    <span
+                      class="euiTableCellContent"
+                    >
+                      <span
+                        class="euiTableCellContent__text"
+                        title="Severity"
+                      >
+                        Severity
+                      </span>
+                    </span>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="euiTableRow"
+              >
+                <td
+                  class="euiTableRowCell"
+                  style="width: 15%;"
+                >
+                  <div
+                    class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                  >
+                    Name
+                  </div>
+                  <div
+                    class="euiTableCellContent euiTableCellContent--truncateText"
+                  >
+                    <span
+                      class="euiTableCellContent__text"
+                    >
+                      Random Trigger
+                    </span>
+                  </div>
+                </td>
+                <td
+                  class="euiTableRowCell"
+                  style="width: 15%;"
+                >
+                  <div
+                    class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                  >
+                    Number of actions
+                  </div>
+                  <div
+                    class="euiTableCellContent euiTableCellContent--overflowingContent"
+                  >
+                    1
+                  </div>
+                </td>
+                <td
+                  class="euiTableRowCell"
+                  style="width: 10%;"
+                >
+                  <div
+                    class="euiTableRowCell__mobileHeader euiTableRowCell--hideForDesktop"
+                  >
+                    Severity
+                  </div>
+                  <div
+                    class="euiTableCellContent"
+                  >
+                    <span
+                      class="euiTableCellContent__text"
+                    >
+                      1
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

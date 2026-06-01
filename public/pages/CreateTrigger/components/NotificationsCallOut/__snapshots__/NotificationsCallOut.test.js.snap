@@ -2,53 +2,49 @@
 
 exports[`NotifictionsCallOut renders 1`] = `
 <div>
-  <div
-    class="euiCallOut euiCallOut--danger"
-  >
+  <div>
     <div
-      class="euiCallOutHeader"
-    >
-      <div>
-        EuiIconMock
-      </div>
-      <span
-        class="euiCallOutHeader__title"
-      >
-        Notifications plugin is not installed
-      </span>
-    </div>
-    <div
-      class="euiText euiText--small"
+      class="euiCallOut euiCallOut--danger"
     >
       <div
-        class="euiTextColor euiTextColor--default"
+        class="euiCallOutHeader"
       >
-        <p>
-          Install the notifications plugin in order to create and select channels to send out notifications. 
-          <a
-            class="euiLink euiLink--primary"
-            href="#"
-            rel="noreferrer"
-          >
-            Learn more
-          </a>
-        </p>
         <div>
-          <a
-            class="euiLink euiLink--primary"
-            href="#"
-            rel="noreferrer"
-          >
-            EuiIconMock
-          </a>
+          EuiIconMock
         </div>
-        .
-        <p />
+        <span
+          class="euiCallOutHeader__title"
+        >
+          Notifications plugin is not installed
+        </span>
+      </div>
+      <div
+        class="euiText euiText--small"
+      >
+        <div
+          class="euiTextColor euiTextColor--default"
+        >
+          <p>
+            Install the notifications plugin in order to create and select channels to send out notifications.
+             
+            <a
+              class="euiLink euiLink--primary"
+              href="#"
+              rel="noreferrer"
+            >
+              Learn more
+              <div>
+                EuiIconMock
+              </div>
+            </a>
+            .
+          </p>
+        </div>
       </div>
     </div>
+    <div
+      class="euiSpacer euiSpacer--m"
+    />
   </div>
-  <div
-    class="euiSpacer euiSpacer--m"
-  />
 </div>
 `;
