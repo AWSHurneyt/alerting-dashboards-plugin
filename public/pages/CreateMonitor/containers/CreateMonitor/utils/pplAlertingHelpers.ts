@@ -38,7 +38,7 @@ export const getInitialValues = ({
   searchType,
   detectorId,
   embeddable,
-}) => {
+}: Record<string, any>) => {
   let initialValues = _.mergeWith(
     {},
     _.cloneDeep(FORMIK_INITIAL_VALUES),
@@ -165,8 +165,8 @@ const getMetricAgg = (embeddable) => {
 };
 
 // Re-export shared functions (canonical implementation in monitorApiHelpers.js)
-export const getPlugins = (httpClient) => getPluginsShared(httpClient, '/api/alerting');
-export const create = (args) => createShared({ ...args, baseUrl: '/api/alerting' });
+export const getPlugins = (httpClient: any) => getPluginsShared(httpClient, '/api/alerting');
+export const create = (args: any) => createShared({ ...args, baseUrl: '/api/alerting' });
 export const update = updateShared;
 export { prepareTriggers };
 
@@ -180,7 +180,7 @@ export const submit = ({
   notifications,
   httpClient,
   onSuccess,
-}) => {
+}: Record<string, any>) => {
   let monitor = buildPPLMonitorFromFormik(values);
 
   if (!_.isEmpty(_.get(values, 'triggerDefinitions'))) {
@@ -203,7 +203,7 @@ export const submit = ({
   }
 };
 
-export const makeAlertingV2Service = (httpClient) => {
+export const makeAlertingV2Service = (httpClient: any) => {
   const base = '/api/alerting/v2';
 
   const withDataSource = () => {
@@ -246,7 +246,7 @@ export const makeAlertingV2Service = (httpClient) => {
   };
 };
 
-export const extractIndicesFromPPL = (pplQuery) => {
+export const extractIndicesFromPPL = (pplQuery: string): string[] => {
   if (!pplQuery || typeof pplQuery !== 'string') return [];
 
   const regex = /source\s*=\s*((?:`[^`]+`|[-\w.*'+]+)(?:\s*,\s*(?:`[^`]+`|[-\w.*'+]+))*)/i;
@@ -261,7 +261,7 @@ export const extractIndicesFromPPL = (pplQuery) => {
     .filter(Boolean);
 };
 
-export const findCommonDateFields = async (httpClient, indices, dataSourceId) => {
+export const findCommonDateFields = async (httpClient: any, indices: string[], dataSourceId?: string) => {
   if (!indices || indices.length === 0) {
     return { commonDateFields: [], error: 'No indices specified' };
   }
@@ -334,7 +334,7 @@ export const findCommonDateFields = async (httpClient, indices, dataSourceId) =>
   }
 };
 
-export const runPPLPreview = async (httpClient, { queryText, dataSourceId } = {}) => {
+export const runPPLPreview = async (httpClient: any, { queryText, dataSourceId }: { queryText?: string; dataSourceId?: string } = {}) => {
   const dataSourceQuery = getDataSourceQueryObj();
   const query = { ...(dataSourceQuery?.query || {}) };
   if (dataSourceId) query['dataSourceId'] = dataSourceId;
@@ -368,7 +368,7 @@ export const submitPPL = async ({
   notifications,
   httpClient,
   dataSourceId,
-}) => {
+}: Record<string, any>) => {
   const { setSubmitting, setFieldError } = formikBag;
   const api = makeAlertingV2Service(httpClient);
 
