@@ -22,7 +22,7 @@ import {
   DOC_LEVEL_QUERY_MAP,
 } from '../../../components/DocumentLevelMonitorQueries/utils/constants';
 
-export function formikToMonitor(values) {
+export function formikToMonitor(values: any) {
   const uiSchedule = formikToUiSchedule(values);
   const schedule = buildSchedule(values.frequency, uiSchedule);
 
@@ -82,7 +82,7 @@ export function formikToMonitor(values) {
   };
 }
 
-export function formikToInputs(values) {
+export function formikToInputs(values: any) {
   switch (values.monitor_type) {
     case MONITOR_TYPE.CLUSTER_METRICS:
       return formikToClusterMetricsInput(values);
@@ -95,13 +95,13 @@ export function formikToInputs(values) {
   }
 }
 
-export function formikToCompositeInput(values) {
+export function formikToCompositeInput(values: any) {
   return {
     composite_input: values.associatedMonitors,
   };
 }
 
-export function formikToSearch(values) {
+export function formikToSearch(values: any) {
   const isAD = values.searchType === SEARCH_TYPE.AD;
   let query = isAD ? formikToAdQuery(values) : formikToQuery(values);
   const adResultIndex = _.get(values, 'adResultIndex', '.opendistro-anomaly-results*');
@@ -115,7 +115,7 @@ export function formikToSearch(values) {
   };
 }
 
-export function formikToAdQuery(values) {
+export function formikToAdQuery(values: any) {
   return {
     size: 1,
     sort: [{ anomaly_grade: 'desc' }, { confidence: 'desc' }],
@@ -152,7 +152,7 @@ export function formikToAdQuery(values) {
   };
 }
 
-export function formikToClusterMetricsInput(values) {
+export function formikToClusterMetricsInput(values: any) {
   let apiType = _.get(values, 'uri.api_type', FORMIK_INITIAL_VALUES.uri.api_type);
   if (_.isEmpty(apiType)) apiType = getApiType(_.get(values, 'uri'));
   let pathParams = _.get(values, 'uri.path_params', FORMIK_INITIAL_VALUES.uri.path_params);
@@ -183,7 +183,7 @@ export function formikToClusterMetricsInput(values) {
   };
 }
 
-export function formikToAd(values) {
+export function formikToAd(values: any) {
   return {
     anomaly_detector: {
       detector_id: values.detectorId,
@@ -191,7 +191,7 @@ export function formikToAd(values) {
   };
 }
 
-export function formikToUiSearch(values) {
+export function formikToUiSearch(values: any) {
   const { searchType, timeField, aggregations, groupBy, bucketValue, bucketUnitOfTime, filters } =
     values;
   const cleanedGroupBy = groupBy.filter((item) => item !== '');
@@ -206,14 +206,14 @@ export function formikToUiSearch(values) {
   };
 }
 
-export function formikToIndices(values) {
+export function formikToIndices(values: any) {
   const hasRemoteClusters = values.index.some(
     ({ cluster, value }) => !_.isEmpty(cluster) && !_.isEmpty(value)
   );
   return values.index.map(({ label, value }) => (hasRemoteClusters ? value : label));
 }
 
-export function formikToQuery(values) {
+export function formikToQuery(values: any) {
   const isGraph = values.searchType === SEARCH_TYPE.GRAPH;
   return isGraph ? formikToGraphQuery(values) : formikToExtractionQuery(values);
 }

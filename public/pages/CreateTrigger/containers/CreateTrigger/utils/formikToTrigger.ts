@@ -18,7 +18,7 @@ import { NOTIFY_OPTIONS_VALUES } from '../../../components/Action/actions/Messag
 import { FORMIK_INITIAL_ACTION_VALUES } from '../../../utils/constants';
 import { FORMIK_INITIAL_WHERE_EXPRESSION_VALUES } from '../../../../CreateMonitor/containers/CreateMonitor/utils/constants';
 
-export function formikToTrigger(values, monitorUiMetadata = {}) {
+export function formikToTrigger(values: any, monitorUiMetadata: Record<string, any> = {}) {
   const triggerDefinitions = _.get(values, 'triggerDefinitions');
   return _.isArray(triggerDefinitions)
     ? formikToTriggerDefinitions(triggerDefinitions, monitorUiMetadata)
@@ -243,7 +243,7 @@ function formikToCompositeTriggerAction(values) {
   return actions;
 }
 
-export function formikToTriggerUiMetadata(values, monitorUiMetadata) {
+export function formikToTriggerUiMetadata(values: any, monitorUiMetadata: Record<string, any>) {
   switch (monitorUiMetadata.monitor_type) {
     case MONITOR_TYPE.QUERY_LEVEL:
     case MONITOR_TYPE.CLUSTER_METRICS:
@@ -304,7 +304,7 @@ export function formikToTriggerUiMetadata(values, monitorUiMetadata) {
   }
 }
 
-export function formikToCondition(values, monitorUiMetadata = {}) {
+export function formikToCondition(values: any, monitorUiMetadata: Record<string, any> = {}) {
   const { thresholdValue, thresholdEnum } = values;
   const searchType = _.get(monitorUiMetadata, 'search.searchType', 'query');
   const aggregationType = _.get(monitorUiMetadata, 'search.aggregations.0.aggregationType');

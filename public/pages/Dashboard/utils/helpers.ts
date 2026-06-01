@@ -10,7 +10,7 @@ import { ALERT_STATE, DEFAULT_EMPTY_DATA } from '../../../utils/constants';
 import queryString from 'query-string';
 import { GET_ALERTS_SORT_FILTERS } from '../../../../server/services/AlertService';
 
-export function groupAlertsByTrigger(alerts) {
+export function groupAlertsByTrigger(alerts: any[]) {
   if (_.isUndefined(alerts)) return _.cloneDeep(EMPTY_ALERT_LIST.alerts);
   let alertsByTriggers = new Map();
   alerts.map((alert) => {

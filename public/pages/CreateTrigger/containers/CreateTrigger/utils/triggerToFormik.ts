@@ -15,20 +15,20 @@ import {
   NOTIFY_OPTIONS_VALUES,
 } from '../../../components/Action/actions/Message';
 
-export function triggerToFormik(trigger, monitor) {
+export function triggerToFormik(trigger: any, monitor: any) {
   return _.isArray(trigger)
     ? triggerDefinitionsToFormik(trigger, monitor)
     : triggerDefinitionToFormik(trigger, monitor);
 }
 
-export function triggerDefinitionsToFormik(triggers, monitor) {
+export function triggerDefinitionsToFormik(triggers: any[], monitor: any) {
   const triggerDefinitions = triggers.map((trigger) => triggerDefinitionToFormik(trigger, monitor));
   return {
     triggerDefinitions: _.orderBy(triggerDefinitions, (trigger) => trigger.name),
   };
 }
 
-export function triggerDefinitionToFormik(trigger, monitor) {
+export function triggerDefinitionToFormik(trigger: any, monitor: any) {
   const monitorType = _.get(monitor, 'monitor_type', MONITOR_TYPE.QUERY_LEVEL);
   switch (monitorType) {
     case MONITOR_TYPE.BUCKET_LEVEL:
@@ -42,7 +42,7 @@ export function triggerDefinitionToFormik(trigger, monitor) {
   }
 }
 
-export function queryLevelTriggerToFormik(trigger, monitor) {
+export function queryLevelTriggerToFormik(trigger: any, monitor: any) {
   const {
     id,
     name,
@@ -114,7 +114,7 @@ export function queryLevelTriggerToFormik(trigger, monitor) {
   };
 }
 
-export function bucketLevelTriggerToFormik(trigger, monitor) {
+export function bucketLevelTriggerToFormik(trigger: any, monitor: any) {
   const {
     id,
     name,
@@ -194,7 +194,7 @@ export function bucketLevelTriggerToFormik(trigger, monitor) {
   };
 }
 
-export function documentLevelTriggerToFormik(trigger, monitor) {
+export function documentLevelTriggerToFormik(trigger: any, monitor: any) {
   const {
     id,
     name,
@@ -218,7 +218,7 @@ export function documentLevelTriggerToFormik(trigger, monitor) {
   };
 }
 
-export function compositeTriggerToFormik(trigger, monitor) {
+export function compositeTriggerToFormik(trigger: any, monitor: any) {
   const {
     id,
     name,
@@ -244,7 +244,7 @@ export function compositeTriggerToFormik(trigger, monitor) {
   };
 }
 
-export function getExecutionPolicyActions(actions) {
+export function getExecutionPolicyActions(actions: any[]) {
   const executionPolicyPath = 'action_execution_policy.action_execution_scope';
   return _.cloneDeep(actions).map((action) => {
     const actionExecutionPolicy = _.get(action, `${executionPolicyPath}`);
@@ -268,13 +268,13 @@ export function getExecutionPolicyActions(actions) {
   });
 }
 
-export function getBucketLevelTriggerConditions(condition) {
+export function getBucketLevelTriggerConditions(condition: any) {
   return segmentArray(condition.script.source, 4).map((conditionArray) =>
     convertToTriggerCondition(conditionArray, condition)
   );
 }
 
-export function convertToTriggerCondition(conditionArray, condition) {
+export function convertToTriggerCondition(conditionArray: any[], condition: any) {
   const { buckets_path, gap_policy, parent_bucket_path, script } = condition;
   // TODO: Should move this to utils somewhere
   const relationalEnumOptions = {

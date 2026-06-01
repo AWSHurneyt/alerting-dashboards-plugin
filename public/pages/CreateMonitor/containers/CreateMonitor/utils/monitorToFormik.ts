@@ -14,7 +14,7 @@ import {
 import { conditionToExpressions } from '../../../../CreateTrigger/utils/helper';
 
 // Convert Monitor JSON to Formik values used in UI forms
-export default function monitorToFormik(monitor) {
+export default function monitorToFormik(monitor: any) {
   const formikValues = _.cloneDeep(FORMIK_INITIAL_VALUES);
   if (!monitor) return formikValues;
   const {
@@ -89,11 +89,11 @@ export default function monitorToFormik(monitor) {
   };
 }
 
-export function indicesToFormik(indices) {
+export function indicesToFormik(indices: string[]) {
   return indices.map((index) => ({ label: index }));
 }
 
-export function docLevelInputToFormik(monitor) {
+export function docLevelInputToFormik(monitor: any) {
   const input = monitor.inputs[0][DOC_LEVEL_INPUT_FIELD];
   const { description, indices, queries } = input;
   return {
@@ -104,7 +104,7 @@ export function docLevelInputToFormik(monitor) {
   };
 }
 
-export function queriesToFormik(queries) {
+export function queriesToFormik(queries: any[]) {
   return queries.map((query) => {
     let querySource;
     try {
